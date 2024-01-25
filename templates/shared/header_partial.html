@@ -1,0 +1,37 @@
+<header id="fh5co-header" xmlns:color="http://www.w3.org/1999/xhtml">
+
+		<div class="container-fluid">
+
+			<div class="row">
+				<a href="#" class="js-fh5co-nav-toggle fh5co-nav-toggle"><i></i></a>
+				<ul class="fh5co-social">
+					{% if request.user.is_authenticated %}
+						{% if request.user.is_superuser %}
+							<li><a href="/admin"><i class="icon-book3" title="پنل ادمین"></i></a></li>
+						{% endif %}
+<!--                    <li><a href="login.html"><i class="icon-add-to-list"></i> پنل کاربری</a></li>-->
+						<li><a href="{% url 'logout_page' %}"><i class="icon-log-out" title="خروج"></i></a></li>
+
+					{% else %}
+						<li><a href="{% url 'register_page' %}"><i class="icon-add-user" title="ثبت نام"></i></a></li>
+						<li><a href="{% url 'login_page' %}"><i class="icon-login" title="ورود"></i></a></li>
+					{% endif %}
+
+						<li><a href="#"><i class="icon-twitter"></i></a></li>
+						<li><a href="#"><i class="icon-facebook"></i></a></li>
+						<li><a href="#"><i class="icon-instagram"></i></a></li>
+
+
+				</ul>
+				<div class="col-lg-12 col-md-12 text-center">
+					{% if request.user.is_authenticated %}
+					<h3>Dear {{request.user.username}}, welcome to the voluntary training site </h3>
+					{% endif %}
+					<h1 id="fh5co-logo"><a href="index.html">Volunteer <sup>TM</sup></a></h1>
+				</div>
+
+			</div>
+
+		</div>
+
+	</header>

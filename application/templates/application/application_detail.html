@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{application.demanded_course.course_name}}
+{% endblock %}
+
+ {% block content %}
+            <div class="row">
+                {% if is_favorite %}
+                    <div class="col-md-12">
+                        <p>
+                            این درس مورد علاقه من است
+                        </p>
+                    </div>
+                {% endif %}
+                <div class="col-sm-9 padding-right">
+
+
+
+            <li>
+                {% if application.demanded_course.image %}
+            <figure>
+                <a href="{{ application.demanded_course.book_download_link }}">
+                <img src="{{application.demanded_course.image.url}}" alt="Image" class="img-responsive"></a>
+            </figure>
+            {% else %}
+            <figure>
+                   <img src="static/images/volunteer.ong" alt="Image" class="img-responsive"></a>
+            </figure>
+                {% endif %}
+                <h1>Demanded Course :  {{application.demanded_course.course_name}}</h1>
+                <h2>Demanded Grade :  {{application.demanded_course.grade}}</h2>
+                {% if application.demanded_course.major %}
+                <h2>Demanded Major :  {{application.demanded_course.major}}</h2>
+                {% endif %}
+                <h2> Demanded by : {{application.applicant.all}} </h2>
+                <h2> Preferred Holding Style : {{ application.preferred_style }}  </h2>
+                <p>
+                   Is_accepted :  {{application.is_accepted}}
+                </p>
+            </li>
+            <span>
+                <form action="{% url 'application_favorite' %}" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="application_id" value="{{ application.id }}" class="search_box">
+                    <button type="submit" class="btn btn-fefault cart">ثبت به عنوان درس مورد علاقه </button>
+                </form>
+            </span>
+
+{% endblock %}
+

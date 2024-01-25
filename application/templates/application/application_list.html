@@ -1,0 +1,28 @@
+{% extends 'shared/_layout.html' %}
+
+{% block content %}
+<div class="container-fluid">
+      <div class="row fh5co-post-entry">
+     {% for application in applications %}
+          {% include 'includes/application_item_partial.html' with application=application %}
+      {% endfor %}
+          <div class="clearfix"></div>
+                        <ul class="pagination">
+                            {% if page_obj.has_previous %}
+                                <li><a href="?page={{ page_obj.previous_page_number }}">قبلی</a></li>
+                            {% endif %}
+                            {% for pageNumber in paginator.page_range %}
+                                <li class="{% if page_obj.number == pageNumber %} active {% endif %}">
+                                    <a href="?page={{ pageNumber }}">{{ pageNumber }}</a>
+                                </li>
+                            {% endfor %}
+                            {% if page_obj.has_next %}
+                                <li><a href="?page={{ page_obj.next_page_number }}">بعدی</a></li>
+                            {% endif %}
+
+                        </ul>
+                    </div><!--features_items-->
+
+      </div>
+   </div>
+{% endblock %}

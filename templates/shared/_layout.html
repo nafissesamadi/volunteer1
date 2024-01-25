@@ -1,0 +1,24 @@
+{% load render_partial %}
+
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+	<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Volunteer &mdash; Free Fully Responsive HTML5 Bootstrap Template by FREEHTML5.co</title>
+	{% include 'shared/header_references.html' %}
+	</head>
+	<body>
+	{% render_partial 'home.views.canvas_partial' %}
+	<!-- END #fh5co-offcanvas -->
+	{% render_partial 'home.views.header_partial' %}
+	<!-- END #fh5co-header -->
+	{% block content %} {% endblock %}
+	{% render_partial 'home.views.footer_partial' %}
+	{% include 'shared/footer_references.html' %}
+	</body>
+</html>
+

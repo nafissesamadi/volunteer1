@@ -1,0 +1,41 @@
+{% extends 'shared/_layout.html' %}
+
+{% block title %}
+Create Profile
+{% endblock %}
+
+{% block content %}
+ <div id="contact-page" class="container">
+        <div class="bg">
+            <div class="row">
+                <div class="col-sm-8">
+                    <div class="contact-form">
+                        <h2 class="title text-center">انتخاب عکس پروفایل</h2>
+                        <div class="status alert alert-success" style="display: none"></div>
+                        <form id="main-contact-form" class="contact-form row" action="{% url 'create_profile_page' %}"
+                              method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            {{ form }}
+                            <div class="form-group col-md-12">
+                                <button type="submit" class="btn btn-primary pull-right">ارسال</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="contact-info">
+                        <h2 class="title text-center">اطلاعات تماس</h2>
+                        <address>
+                            <p> شبکه داوطلبان مردمی ایران </p>
+                            <p>دفتر مرکزی - استان فارس - شیراز </p>
+                            <p>بلوار چمران  / کوچه 9 </p>
+                            <p>تلفن تماس : 54 44 26 36 071</p>
+                            <p>موبایل : 09177014931</p>
+                            <p style="font-family: tahoma;">ایمیـل : info@1614GP.ir</p>
+                        </address>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

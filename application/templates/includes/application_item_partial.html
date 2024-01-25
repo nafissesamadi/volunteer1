@@ -1,0 +1,19 @@
+        <article class="col-lg-3 col-md-3 col-sm-3 col-xs-6 col-xxs-12 animate-box">
+            {% if application.demanded_course.image %}
+            <figure>
+               <a href="{{ application.get_absolute_url }}">
+                   <img src="{{application.demanded_course.image.url}}" alt="Image" class="img-responsive"></a>
+            </figure>
+            {% else %}
+            <figure>
+               <a href="{{ application.get_absolute_url }}">
+                   <img src="static/images/volunteer.ong" alt="Image" class="img-responsive"></a>
+            </figure>
+                {% endif %}
+            <span class="fh5co-meta"><a href="single.html">{{application.preferred_style}}</a></span>
+            <h3 class="fh5co-article-title"><a href="single.html">{{application.demanded_course}}</a></h3>
+            {% if application.demanded_course.major %}
+            <span class="fh5co-meta fh5co-date">({{application.demanded_course.major}})</span>
+            {% endif %}
+            <span class="fh5co-meta fh5co-date">{{application.registered_date}}</span>
+        </article>
