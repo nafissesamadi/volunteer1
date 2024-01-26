@@ -1,3 +1,4 @@
+
 {% extends 'shared/_layout.html' %}
 {% load render_partial %}
 
@@ -33,18 +34,7 @@
 				<div class="col-sm-3">
 					<div class="left-sidebar">
 						 {% render_partial 'application.views.course_categories_component' %}
-						<div class="brands_products"><!--brands_products-->
-							<h2>رشته ها</h2>
-							<div class="brands-name">
-								<ul class="nav nav-pills nav-stacked">
-									<li><a href=""> <span class="pull-left">(56)</span>انسانی</a></li>
-									<li><a href=""> <span class="pull-left">(27)</span>علوم تجربی</a></li>
-									<li><a href=""> <span class="pull-left">(32)</span>ریاضی فیزیک</a></li>
-									<li><a href=""> <span class="pull-left">(5)</span>فنی حرفه ای</a></li>
-									<li><a href=""> <span class="pull-left">(50)</span>کار دانش</a></li>
-								</ul>
-							</div>
-						</div><!--/brands_products-->
+						 {% render_partial 'application.views.course_categories_major' %}
 
 						<div class="price-range"><!--price-range-->
 							<h2>فیلتـر </h2>
@@ -53,10 +43,6 @@
 								 <b></b> <b class="pull-left"></b>
 							</div>
 						</div><!--/price-range-->
-
-						<div class="shipping text-center"><!--shipping-->
-							<img src="images/home/shipping.jpg" alt="">
-						</div><!--/shipping-->
 
 					</div>
 				</div>

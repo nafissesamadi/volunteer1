@@ -13,6 +13,7 @@ from django.utils.text import slugify
 class EducationalLevel(models.Model):
     edu_level = models.CharField(max_length=20, unique=True, verbose_name="دوره آموزشی")
     url_title = models.CharField(max_length=200, blank=True, null=True)
+    is_active = models.BooleanField(default=True)
 
     def __str__(self):
         return self.edu_level
@@ -22,6 +23,7 @@ class Grade(models.Model):
     edu_level = models.ForeignKey(EducationalLevel, on_delete=models.CASCADE)
     grade_name = models.CharField(max_length=20, verbose_name="پایه تحصیلی")
     url_title = models.CharField(max_length=200, blank=True, null=True)
+    is_active = models.BooleanField(default=True)
 
     def __str__(self):
         return f"{self.edu_level} {self.grade_name}"
@@ -40,6 +42,8 @@ class CourseName(models.Model):
 
 class Major(models.Model):
     major = models.CharField(max_length=20, unique=True)
+    url_title = models.CharField(max_length=100, blank=True, null=True)
+    is_active=models.BooleanField(default=True)
 
     def __str__(self):
         return f"{self.major}"

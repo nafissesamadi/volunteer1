@@ -9,5 +9,7 @@ urlpatterns = [
     path('application-favorite',views.AddMyFavoriteApplication.as_view(), name='application_favorite'),
     path('courses',views.CoursesListView.as_view(), name='courses_list'),
     path('cat/<str:category>', views.CoursesListView.as_view(), name='courses_by_category_list'),
+    path('cat/<str:category>/<str:major>', views.CoursesListView.as_view(), name='courses_by_category_major'),
+
 
 ]

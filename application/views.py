@@ -1,8 +1,9 @@
 from django.http import HttpRequest
-from django.shortcuts import render, redirect , get_object_or_404
-from .models import Application, Course, EducationalLevel
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import Application, Course, EducationalLevel, Major, Grade
 from django.views.generic.base import TemplateView, View
 from django.views.generic import ListView, DetailView
+
 
 # region Application_List
 # Create your views here.
@@ -20,8 +21,8 @@ from django.views.generic import ListView, DetailView
 #         return context
 
 class ApplicationListView(ListView):
-    template_name='application/application_list.html'
-    model=Application
+    template_name = 'application/application_list.html'
+    model = Application
     context_object_name = 'applications'
     ordering = ['rating']
     paginate_by = 9
@@ -29,6 +30,7 @@ class ApplicationListView(ListView):
     #     base_query=super(ApplicationListView,self).get_queryset()
     #     data=base_query.filter(is_active=True)
     #     return data
+
 
 # endregion
 
@@ -49,8 +51,9 @@ class ApplicationListView(ListView):
 #         return context
 
 class ApplicationDetailView(DetailView):
-    template_name ='application/application_detail.html'
-    model= Application
+    template_name = 'application/application_detail.html'
+    model = Application
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         loaded_application = self.object
@@ -63,18 +66,19 @@ class ApplicationDetailView(DetailView):
 # endregion
 
 class AddMyFavoriteApplication(View):
-    def post(self,request):
-        application_id=request.POST["application_id"]
-        application= Application.objects.get(pk=application_id)
-        request.session["application_favorites"]=application_id
+    def post(self, request):
+        application_id = request.POST["application_id"]
+        application = Application.objects.get(pk=application_id)
+        request.session["application_favorites"] = application_id
         return redirect(application.get_absolute_url())
+
 
 # region Course_list
 class CoursesListView(ListView):
-    model=Course
+    model = Course
     paginate_by = 10
-    ordering=['-code']
-    template_name='application/course_page.html'
+    ordering = ['-code']
+    template_name = 'application/course_page.html'
 
     # def get_context_data(self, *args, **kwargs):
     #     context = super(CoursesListView, self).get_context_data(*args, **kwargs)
@@ -86,12 +90,32 @@ class CoursesListView(ListView):
         if category_name is not None:
             query = query.filter(grade__url_title__iexact=category_name)
         return query
+
+    def get_queryset(self):
+        query = super(CoursesListView, self).get_queryset()
+        category_name = self.kwargs.get('category')
+        category_major = self.kwargs.get('major')
+        if category_name is not None:
+            query = query.filter(grade__url_title__iexact=category_name, major__url_title__iexact=category_major)
+        return query
+
+
+
 # endregion
 
 def course_categories_component(request: HttpRequest):
     course_edu_level = EducationalLevel.objects.all()
-
     context = {
-        'course_edu_level': course_edu_level
+        'course_edu_level': course_edu_level,
     }
     return render(request, 'application/component/course_categories_component.html', context)
+
+
+def course_categories_major(request: HttpRequest):
+    course_major = Major.objects.filter(is_active=True)
+    course_grade = Grade.objects.filter(edu_level__url_title="senior", is_active=True)
+    context = {
+        'course_grade': course_grade,
+        'course_major': course_major,
+    }
+    return render(request, 'application/component/course_categories_major.html', context)

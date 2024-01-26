@@ -1,23 +1,23 @@
-<h3 style="color:green"> دسته بندی بر اساس پایه تحصیلی</h3>
+<h3 style="color:green">دسته بندی بر اساس رشته </h3>
 <div class="panel-group category-products" id="accordian"><!--category-productsr-->
 
 
-    {% for edu_level in course_edu_level %}
+    {% for major in course_major %}
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h4 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordian" href="#{{ edu_level.url_title }}">
+                        <a data-toggle="collapse" data-parent="#accordian" href="#{{ major.url_title }}">
                             <span class="badge pull-right"><i class="fa fa-plus"></i></span>
-                            {{ edu_level.edu_level }}
+                            {{ major.major }}
                         </a>
 
                 </h4>
             </div>
-                <div id="{{ edu_level.url_title }}" class="panel-collapse collapse">
+                <div id="{{ major.url_title }}" class="panel-collapse collapse">
                     <div class="panel-body">
                         <ul>
-                            {% for item in edu_level.grade_set.all %}
-                                <li><a href="{% url 'courses_by_category_list' category=item.url_title %}"> {{ item.grade_name }} </a></li>
+                            {% for grade in course_grade %}
+                                <li><a href="{% url 'courses_by_category_major' category=grade.url_title major=major.url_title %}"> {{ grade.grade_name }} </a></li>
                             {% endfor %}
 
                         </ul>
@@ -27,11 +27,3 @@
     {% endfor %}
 
 </div>
-
-
-
-
-
-
-
-
