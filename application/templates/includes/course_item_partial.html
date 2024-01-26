@@ -11,10 +11,10 @@
             </figure>
                 {% endif %}
             {% if course.code %}
-            <span class="fh5co-meta"><a href="single.html">{{course.code}}</a></span>
+            <span class="fh5co-meta"><a href="single.html" style="color:black">{{course.code}}</a></span>
             {% endif %}
-            <h3 class="fh5co-article-title"><a href="single.html">{{course.course_name}}</a></h3>
-            <h3 class="fh5co-article-title"><a href="single.html">{{course.grade}}</a></h3>
+            <h3 class="fh5co-article-title"><a href="single.html" style="color:red">{{course.course_name}}</a></h3>
+            <h3 class="fh5co-article-title"><a href="single.html" style="color:green">{{course.grade}}</a></h3>
             {% if course.major %}
             <span class="fh5co-meta fh5co-date">({{course.major}})</span>
             {% endif %}

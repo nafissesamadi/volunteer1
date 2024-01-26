@@ -1,5 +1,6 @@
+from django.http import HttpRequest
 from django.shortcuts import render, redirect , get_object_or_404
-from .models import Application, Course
+from .models import Application, Course, EducationalLevel
 from django.views.generic.base import TemplateView, View
 from django.views.generic import ListView, DetailView
 
@@ -74,4 +75,23 @@ class CoursesListView(ListView):
     paginate_by = 10
     ordering=['-code']
     template_name='application/course_page.html'
+
+    # def get_context_data(self, *args, **kwargs):
+    #     context = super(CoursesListView, self).get_context_data(*args, **kwargs)
+    #     return context
+
+    def get_queryset(self):
+        query = super(CoursesListView, self).get_queryset()
+        category_name = self.kwargs.get('category')
+        if category_name is not None:
+            query = query.filter(grade__url_title__iexact=category_name)
+        return query
 # endregion
+
+def course_categories_component(request: HttpRequest):
+    course_edu_level = EducationalLevel.objects.all()
+
+    context = {
+        'course_edu_level': course_edu_level
+    }
+    return render(request, 'application/component/course_categories_component.html', context)
