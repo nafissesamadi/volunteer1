@@ -1,0 +1,32 @@
+<img src="/static/images/volunteer5.jpg">
+<p><div class="box-saka" style="background-color: lightgoldenrodyellow; width: 330px;">
+    <div style="text-align: center;">
+        <div style="color: green"><b>{{current_user.username}}({{current_user.user_type}})</b></div>
+        <div style="color: red"><b>({{current_user.mobile}})</b></div>
+        <div style="color: green">{{current_user.email}}</div>
+    </div>
+</div></p>
+
+<p>	<div class="panel-group category-products" id="accordian" ></p><!--left panel item-->
+<div style="text-align: center; width: 330px">
+    <div class="panel panel-default">
+        <div class="panel-heading" style="color: green; background-color: lightgoldenrodyellow"  >
+            <p class="panel-title"><a href="{% url 'user_profile_page' %}" class="active" ><b> پروفایل عمومی </b></a></p>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading" style="color: green; background-color: lightgoldenrodyellow">
+            <p class="panel-title"><a href="#"><b>تغییر رمز عبور</b></a></p>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading" style="color: green; background-color: lightgoldenrodyellow">
+            <p class="panel-title"><a href="#"><b>لیست درخواست ها</b></a></p>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading" style="color: green; background-color: lightgoldenrodyellow">
+            <p class="panel-title"><a href="#"><b>درخواست جدید </b></a></p>
+        </div>
+    </div>
+</div>

@@ -21,7 +21,7 @@ class CompleteUserProfile(View):
             'edit_profile': edit_profile_form,
             'current_user': current_user
         }
-        return render(request, 'profile_panel/user_panel.html', context)
+        return render(request, 'profile_panel/user_profile.html', context)
 
     def post(self, request: HttpRequest):
         current_user = User.objects.filter(id=request.user.id).first()
@@ -38,9 +38,20 @@ class CompleteUserProfile(View):
             'current_user': current_user,
             'current_profile': current_profile
         }
-        return render(request, 'profile_panel/user_panel.html', context)
+        return render(request, 'profile_panel/user_profile.html', context)
 
 
 
-# def user_panel_menu_component(request:HttpRequest):
-#     return render(request,"profile_panel/components/user_panel_menu.html")
+def user_panel_page(request:HttpRequest):
+    current_user = User.objects.filter(id=request.user.id).first()
+    context = {
+        'current_user': current_user
+    }
+    return render(request,"profile_panel/user_panel.html", context)
+
+def user_panel_left_sidebar(request:HttpRequest):
+    current_user = User.objects.filter(id=request.user.id).first()
+    context = {
+        'current_user': current_user
+    }
+    return render(request, "profile_panel/components/user_panel_left_sidebar.html", context)

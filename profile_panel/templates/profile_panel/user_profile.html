@@ -1,0 +1,29 @@
+{% extends 'shared/_layout.html' %}
+{% load render_partial %}
+
+{% block content %}
+<div class="container">
+	<div class="row">
+		<div class="col-sm-9">
+					<div class="container-fluid">
+    					<div class="row fh5co-post-entry">
+							<form id="main-contact-form" class="contact-form row" action="{% url 'user_profile_page' %}" method="post">
+    						{% csrf_token %}
+							{% include 'includes/user_panel_form.html' with current_user=current_user %}
+								<div class="form-group col-md-12">
+        					<button type="submit" class="btn btn-primary pull-right">ارسال</button>
+    							</div>
+							</form>
+    					</div><!--features_items-->
+					</div>
+				</div>
+
+		<div class="col-sm-3">
+			<div class="left-sidebar">
+				{% render_partial 'profile_panel.views.user_panel_left_sidebar' %}
+			</div><!--/left panel item-->
+		</div>
+	</div>
+</div>
+</div>
+{% endblock %}

@@ -25,7 +25,7 @@
 				</ul>
 				<div class="col-lg-12 col-md-12 text-center">
 					{% if request.user.is_authenticated %}
-					<h3>Dear {{request.user.username}}, welcome to the voluntary training site </h3>
+					<h3>Dear <b style="color: red"> {{request.user.username}}</b> welcome to the voluntary training site </h3>
 					{% endif %}
 					<h1 id="fh5co-logo"><a href="index.html">Volunteer <sup>TM</sup></a></h1>
 				</div>

@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'home',
     'contact',
     'profile_panel',
-    'django_render_partial'
+    'django_render_partial',
 ]
 
 MIDDLEWARE = [
