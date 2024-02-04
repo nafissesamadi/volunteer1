@@ -70,7 +70,7 @@ class Job(models.Model):
 
 class User(AbstractUser):
     mobile = models.CharField(max_length=20, null=True, blank=True, verbose_name='mobile')
-    user_type = models.ForeignKey(UserType, on_delete=models.CASCADE)
+    user_type = models.ForeignKey(UserType, on_delete=models.CASCADE, blank=True, null=True)
     email_active_code = models.CharField(max_length=100, null=True, blank=True, verbose_name='Email Activation code')
     mobile_verification_code = models.CharField(max_length=50, null=True, blank=True, default="")
     mobile_verified = models.BooleanField(default=False)
@@ -83,22 +83,22 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     national_code = models.CharField(max_length=10, verbose_name='Code Melli', unique=True)
     gender = models.CharField(choices=GENDER_TYPES, max_length=10, blank=True, null=True)
-    marital_status = models.CharField(choices=MARTIAL_STATUS, max_length=50, blank=True, null=True)
-    birth_date = models.DateTimeField(blank=True, null=True)
-    province = models.ForeignKey(Province, on_delete=models.CASCADE)
-    city = models.ForeignKey(City, on_delete=models.CASCADE)
-    address = models.CharField(max_length=300, blank=True, null=True)
-    bio = models.CharField(max_length=2000, default="", null=True, blank=True)
+    province = models.ForeignKey(Province, on_delete=models.CASCADE, blank=True, null=True)
+    city = models.ForeignKey(City, on_delete=models.CASCADE, blank=True, null=True)
     last_password_reset_on = models.DateTimeField(auto_now_add=True)
+    # address=models.TextField(blank=True, null=True)
+    def __str__(self):
+        return f"{self.user}"
 
-    class Meta:
-        abstract = True
 
 
 class Volunteer(Profile):
     education = models.CharField(choices=EDUCATION_DEGREE, max_length=10, null=True, blank=True)
+    marital_status = models.CharField(choices=MARTIAL_STATUS, max_length=50, blank=True, null=True)
+    birth_date = models.DateTimeField(blank=True, null=True)
     job_role = models.ForeignKey(Job, on_delete=models.CASCADE, null=True, blank=True)
     work_experience = models.IntegerField(null=True, blank=True)
+    bio = models.CharField(max_length=2000, default="", null=True, blank=True)
 
     class Meta:
         abstract = True

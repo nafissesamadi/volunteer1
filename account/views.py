@@ -8,6 +8,7 @@ from django.views.generic import CreateView
 from account.forms import RegisterForm, LoginForm, FrogetPasswordForm, ResetPasswordForm
 from django.utils.crypto import get_random_string
 from utils.email_service import send_email
+from django.views.generic import TemplateView
 
 # from account.forms import RegisterModelForm
 
@@ -41,12 +42,12 @@ class RegisterView(View):
                     email_active_code=get_random_string(72),
                     mobile=user_mobile,
                     user_type=user_type,
-                    is_active=False,
+                    is_active=True,
                     username=user_email)
                 new_user.set_password(user_password)
                 new_user.save()
                 # send email active code
-                send_email('فعالسازی حساب کاربری', new_user.email, {'user': new_user}, 'emails/activate_account.html')
+                # send_email('فعالسازی حساب کاربری', new_user.email, {'user': new_user}, 'emails/activate_account.html')
                 return redirect(reverse('login_page'))
             context = {
                 'register_form': register_form}
@@ -77,7 +78,7 @@ class LoginView(View):
                     is_password_correct = user.check_password(user_pass)
                     if is_password_correct:
                         login(request, user)
-                        return redirect(reverse('application_list'))
+                        return redirect(reverse('user_panel_page'))
                     else:
                         login_form.add_error('email', 'کلمه عبور اشتباه است')
             else:
@@ -156,3 +157,5 @@ class LogoutView(View):
     def get(self, request):
         logout(request)
         return redirect(reverse('login_page'))
+
+

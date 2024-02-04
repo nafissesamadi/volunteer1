@@ -1,0 +1,76 @@
+
+{% extends 'shared/_layout.html' %}
+{% load render_partial %}
+
+{% block content %}
+<div class="container">
+			<div class="row">
+				<div class="col-sm-9">
+					<div class="container-fluid">
+    					<div class="row fh5co-post-entry">
+							<form id="main-contact-form" class="contact-form row" action="{% url 'user_panel_page' %}" method="post">
+    						{% csrf_token %}
+							{% include 'includes/user_panel_form.html' with current_user=current_user %}
+								<div class="form-group col-md-12">
+        					<button type="submit" class="btn btn-primary pull-right">ارسال</button>
+    							</div>
+							</form>
+    					</div><!--features_items-->
+					</div>
+				</div>
+
+				<div class="col-sm-3">
+					<div class="left-sidebar">
+						<div class="box-saka" style=" width: 350px; padding:15px; ">
+							<div class="box-saka" style="background-color: lightgoldenrodyellow; width: 250px;">
+            					<div style="text-align: center;">
+                					<div style="color: green"><b>{{current_user.username}}({{current_user.user_type}})</b></div>
+									<div style="color: red"><b>({{current_user.mobile}})</b></div>
+									<div style="color: green">{{current_user.email}}</div>
+
+            					</div>
+        					</div>
+						</div>
+
+						<div class="panel-group category-products" id="accordian" ><!--category-productsr-->
+							<div style="text-align: center;">
+								<div class="panel panel-default">
+									<div class="panel-heading" style="color: midnightblue; background-color: lightgoldenrodyellow"  >
+										<p class="panel-title"><a href="#" ><b> پروفایل </b></a></p>
+									</div>
+								</div>
+								<div class="panel panel-default">
+									<div class="panel-heading" style="color: midnightblue; background-color: lightgoldenrodyellow">
+										<p class="panel-title"><a href="#"><b>تغییر رمز عبور</b></a></p>
+									</div>
+								</div>
+								<div class="panel panel-default">
+									<div class="panel-heading" style="color: midnightblue; background-color: lightgoldenrodyellow">
+										<p class="panel-title"><a href="#"><b>لیست درخواست ها</b></a></p>
+									</div>
+								</div>
+								<div class="panel panel-default">
+									<div class="panel-heading" style="color: midnightblue; background-color: lightgoldenrodyellow">
+										<p class="panel-title"><a href="#"><b>درخواست جدید </b></a></p>
+									</div>
+								</div>
+							</div>
+
+
+						</div><!--/category-productsr-->
+
+						<div class="price-range"><!--price-range-->
+							<h2>فیلتـر قیمـت</h2>
+							<div class="well">
+								 <div class="slider slider-horizontal" style="width: 139px;"><div class="slider-track"><div class="slider-selection" style="left: 0.025%; width: 0.0199999%;"></div><div class="slider-handle round left-round" style="left: 0.025%;"></div><div class="slider-handle round" style="left: 0.045%;"></div></div><div class="tooltip top" style="top: -30px; left: -33.4513px;"><div class="tooltip-arrow"></div><div class="tooltip-inner">250 : 450</div></div><input type="text" class="span2" value="" data-slider-min="0" data-slider-max="1000000" data-slider-step="5" data-slider-value="[250,450]" id="sl2" style=""></div><br>
+								 <b>1.000.000 ريال</b> <b class="pull-left">0 ريال</b>
+							</div>
+						</div><!--/price-range-->
+
+
+					</div>
+				</div>
+
+			</div>
+</div>
+{% endblock %}

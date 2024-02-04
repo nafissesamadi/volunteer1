@@ -108,7 +108,7 @@ def course_categories_component(request: HttpRequest):
     context = {
         'course_edu_level': course_edu_level,
     }
-    return render(request, 'application/component/course_categories_component.html', context)
+    return render(request, 'application/components/course_categories_component.html', context)
 
 
 def course_categories_major(request: HttpRequest):
@@ -118,4 +118,4 @@ def course_categories_major(request: HttpRequest):
         'course_grade': course_grade,
         'course_major': course_major,
     }
-    return render(request, 'application/component/course_categories_major.html', context)
+    return render(request, 'application/components/course_categories_major.html', context)

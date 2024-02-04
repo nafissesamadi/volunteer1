@@ -7,9 +7,9 @@
 				<ul class="fh5co-social">
 					{% if request.user.is_authenticated %}
 						{% if request.user.is_superuser %}
-							<li><a href="/admin"><i class="icon-book3" title="پنل ادمین"></i></a></li>
+							<li><a href="/admin"><i class="icon-user" title="پنل ادمین"></i></a></li>
 						{% endif %}
-<!--                    <li><a href="login.html"><i class="icon-add-to-list"></i> پنل کاربری</a></li>-->
+                    	<li><a href="{% url 'user_panel_page' %}"><i class="icon-user" title="پنل کاربری"></i></a></li>
 						<li><a href="{% url 'logout_page' %}"><i class="icon-log-out" title="خروج"></i></a></li>
 
 					{% else %}

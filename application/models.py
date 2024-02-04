@@ -3,7 +3,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from django.http import HttpRequest
 from django.shortcuts import render
 
-from account.models import PublicPlace, Profile, Volunteer
+from account.models import PublicPlace, Profile, Volunteer, User
 from django.urls import reverse
 from django.utils.text import slugify
 
@@ -175,15 +175,19 @@ class SkilledVolunteer(Volunteer):
 
     def __str__(self):
         return f"{self.offered_skill}"
+NATIONALITY = (
+    ("IR", "ایرانی"),
+    ("F", "اتباع"),
+)
 
-
-class Student(Profile):
+class ApplicantStudent(Profile):
     school = models.ForeignKey(School, on_delete=models.CASCADE, null=True, blank=True)
-    edu_level = models.ForeignKey(EducationalLevel, on_delete=models.CASCADE, blank=True, null=True)
+    birth_date = models.DateTimeField(blank=True, null=True)
+    nationality = models.CharField(choices=NATIONALITY, max_length=300)
     grade = models.ForeignKey(Grade, on_delete=models.CASCADE, blank=True, null=True)
     major = models.ForeignKey(Major, on_delete=models.CASCADE, blank=True, null=True)
     gpa = models.DecimalField(max_digits=4, decimal_places=2, blank=True, null=True)
-    free_time = models.ManyToManyField(AvailableTime)
+    is_worker=models.BooleanField(default=False)
     special_condition = models.CharField(max_length=10, blank=True, null=True)
     rating = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)], default=1)
     slug = models.SlugField(default="", null=False, db_index=True)
@@ -203,13 +207,15 @@ HOLDING_STYLE = [
 
 class Application(models.Model):
     objects = None
-    applicant = models.ManyToManyField(Student)
+    applicant = models.ForeignKey(Profile, on_delete=models.CASCADE)
     demanded_course = models.ForeignKey(Course, on_delete=models.CASCADE, db_index=True, null=True, blank=True)
     preferred_style = models.CharField(choices=HOLDING_STYLE, max_length=50, null=True, blank=True)
     short_description = models.CharField(max_length=300, null=True, blank=True)
     is_accepted = models.BooleanField(blank=True, null=True, default=False)
     rating = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)], default=1)
     registered_date = models.DateField(null=True, blank=True , auto_now_add=True)
+    demandend_time= models.ManyToManyField(AvailableTime)
+    demandend_venue = models.ForeignKey(ClassVenue,  on_delete=models.CASCADE)
     is_active = models.BooleanField(default=False)
     slug = models.SlugField(max_length=200, default="", null=False, db_index=True)
 
@@ -237,5 +243,14 @@ class AcceptedApplication(models.Model):
 
     def __str__(self):
         return f"{self.application}({self.edu_volunteer})"
+
+class Student(models.Model):
+    full_name=models.CharField(max_length=100)
+    national_code=models.CharField(max_length=11)
+    gpa=models.FloatField()
+
+    def __str__(self):
+        return f"{self.full_name})"
+
 # endregion
 
