@@ -1,8 +1,8 @@
 from django import forms
 from django.core import validators
 
-from account.models import User, UserType, Province,City, Profile
-from .models import Application, AvailableTime,ClassVenue, WeekDay
+from account.models import User, UserType, Province,City, Profile, PublicPlace
+from .models import Application, AvailableTime, WeekDay
 from django.core.exceptions import ValidationError
 
 
@@ -12,14 +12,14 @@ class CompleteApplicationModelForm(forms.ModelForm):
     class Meta:
         model = Application
 
-        fields = ['preferred_style', 'short_description','free_day_1','free_time_1', 'demandend_venue', 'num_of_student']
+        fields = ['preferred_style', 'short_description', 'num_of_student', 'free_day_1', 'free_time_1','demandend_venue']
         # fields='__all__'
         # exclude=['response']
 
 
         demanded_venue = forms.ModelChoiceField(
             widget=forms.Select,
-            queryset=ClassVenue.objects.all(),
+            queryset=PublicPlace.objects.all(),
         )
         free_day_1 = forms.ModelChoiceField(
             widget=forms.Select,
@@ -55,7 +55,7 @@ class CompleteApplicationModelForm(forms.ModelForm):
         labels = {
             # 'preferred_style': ':شیوه برگزاری',
             'demandend_time': 'زمان مورد نظر',
-            'demandend_venue': 'مکان مورد نظر',
+            # 'demandend_venue': 'مکان مورد نظر',
             'short_description': 'توضیحات'
         }
 

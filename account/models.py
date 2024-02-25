@@ -117,9 +117,11 @@ class PublicPlace(models.Model):
     province = models.ForeignKey(Province, on_delete=models.CASCADE, blank=True, null=True)
     city = models.ForeignKey(City, on_delete=models.CASCADE, blank=True, null=True)
     address = models.CharField(max_length=300, blank=True, null=True)
+
+
+    def __str__(self):
+        return f"{self.name}"
     
 
-    class Meta:
-        abstract = True
 
 # endregion

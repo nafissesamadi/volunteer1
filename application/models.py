@@ -120,30 +120,30 @@ class SchoolType(models.Model):
         return self.title
 
 
-class School(PublicPlace):
+class SchoolProfile(models.Model):
     school_type = models.ForeignKey(SchoolType, on_delete=models.CASCADE, blank=True, null=True)
     school_level = models.ForeignKey(EducationalLevel, on_delete=models.CASCADE, blank=True, null=True)
     educational_district = models.IntegerField(blank=True, null=True)
     short_description = models.TextField(blank=True, null=True)
 
     def __str__(self):
-        return f"{self.name} ({self.school_level})"
+        return self.school_level
 
 
-class VenueType(models.Model):
+class InstituteType(models.Model):
     title = models.CharField(max_length=30, unique=True)
 
     def __str__(self):
         return self.title
 
 
-class ClassVenue(PublicPlace):
-    venue_type = models.ForeignKey(VenueType, on_delete=models.CASCADE, null=True, blank=True)
+class InstituteProfile(models.Model):
+    venue_type = models.ForeignKey(InstituteType, on_delete=models.CASCADE, null=True, blank=True)
     available_time = models.ManyToManyField(AvailableTime)
     short_description = models.TextField(blank=True, null=True)
 
     def __str__(self):
-        return self.name
+        return self.venue_type
 
 
 # endregion
@@ -174,8 +174,8 @@ NATIONALITY = (
     ("F", "اتباع"),
 )
 
-class ApplicantStudent(Profile):
-    school = models.ForeignKey(School, on_delete=models.CASCADE, null=True, blank=True)
+class Applicant(Profile):
+    school = models.ForeignKey(PublicPlace, on_delete=models.CASCADE, null=True, blank=True)
     birth_date = models.DateTimeField(blank=True, null=True)
     nationality = models.CharField(choices=NATIONALITY, max_length=300)
     grade = models.ForeignKey(Grade, on_delete=models.CASCADE, blank=True, null=True)
@@ -207,10 +207,9 @@ class Application(models.Model):
     is_accepted = models.BooleanField(blank=True, null=True, default=False)
     num_of_student = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(10)], default=1)
     registered_date = models.DateField(null=True, blank=True , auto_now_add=True)
-    # demandend_time= models.CharField(max_length=100, blank=True, null=True)
     free_day_1 = models.ForeignKey(WeekDay, on_delete=models.CASCADE, null=True, blank=True)
     free_time_1 = models.ForeignKey(AvailableTime, on_delete=models.CASCADE, null=True, blank=True)
-    demandend_venue = models.ForeignKey(ClassVenue, on_delete=models.CASCADE, blank=True, null=True)
+    demandend_venue = models.ForeignKey(PublicPlace, on_delete=models.CASCADE, blank=True, null=True)
     is_active = models.BooleanField(default=False)
     slug = models.SlugField(max_length=200, default="", null=False, db_index=True)
 
@@ -229,7 +228,7 @@ class Application(models.Model):
 class AcceptedApplication(models.Model):
     application = models.OneToOneField(Application, on_delete=models.CASCADE)
     edu_volunteer = models.ForeignKey(EducationalVolunteer, on_delete=models.CASCADE, blank=True, null=True)
-    class_venue = models.ForeignKey(ClassVenue, on_delete=models.CASCADE)
+    class_venue = models.ForeignKey(PublicPlace, on_delete=models.CASCADE, blank=True, null=True)
     holding_time = models.ManyToManyField(AvailableTime)
     from_date = models.DateField()
     to_date = models.DateField()
