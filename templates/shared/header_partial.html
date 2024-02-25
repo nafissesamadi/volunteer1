@@ -8,8 +8,9 @@
 					{% if request.user.is_authenticated %}
 						{% if request.user.is_superuser %}
 							<li><a href="/admin"><i class="icon-user" title="پنل ادمین"></i></a></li>
-						{% endif %}
+						{% else %}
                     	<li><a href="{% url 'user_panel_page' %}"><i class="icon-user" title="پنل کاربری"></i></a></li>
+						{% endif %}
 						<li><a href="{% url 'logout_page' %}"><i class="icon-log-out" title="خروج"></i></a></li>
 
 					{% else %}
@@ -25,7 +26,11 @@
 				</ul>
 				<div class="col-lg-12 col-md-12 text-center">
 					{% if request.user.is_authenticated %}
+						 {% if request.user.first_name %}
+					<h3>Dear <b style="color: red"> {{request.user.first_name}}</b> welcome to the voluntary training site </h3>
+							{% else %}
 					<h3>Dear <b style="color: red"> {{request.user.username}}</b> welcome to the voluntary training site </h3>
+							{% endif %}
 					{% endif %}
 					<h1 id="fh5co-logo"><a href="index.html">Volunteer <sup>TM</sup></a></h1>
 				</div>

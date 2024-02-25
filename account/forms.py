@@ -105,15 +105,18 @@ class RegisterForm(forms.Form):
 
 
 class LoginForm(forms.Form):
-    email = forms.EmailField(
+    email = forms.CharField(
         label='ایمیل',
+        max_length=50,
+        required=True,
+        error_messages={
+            'required': 'Please Enter Your email as your username ',
+            'max_length': 'It is more than 50 character',
+        },
         widget=forms.EmailInput(attrs={
             'class': 'form-control',
-            'placeholder': 'Email'}),
-        validators=[
-            validators.MaxLengthValidator(100),
-            validators.EmailValidator
-        ]
+            'placeholder': 'Email'
+        })
     )
     password = forms.CharField(
         label='کلمه عبور',

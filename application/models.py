@@ -82,16 +82,10 @@ class WeekDay(models.Model):
 
 
 class AvailableTime(models.Model):
-    day_name = models.ForeignKey(WeekDay, on_delete=models.CASCADE, default="1")
     time_name = models.CharField(max_length=20)
 
     def __str__(self):
-        return f"{self.time_name} / {self.day_name}"
-
-    class Meta:
-        constraints = [
-            models.UniqueConstraint(fields=['day_name', 'time_name'], name='unique_day_name_time_name'),
-        ]
+        return f"{self.time_name}"
 
 
 # endregion
@@ -206,20 +200,19 @@ HOLDING_STYLE = [
 
 
 class Application(models.Model):
-    objects = None
-    applicant = models.ForeignKey(Profile, on_delete=models.CASCADE)
-    demanded_course = models.ForeignKey(Course, on_delete=models.CASCADE, db_index=True, null=True, blank=True)
-    preferred_style = models.CharField(choices=HOLDING_STYLE, max_length=50, null=True, blank=True)
+    applicant = models.ForeignKey(User, on_delete=models.CASCADE)
+    demanded_course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    preferred_style = models.CharField(choices=HOLDING_STYLE, max_length=50, default="V")
     short_description = models.CharField(max_length=300, null=True, blank=True)
     is_accepted = models.BooleanField(blank=True, null=True, default=False)
-    rating = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)], default=1)
+    num_of_student = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(10)], default=1)
     registered_date = models.DateField(null=True, blank=True , auto_now_add=True)
-    demandend_time= models.ManyToManyField(AvailableTime)
-    demandend_venue = models.ForeignKey(ClassVenue,  on_delete=models.CASCADE)
+    # demandend_time= models.CharField(max_length=100, blank=True, null=True)
+    free_day_1 = models.ForeignKey(WeekDay, on_delete=models.CASCADE, null=True, blank=True)
+    free_time_1 = models.ForeignKey(AvailableTime, on_delete=models.CASCADE, null=True, blank=True)
+    demandend_venue = models.ForeignKey(ClassVenue, on_delete=models.CASCADE, blank=True, null=True)
     is_active = models.BooleanField(default=False)
     slug = models.SlugField(max_length=200, default="", null=False, db_index=True)
-
-
 
     def get_absolute_url(self):
         # return reverse('application_detail', args=[self.slug])

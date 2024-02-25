@@ -33,6 +33,7 @@ class RegisterView(View):
             user_mobile = register_form.cleaned_data.get('mobile')
             user_type = register_form.cleaned_data.get('user_type')
             user_password = register_form.cleaned_data.get('password')
+
             user: bool = User.objects.filter(email__iexact=user_email).exists()
             if user:
                 register_form.add_error('email', 'ایمیل وارد شده تکراری است')

@@ -33,9 +33,7 @@
     <h2>Demanded Major :  {{application.demanded_course.major}}</h2>
     {% endif %}
 	<h2> Demanded by </h2>
-	{% for item in application.applicant.all  %}
-    <h3>  {{item}} </h3>
-	{% endfor %}
+    <h3> {{application.applicant}} </h3>
     <h2> Preferred Holding Style : {{ application.preferred_style }}  </h2>
     <p>
        Is_accepted :  {{application.is_accepted}}

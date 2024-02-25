@@ -10,14 +10,14 @@ class EditUserModelForm(forms.ModelForm):
     class Meta:
         model = User
 
-        fields = ['first_name', 'last_name', 'username', 'email', 'user_type']
+        fields = ['first_name', 'last_name']
         # fields='__all__'
         # exclude=['response']
 
-        user_type = forms.ModelChoiceField(
-            widget=forms.Select,
-            queryset=UserType.objects.all(),
-        )
+        # user_type = forms.ModelChoiceField(
+        #     widget=forms.Select,
+        #     queryset=UserType.objects.all(),
+        # )
         widgets = {
             # 'email': forms.TextInput(attrs={
             #     'class': 'form-control'
@@ -28,21 +28,21 @@ class EditUserModelForm(forms.ModelForm):
             'last_name': forms.TextInput(attrs={
                 'class': 'form-control'
             }),
-            'username': forms.TextInput(attrs={
-                'class': 'form-control'
-            }),
-            'user_type': forms.Select(attrs={
-                'class': 'form-control'
-            }),
+            # 'username': forms.TextInput(attrs={
+            #     'class': 'form-control'
+            # }),
+            # 'user_type': forms.Select(attrs={
+            #     'class': 'form-control'
+            # }),
 
         }
 
         labels = {
             # 'email': 'ایمیل',
-            'user_type': 'نوع کاربر',
+            # 'user_type': 'نوع کاربر',
             'first_name': 'نام',
             'last_name': 'نام خانوادگی',
-            'username': 'نام کاربری'
+            # 'username': 'نام کاربری'
         }
 
 

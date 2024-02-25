@@ -5,10 +5,10 @@ from . import models
 # Register your models here.
 
 class ApplicationAdmin(admin.ModelAdmin):
-    # readonly_fields = ['slug', 'rating']
-    prepopulated_fields = {'slug': ['demanded_course']}
-    list_display = ['rating', 'demanded_course', 'is_active', 'preferred_style']
-    list_filter = ['is_active', 'rating']
+    # readonly_fields = ['slug']
+    # prepopulated_fields = {'slug': ['demanded_course']}
+    list_display = ['num_of_student', 'demanded_course', 'is_active', 'preferred_style']
+    list_filter = ['is_active']
     list_editable = ['demanded_course', 'is_active', 'preferred_style']
 
 class CourseAdmin(admin.ModelAdmin):
@@ -35,5 +35,5 @@ admin.site.register(models.ClassVenue)
 admin.site.register(models.EducationalVolunteer)
 admin.site.register(models.SkilledVolunteer)
 admin.site.register(models.ApplicantStudent)
-admin.site.register(models.Application, ApplicationAdmin)
+admin.site.register(models.Application)
 admin.site.register(models.AcceptedApplication)

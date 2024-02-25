@@ -1,8 +1,12 @@
-from django.http import HttpRequest
+from django.http import HttpRequest, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Application, Course, EducationalLevel, Major, Grade
+from django.template.loader import render_to_string
+
+from account.models import User
+from .models import Application, Course, EducationalLevel, Major, Grade, AvailableTime
 from django.views.generic.base import TemplateView, View
 from django.views.generic import ListView, DetailView
+from application.forms import CompleteApplicationModelForm
 
 
 # region Application_List
@@ -24,7 +28,7 @@ class ApplicationListView(ListView):
     template_name = 'application/application_list.html'
     model = Application
     context_object_name = 'applications'
-    ordering = ['rating']
+    ordering = ['registered_date']
     paginate_by = 9
     # def get_queryset(self):
     #     base_query=super(ApplicationListView,self).get_queryset()
@@ -99,8 +103,6 @@ class CoursesListView(ListView):
             query = query.filter(grade__url_title__iexact=category_name, major__url_title__iexact=category_major)
         return query
 
-
-
 # endregion
 
 def course_categories_component(request: HttpRequest):
@@ -119,3 +121,125 @@ def course_categories_major(request: HttpRequest):
         'course_major': course_major,
     }
     return render(request, 'application/components/course_categories_major.html', context)
+
+
+# class CompleteApplication(View):
+#     def get(self, request: HttpRequest):
+#         course_id = request.GET.get('course_id')
+#         applicant = User.objects.filter(id=request.user.id).first()
+#         demanded_course = Course.objects.filter(id=course_id).first()
+#         if applicant.is_authenticated:
+#             if applicant.user_type_id == 1 or applicant.user_type_id == 2:
+#                 if demanded_course is not None:
+#                     filtered_application = Application.objects.filter(applicant_id=applicant.id,
+#                                                                       demanded_course_id=demanded_course.id).first()
+#                     if filtered_application is None:
+#                         current_application = Application.objects.create(applicant_id=applicant.id, demanded_course_id=course_id)
+#                     else:
+#                         return JsonResponse({'status': 'Already Regisred'})
+#                 else:
+#                     return JsonResponse({'status': 'Not Found'})
+#             else:
+#                 return JsonResponse({'status': 'Not eligible User_type'})
+#         else:
+#             return JsonResponse({'status': 'Not Auth'})
+#         application = Application.objects.filter(applicant_id=applicant.id, demanded_course=demanded_course).first()
+#         context = { 'application' : application }
+#         return render(request, 'application/complete_application.html', context)
+#     def post(self, request: HttpRequest):
+#         course_id = request.GET.get('course_id')
+#         applicant = User.objects.filter(id=request.user.id).first()
+#         demanded_course = Course.objects.filter(id=course_id).first()
+#         filtered_application = Application.objects.filter(applicant_id=applicant.id,
+#                                                           demanded_course_id=demanded_course.id).first()
+#         if applicant.is_authenticated:
+#             if applicant.user_type_id == 1 or applicant.user_type_id == 2:
+#                 if demanded_course is not None:
+#                     if filtered_application is None:
+#                         current_application = Application.objects.create(applicant_id=applicant.id,
+#                                                                          demanded_course_id=course_id)
+#                         current_application.save()
+#                         complete_application_form = CompleteApplicationModelForm(request.POST, request.FILES, instance=current_application)
+#                         if complete_application_form.is_valid():
+#                             complete_application_form.save()
+#                             return redirect('/application_list')
+#                         context = {
+#                             'demanded_course': demanded_course,
+#                             'applicant': applicant,
+#                             'current_application': current_application,
+#                             'application_form': complete_application_form,
+#                         }
+#
+#                     else:
+#                         return JsonResponse({'status': 'Already Regisred'})
+#                 else:
+#                     return JsonResponse({'status': 'Not Found'})
+#             else:
+#                 return JsonResponse({'status': 'Not eligible User_type'})
+#         else:
+#             return JsonResponse({'status': 'Not Auth'})
+#         return render(request, 'application/complete_application.html', context)
+
+
+def add_course_to_application(request: HttpRequest):
+    course_id = request.GET.get('course_id')
+    applicant = User.objects.filter(id=request.user.id).first()
+    if applicant.is_authenticated:
+        if applicant.user_type_id == 1 or applicant.user_type_id == 2:
+            demanded_course = Course.objects.filter(id=course_id).first()
+            if demanded_course is not None:
+                previous_application = Application.objects.filter(applicant_id=applicant.id, is_active=False).all()
+                if previous_application is not None:
+                    previous_application.delete()
+                    application = Application.objects.create(applicant_id=applicant.id,
+                                                                     demanded_course_id=demanded_course.id)
+                    application.save()
+                else:
+                    application = Application.objects.create(applicant_id=applicant.id,
+                                                             demanded_course_id=demanded_course.id)
+                    application.save()
+                return JsonResponse({'satatus' : 'sussesflly added'})
+
+            else:
+                return JsonResponse({'status': 'Not found'})
+        else:
+                return JsonResponse({'status': 'Not eligible'})
+    else:
+        return JsonResponse({'status': 'Not-Auth'})
+
+
+class CompleteApplication(View):
+    def get(self, request: HttpRequest):
+        current_user = User.objects.filter(id=request.user.id).first()
+        current_application=Application.objects.filter(applicant=current_user, is_active=False).first()
+        application_form = CompleteApplicationModelForm(instance=current_application)
+        context = {
+            'application': current_application,
+            'application_form': application_form,
+            'current_user': current_user
+        }
+        return render(request, 'application/complete_application.html', context)
+
+    def post(self, request: HttpRequest):
+        current_user = User.objects.filter(id=request.user.id).first()
+        current_application=Application.objects.filter(applicant=current_user, is_active=False).first()
+        application_form = CompleteApplicationModelForm(request.POST, instance=current_application)
+        if application_form.is_valid():
+            application_form.save()
+            return redirect('/application_list')
+        context = {
+            'application': current_application,
+            'application_form': application_form,
+            'current_user': current_user
+        }
+        return render(request, 'application/complete_application.html', context)
+
+
+
+
+
+
+
+
+
+

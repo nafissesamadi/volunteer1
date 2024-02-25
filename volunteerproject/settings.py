@@ -133,6 +133,7 @@ MEDIA_URL = '/medias/'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'volunteers.iran@gmail.com'
-EMAIL_HOST_PASSWORD = 'k10204063'
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
 EMAIL_PORT = 587
+

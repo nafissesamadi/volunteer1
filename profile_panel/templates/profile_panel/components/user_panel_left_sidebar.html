@@ -1,7 +1,11 @@
 <img src="/static/images/volunteer5.jpg">
 <p><div class="box-saka" style="background-color: lightgoldenrodyellow; width: 330px;">
     <div style="text-align: center;">
+        {% if current_user.first_name %}
+         <div style="color: green"><b>{{current_user.first_name}}  {{current_user.last_name}}( {{current_user.user_type}} )</b></div>
+        {% else %}
         <div style="color: green"><b>{{current_user.username}}({{current_user.user_type}})</b></div>
+        {% endif %}
         <div style="color: red"><b>({{current_user.mobile}})</b></div>
         <div style="color: green">{{current_user.email}}</div>
     </div>
@@ -26,7 +30,7 @@
     </div>
     <div class="panel panel-default">
         <div class="panel-heading" style="color: green; background-color: lightgoldenrodyellow">
-            <p class="panel-title"><a href="#"><b>درخواست جدید </b></a></p>
+            <p class="panel-title"><a href="{% url 'complete_application_page'  %}"><b>درخواست جدید </b></a></p>
         </div>
     </div>
 </div>

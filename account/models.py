@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from smart_selects.db_fields import ChainedForeignKey
 
 
 # Create your models here.
@@ -80,12 +81,14 @@ class User(AbstractUser):
 
 
 class Profile(models.Model):
+    objects = None
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    national_code = models.CharField(max_length=10, verbose_name='Code Melli', unique=True)
+    national_code = models.CharField(max_length=10, verbose_name='Code Melli', unique=True, blank=True, null=True)
     gender = models.CharField(choices=GENDER_TYPES, max_length=10, blank=True, null=True)
-    province = models.ForeignKey(Province, on_delete=models.CASCADE, blank=True, null=True)
-    city = models.ForeignKey(City, on_delete=models.CASCADE, blank=True, null=True)
     last_password_reset_on = models.DateTimeField(auto_now_add=True)
+    province = models.ForeignKey(Province, on_delete=models.CASCADE, blank=True, null=True)
+    city = models.ForeignKey(City,null=True, blank=True, on_delete=models.CASCADE)
+
     # address=models.TextField(blank=True, null=True)
     def __str__(self):
         return f"{self.user}"
@@ -114,6 +117,7 @@ class PublicPlace(models.Model):
     province = models.ForeignKey(Province, on_delete=models.CASCADE, blank=True, null=True)
     city = models.ForeignKey(City, on_delete=models.CASCADE, blank=True, null=True)
     address = models.CharField(max_length=300, blank=True, null=True)
+    
 
     class Meta:
         abstract = True

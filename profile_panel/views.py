@@ -1,7 +1,7 @@
 from pyexpat.errors import messages
 
 from django.http import HttpRequest
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views import View
 from account.models import User, Profile
 from .forms import EditUserModelForm, EditProfileModelForm
@@ -32,6 +32,7 @@ class CompleteUserProfile(View):
             edit_user_form.save()
         if edit_profile_form.is_valid():
             edit_profile_form.save()
+            return redirect('/profile')
         context = {
             'edit_user': edit_user_form,
             'edit_profile': edit_profile_form,
