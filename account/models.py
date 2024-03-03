@@ -95,7 +95,8 @@ class Profile(models.Model):
 
 
 
-class Volunteer(Profile):
+class Volunteer(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     education = models.CharField(choices=EDUCATION_DEGREE, max_length=10, null=True, blank=True)
     marital_status = models.CharField(choices=MARTIAL_STATUS, max_length=50, blank=True, null=True)
     birth_date = models.DateTimeField(blank=True, null=True)

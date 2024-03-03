@@ -12,12 +12,12 @@ class CompleteApplicationModelForm(forms.ModelForm):
     class Meta:
         model = Application
 
-        fields = ['preferred_style', 'short_description', 'num_of_student', 'free_day_1', 'free_time_1','demandend_venue']
+        fields = ['preferred_style', 'short_description', 'num_of_student', 'free_day_1', 'free_time_1', 'venue']
         # fields='__all__'
         # exclude=['response']
 
 
-        demanded_venue = forms.ModelChoiceField(
+        venue = forms.ModelChoiceField(
             widget=forms.Select,
             queryset=PublicPlace.objects.all(),
         )
@@ -30,20 +30,21 @@ class CompleteApplicationModelForm(forms.ModelForm):
             queryset=AvailableTime.objects.all(),
         )
         widgets = {
-            'short_description': forms.TextInput(attrs={
-                'class': 'form-control'
+            'short_description': forms.Textarea(attrs={
+                'class': 'form-control',
+                'rows': 4,
             }),
             'free_day_1': forms.Select(attrs={
-                'class': 'form-check-inline'
+                'class': 'form-control'
             }),
             'free_time_1': forms.Select(attrs={
-                'class': 'form-check-inline'
+                'class': 'form-control'
             }),
-            'preferred_style': forms.RadioSelect(attrs={
-                'class': 'form-check-inline'
+            'preferred_style': forms.Select(attrs={
+                'class': 'form-control'
             }),
 
-            'demandend_venue': forms.Select(attrs={
+            'venue': forms.Select(attrs={
                 'class': 'form-control'
             }),
             'num_of_student': forms.NumberInput(attrs={
@@ -53,10 +54,12 @@ class CompleteApplicationModelForm(forms.ModelForm):
         }
 
         labels = {
-            # 'preferred_style': ':شیوه برگزاری',
-            'demandend_time': 'زمان مورد نظر',
-            # 'demandend_venue': 'مکان مورد نظر',
-            'short_description': 'توضیحات'
+            'preferred_style': ':شیوه برگزاری',
+            'free_day_1': 'روز مورد نظر',
+            'free_time_1': 'زمان مورد نظر',
+            'venue': 'مکان مورد نظر',
+            'num_of_student': 'نفرات کلاس',
+            'short_description': 'توضیحات',
         }
 
         error_messages = {

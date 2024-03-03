@@ -1,4 +1,17 @@
 
+   <div class="col-md-6 form-group">
+     <div style="text-align: right"> {{ application_form.free_time_1.label_tag }}</div>
+          {{ application_form.free_time_1 }}
+        {{ application_form.free_time_1.errors }}
+    </div>
+
+
+    <div class="col-md-6 form-group">
+     <div style="text-align: right">  {{ application_form.free_day_1.label_tag }} </div>
+        {{ application_form.free_day_1 }}
+        {{ application_form.free_day_1.errors }}
+    </div>
+
     <div class="col-md-6 form-group">
         <div style="text-align: right">  {{ application_form.preferred_style.label_tag }} </div>
         {{ application_form.preferred_style }}
@@ -6,33 +19,15 @@
     </div>
 
     <div class="col-md-6 form-group">
-     <div style="text-align: right">  {{ application_form.demandend_time.label_tag }} </div>
-        {{ application_form.demandend_time }}
-        {{ application_form.demandend_time.errors }}
+     <div style="text-align: right"> {{ application_form.num_of_student.label_tag }}</div>
+          {{ application_form.num_of_student }}
+        {{ application_form.num_of_student.errors }}
     </div>
-
-<!--    <div class="col-md-6 form-group">-->
-<!--     <div style="text-align: right"> {{ edit_user.email.label_tag }}</div>-->
-<!--          {{ edit_user.email }}-->
-<!--        {{ edit_user.email.errors }}-->
-<!--    </div>-->
-
-    <div class="col-md-6 form-group">
-     <div style="text-align: right"> {{ application_form.demandend_venue.label_tag }}</div>
-          {{ application_form.demandend_venue }}
-        {{ application_form.demandend_venue.errors }}
-    </div>
-
-    <div class="col-md-6 form-group">
-<!--     <div style="text-align: right"> {{ application_form.num_of_student.label_tag }}</div>-->
-<!--          {{ application_form.num_of_student }}-->
-<!--        {{ application_form.num_of_student.errors }}-->
-<!--    </div>-->
-
-     <div class="col-md-6 form-group">
+     <div class="col-md-12 form-group">
         <div style="text-align: right"> {{ application_form.short_description.label_tag }} </div>
         {{ application_form.short_description }}
         {{ application_form.short_description.errors }}
     </div>
+
 
 

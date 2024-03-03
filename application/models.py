@@ -174,7 +174,8 @@ NATIONALITY = (
     ("F", "اتباع"),
 )
 
-class Applicant(Profile):
+class Applicant(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="applicant_of")
     school = models.ForeignKey(PublicPlace, on_delete=models.CASCADE, null=True, blank=True)
     birth_date = models.DateTimeField(blank=True, null=True)
     nationality = models.CharField(choices=NATIONALITY, max_length=300)
@@ -209,7 +210,7 @@ class Application(models.Model):
     registered_date = models.DateField(null=True, blank=True , auto_now_add=True)
     free_day_1 = models.ForeignKey(WeekDay, on_delete=models.CASCADE, null=True, blank=True)
     free_time_1 = models.ForeignKey(AvailableTime, on_delete=models.CASCADE, null=True, blank=True)
-    demandend_venue = models.ForeignKey(PublicPlace, on_delete=models.CASCADE, blank=True, null=True)
+    venue = models.ForeignKey(PublicPlace, on_delete=models.CASCADE, blank=True, null=True)
     is_active = models.BooleanField(default=False)
     slug = models.SlugField(max_length=200, default="", null=False, db_index=True)
 

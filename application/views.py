@@ -1,9 +1,9 @@
 from django.http import HttpRequest, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import render_to_string
-
+from django.urls import reverse
 from account.models import User
-from .models import Application, Course, EducationalLevel, Major, Grade, AvailableTime
+from .models import Application, Course, EducationalLevel, Major, Grade, AvailableTime, PublicPlace
 from django.views.generic.base import TemplateView, View
 from django.views.generic import ListView, DetailView
 from application.forms import CompleteApplicationModelForm
@@ -185,7 +185,7 @@ def add_course_to_application(request: HttpRequest):
     course_id = request.GET.get('course_id')
     applicant = User.objects.filter(id=request.user.id).first()
     if applicant.is_authenticated:
-        if applicant.user_type_id == 1 or applicant.user_type_id == 2:
+        if applicant.user_type_id == 3 or applicant.user_type_id == 4:
             demanded_course = Course.objects.filter(id=course_id).first()
             if demanded_course is not None:
                 previous_application = Application.objects.filter(applicant_id=applicant.id, is_active=False).all()
@@ -193,6 +193,7 @@ def add_course_to_application(request: HttpRequest):
                     previous_application.delete()
                     application = Application.objects.create(applicant_id=applicant.id,
                                                                      demanded_course_id=demanded_course.id)
+
                     application.save()
                 else:
                     application = Application.objects.create(applicant_id=applicant.id,
@@ -211,7 +212,12 @@ def add_course_to_application(request: HttpRequest):
 class CompleteApplication(View):
     def get(self, request: HttpRequest):
         current_user = User.objects.filter(id=request.user.id).first()
+        school = PublicPlace.objects.filter(applicant__user_id=request.user.id).first()
         current_application=Application.objects.filter(applicant=current_user, is_active=False).first()
+        if current_application is not None:
+            if school is not None:
+                current_application.venue_id = school.id
+                current_application.save()
         application_form = CompleteApplicationModelForm(instance=current_application)
         context = {
             'application': current_application,
@@ -222,11 +228,14 @@ class CompleteApplication(View):
 
     def post(self, request: HttpRequest):
         current_user = User.objects.filter(id=request.user.id).first()
-        current_application=Application.objects.filter(applicant=current_user, is_active=False).first()
-        application_form = CompleteApplicationModelForm(request.POST, instance=current_application)
-        if application_form.is_valid():
-            application_form.save()
-            return redirect('/application_list')
+        school = PublicPlace.objects.filter(applicant__user_id=request.user.id).first()
+        current_application = Application.objects.filter(applicant=current_user, is_active=False).first()
+        if current_application is not None:
+            application_form = CompleteApplicationModelForm(request.POST, instance=current_application)
+            if application_form.is_valid():
+                current_application.is_active=True
+                application_form.save()
+                return redirect(reverse('application_list'))
         context = {
             'application': current_application,
             'application_form': application_form,
