@@ -7,12 +7,12 @@
 		<div class="col-sm-9">
 					<div class="container-fluid">
     					<div class="row fh5co-post-entry">
-							<table class="table table-condensed">
+							<table class="table table-condensed" style="border: 1px solid black; text-align: center">
                     			<tbody>
                         			<tr>
                             			<td>
 											<p></p>
-								<a href="{% url 'courses_list' %}" style="color: red"> حذف </a>
+								<a href="" style="color: red" onclick="removeCourse({{application.demanded_course.id}})"> حذف </a>
 								<a href="{% url 'courses_list' %}" style="color: green"> اضافه </a>
                             			</td>
 							 			<td class="cart_price">
@@ -30,7 +30,34 @@
 									</tr>
 								</tbody>
 							</table>
-							<div style="background-color: floralwhite">
+							<table class="table table-condensed" style="border: 1px solid black; text-align: center">
+                    			<tbody>
+                        			<tr>
+                            			<td>
+											<p></p>
+								<a href="" style="color: red" onclick="removeVenue({{application.venue.id}})"> حذف </a>
+								<a href="{% url 'courses_list' %}" style="color: green"> ویرایش </a>
+                            			</td>
+							 			<td class="">
+								 			</br>
+								  			</br>
+											{% if application.venue %}
+                                			<p style="text-align: center; color:green">{{ application.venue }}</p>
+											{% else %}
+											<p style="color: green">اولویت من کلاس مجازی است </p>
+											{% endif %}
+                            			</td>
+										<td class="cart_product">
+                                			<a href=""><img src="/static/images/white.png" width="70"></a>
+										</td>
+										<td>
+                                			</br>
+											<label style="color: green"> انتخاب مکان آموزش  </label>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+							<div style="background-color: floralwhite; ">
 							<form id="main-contact-form" class="contact-form row" action="{% url 'complete_application_page' %}" method="post">
     						{% csrf_token %}
 							{% include 'includes/application_form.html' with application=application %}
@@ -50,5 +77,4 @@
 		</div>
 	</div>
 </div>
-
 {% endblock %}

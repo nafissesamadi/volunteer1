@@ -1,4 +1,4 @@
-from django.http import HttpRequest, JsonResponse
+from django.http import HttpRequest, HttpResponse ,JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import render_to_string
 from django.urls import reverse
@@ -123,101 +123,79 @@ def course_categories_major(request: HttpRequest):
     return render(request, 'application/components/course_categories_major.html', context)
 
 
-# class CompleteApplication(View):
-#     def get(self, request: HttpRequest):
-#         course_id = request.GET.get('course_id')
-#         applicant = User.objects.filter(id=request.user.id).first()
-#         demanded_course = Course.objects.filter(id=course_id).first()
-#         if applicant.is_authenticated:
-#             if applicant.user_type_id == 1 or applicant.user_type_id == 2:
-#                 if demanded_course is not None:
-#                     filtered_application = Application.objects.filter(applicant_id=applicant.id,
-#                                                                       demanded_course_id=demanded_course.id).first()
-#                     if filtered_application is None:
-#                         current_application = Application.objects.create(applicant_id=applicant.id, demanded_course_id=course_id)
-#                     else:
-#                         return JsonResponse({'status': 'Already Regisred'})
-#                 else:
-#                     return JsonResponse({'status': 'Not Found'})
-#             else:
-#                 return JsonResponse({'status': 'Not eligible User_type'})
-#         else:
-#             return JsonResponse({'status': 'Not Auth'})
-#         application = Application.objects.filter(applicant_id=applicant.id, demanded_course=demanded_course).first()
-#         context = { 'application' : application }
-#         return render(request, 'application/complete_application.html', context)
-#     def post(self, request: HttpRequest):
-#         course_id = request.GET.get('course_id')
-#         applicant = User.objects.filter(id=request.user.id).first()
-#         demanded_course = Course.objects.filter(id=course_id).first()
-#         filtered_application = Application.objects.filter(applicant_id=applicant.id,
-#                                                           demanded_course_id=demanded_course.id).first()
-#         if applicant.is_authenticated:
-#             if applicant.user_type_id == 1 or applicant.user_type_id == 2:
-#                 if demanded_course is not None:
-#                     if filtered_application is None:
-#                         current_application = Application.objects.create(applicant_id=applicant.id,
-#                                                                          demanded_course_id=course_id)
-#                         current_application.save()
-#                         complete_application_form = CompleteApplicationModelForm(request.POST, request.FILES, instance=current_application)
-#                         if complete_application_form.is_valid():
-#                             complete_application_form.save()
-#                             return redirect('/application_list')
-#                         context = {
-#                             'demanded_course': demanded_course,
-#                             'applicant': applicant,
-#                             'current_application': current_application,
-#                             'application_form': complete_application_form,
-#                         }
-#
-#                     else:
-#                         return JsonResponse({'status': 'Already Regisred'})
-#                 else:
-#                     return JsonResponse({'status': 'Not Found'})
-#             else:
-#                 return JsonResponse({'status': 'Not eligible User_type'})
-#         else:
-#             return JsonResponse({'status': 'Not Auth'})
-#         return render(request, 'application/complete_application.html', context)
-
-
 def add_course_to_application(request: HttpRequest):
     course_id = request.GET.get('course_id')
     applicant = User.objects.filter(id=request.user.id).first()
+    school = PublicPlace.objects.filter(applicant__user_id=request.user.id).first()
     if applicant.is_authenticated:
         if applicant.user_type_id == 3 or applicant.user_type_id == 4:
             demanded_course = Course.objects.filter(id=course_id).first()
             if demanded_course is not None:
-                previous_application = Application.objects.filter(applicant_id=applicant.id, is_active=False).all()
+                previous_application = Application.objects.filter(applicant_id=applicant.id, is_active=False).first()
                 if previous_application is not None:
                     previous_application.delete()
-                    application = Application.objects.create(applicant_id=applicant.id,
-                                                                     demanded_course_id=demanded_course.id)
+                    submitted_application=Application.objects.filter(applicant_id=applicant.id, is_active=True,
+                                                                     demanded_course_id=demanded_course.id).first()
+                    if submitted_application is None:
+                        application = Application.objects.create(applicant_id=applicant.id,
+                                                                     demanded_course_id=demanded_course.id, venue_id=school.id)
 
-                    application.save()
+                        application.save()
+                    else:
+                        return JsonResponse({
+                                'status': 'duplicate_course',
+                                'text': 'شما قبلا این درس را درخواست داده اید',
+                                'confirm_button_text': 'مرسی از شما',
+                                'icon': 'warning'
+                        })
                 else:
-                    application = Application.objects.create(applicant_id=applicant.id,
-                                                             demanded_course_id=demanded_course.id)
-                    application.save()
-                return JsonResponse({'satatus' : 'sussesflly added'})
-
+                    submitted_application = Application.objects.filter(applicant_id=applicant.id, is_active=True,
+                                                                       demanded_course_id=demanded_course.id).first()
+                    if submitted_application is None:
+                        application = Application.objects.create(applicant_id=applicant.id,
+                                                             demanded_course_id=demanded_course.id,venue_id=school.id)
+                        application.save()
+                    else:
+                        return JsonResponse({
+                            'status': 'Duplicate_course',
+                            'text': 'شما قبلا این درس را انتخاب کرده اید ',
+                            'confirm_button_text': 'باشه ممنون',
+                            'icon': 'error'
+                        })
+                return JsonResponse({
+                    'status': 'success',
+                    'text': 'درس مورد نظر با موفقیت به فرم تقاضا اضافه شد',
+                    'confirm_button_text': 'باشه ممنونم',
+                    'icon': 'success'
+                })
             else:
-                return JsonResponse({'status': 'Not found'})
+                return JsonResponse({
+                    'status': 'not_found',
+                    'text': 'درس مورد نظر یافت نشد',
+                    'confirm_button_text': 'مرسییییی',
+                    'icon': 'error'
+                })
         else:
-                return JsonResponse({'status': 'Not eligible'})
+            return JsonResponse({
+                'status': 'not_eligible',
+                'text': 'فقط دانش آموزان و مدیران می توانند تفاضای درس بدهند',
+                'confirm_button_text': 'باشه ممنون',
+                'icon': 'error'
+            })
     else:
-        return JsonResponse({'status': 'Not-Auth'})
+        return JsonResponse({
+            'status': 'not_auth',
+            'text': 'برای انتخاب درس ابتدا می بایست وارد سایت شوید',
+            'confirm_button_text': 'ورود به سایت',
+            'icon': 'error'
+        })
+
 
 
 class CompleteApplication(View):
     def get(self, request: HttpRequest):
         current_user = User.objects.filter(id=request.user.id).first()
-        school = PublicPlace.objects.filter(applicant__user_id=request.user.id).first()
         current_application=Application.objects.filter(applicant=current_user, is_active=False).first()
-        if current_application is not None:
-            if school is not None:
-                current_application.venue_id = school.id
-                current_application.save()
         application_form = CompleteApplicationModelForm(instance=current_application)
         context = {
             'application': current_application,
@@ -228,8 +206,8 @@ class CompleteApplication(View):
 
     def post(self, request: HttpRequest):
         current_user = User.objects.filter(id=request.user.id).first()
-        school = PublicPlace.objects.filter(applicant__user_id=request.user.id).first()
         current_application = Application.objects.filter(applicant=current_user, is_active=False).first()
+        # current_application.venue_id = school.id
         if current_application is not None:
             application_form = CompleteApplicationModelForm(request.POST, instance=current_application)
             if application_form.is_valid():
@@ -243,6 +221,28 @@ class CompleteApplication(View):
         }
         return render(request, 'application/complete_application.html', context)
 
+
+
+def remove_venue(request: HttpRequest):
+    venue_id=request.GET.get('venue_id')
+    applicant = User.objects.filter(id=request.user.id).first()
+    if applicant.is_authenticated:
+        current_application = Application.objects.filter(applicant_id=applicant.id, is_active=False,
+                                                         venue_id=venue_id).first()
+        current_application.venue = None
+        current_application.save()
+    else:
+        return JsonResponse({'status': 'Not_Auth'})
+
+
+def remove_course(request: HttpRequest):
+    course_id = request.GET.get('course_id')
+    applicant = User.objects.filter(id=request.user.id).first()
+    if applicant.is_authenticated:
+        current_application = Application.objects.filter(applicant_id=applicant.id, is_active=False).first()
+        current_application.delete()
+    else:
+        return JsonResponse({'status': 'Not_Auth'})
 
 
 
