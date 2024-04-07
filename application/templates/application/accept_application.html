@@ -1,0 +1,196 @@
+{% extends 'shared/_layout.html' %}
+{% load render_partial %}
+
+{% block content %}
+<div class="container">
+	<div class="row">
+		<div class="col-sm-9">
+			<div class="container-fluid">
+				<div class="row fh5co-post-entry">
+					<table class="table table-condensed" style="border-bottom: 1px ; text-align: center">
+						<tbody>
+						<tr>
+							<td></td>
+							<td>
+
+								</br>
+								<p style="text-align: center; color:green">{{ application.demanded_course }}</p>
+							</td>
+							<td>
+								{% if application.demanded_course %}
+								<a href=""><img src="{{ application.demanded_course.image.url }}" width="70" alt=""></a>
+								{% else %}
+								<a href=""><img src="/static/images/white.png" width="70"></a>
+								{% endif %}
+							</td>
+							<td>
+								</br>
+								<label style="color: green"> درس انتخابی  </label>
+							</td>
+						</tr>
+						{% if application.applicant %}
+						<tr>
+							<td>
+								<p></p>
+
+							</td>
+							<td>
+								</br>
+								<p style="text-align: center; color:green">{{ application.applicant.first_name }}  {{application.applicant.last_name}}( {{application.applicant.user_type}} )</p>
+							</td>
+							<td class="cart_product">
+								<a href=""><img src="/static/images/white.png" width="70"></a>
+							</td>
+							<td>
+								</br>
+								<label style="color: green"> متقاضی  </label>
+							</td>
+						</tr>
+						{% endif %}
+						{% if application.venue %}
+						<tr>
+							<td>
+								<p></p>
+
+							</td>
+							<td>
+								</br>
+								<p style="text-align: center; color:green">{{ application.venue }}</p>
+							</td>
+							<td class="cart_product">
+								<a href=""><img src="/static/images/white.png" width="70"></a>
+							</td>
+							<td>
+								</br>
+								<label style="color: green"> مکان انتخابی  </label>
+							</td>
+						</tr>
+						{% endif %}
+
+						{% if application.preferred_style %}
+						<tr>
+							<td>
+								<p></p>
+
+							</td>
+							<td>
+								</br>
+								<p style="text-align: center; color:green">{{ application.preferred_style }}</p>
+							</td>
+							<td class="cart_product">
+								<a href=""><img src="/static/images/white.png" width="70"></a>
+							</td>
+							<td>
+								</br>
+								<label style="color: green"> شیوه برگزاری  </label>
+							</td>
+						</tr>
+						{% endif %}
+						{% if application.free_day_1 %}
+						<tr>
+							<td>
+								<p></p>
+
+							</td>
+							<td>
+								</br>
+								<p style="text-align: center; color:green">{{ application.free_day_1 }}</p>
+							</td>
+							<td class="cart_product">
+								<a href=""><img src="/static/images/white.png" width="70"></a>
+							</td>
+							<td>
+								</br>
+								<label style="color: green"> روز  </label>
+							</td>
+						</tr>
+						{% endif %}
+						{% if application.free_time_1 %}
+						<tr>
+							<td>
+								<p></p>
+
+							</td>
+							<td>
+								</br>
+								<p style="text-align: center; color:green">{{ application.free_time_1 }}</p>
+							</td>
+							<td class="cart_product">
+								<a href=""><img src="/static/images/white.png" width="70"></a>
+							</td>
+							<td>
+								</br>
+								<label style="color: green"> زمان </label>
+							</td>
+						</tr>
+						{% endif %}
+						{% if application.num_of_student %}
+						<tr>
+							<td>
+								<p></p>
+							</td>
+							<td>
+								</br>
+								<p style="text-align: center; color:green">{{ application.num_of_student }}</p>
+							</td>
+							<td class="cart_product">
+								<a href=""><img src="/static/images/white.png" width="70"></a>
+							</td>
+							<td>
+								</br>
+								<label style="color: green"> تعداد دانش آموزان </label>
+							</td>
+						</tr>
+						{% endif %}
+						{% if application.registered_date %}
+						<tr>
+							<td>
+								<p></p>
+
+							</td>
+							<td>
+								</br>
+								<p style="text-align: center; color:green">{{ application.registered_date }}</p>
+							</td>
+							<td class="cart_product">
+								<a href=""><img src="/static/images/white.png" width="70"></a>
+							</td>
+							<td>
+								</br>
+								<label style="color: green"> تاریخ ثبت </label>
+							</td>
+						</tr>
+						{% endif %}
+						{% if application.short_description %}
+						<tr>
+							<td>
+								<p></p>
+							</td>
+							<td>
+								</br>
+								<p style="text-align: center; color:green">{{ application.short_description }}</p>
+							</td>
+							<td class="cart_product">
+								<a href=""><img src="/static/images/white.png" width="70"></a>
+							</td>
+							<td>
+								</br>
+								<label style="color: green"> توضیحات </label>
+							</td>
+						</tr>
+						{% endif %}
+						<button class="btn btn-fefault cart" style="background-color: green; color: white"> ثبت نهایی </button>
+						</tbody>
+					</table>
+
+				</div><!--features_items-->
+			</div>
+		</div>
+		<div class="col-sm-3">
+			<div class="left-sidebar">
+				{% render_partial 'profile_panel.views.user_panel_left_sidebar' %}
+			</div><!--/left panel item-->
+		</div>
+	</div>
+</div>
+{% endblock %}

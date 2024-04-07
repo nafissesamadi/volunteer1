@@ -231,6 +231,8 @@ class AcceptedApplication(models.Model):
     edu_volunteer = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     from_date = models.DateField(blank=True, null=True)
     to_date = models.DateField(blank=True, null=True)
+    is_active = models.BooleanField(default=False)
+
 
     def __str__(self):
         return f"{self.application}({self.edu_volunteer})"

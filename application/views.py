@@ -6,7 +6,7 @@ from account.models import User
 from .models import Application, Course, EducationalLevel, Major, Grade, AvailableTime, PublicPlace, AcceptedApplication
 from django.views.generic.base import TemplateView, View
 from django.views.generic import ListView, DetailView
-from application.forms import CompleteApplicationModelForm
+from application.forms import CompleteApplicationModelForm, CompleteAcceptedApplicationModelForm
 
 
 # region Application_List
@@ -250,6 +250,12 @@ def accept_application(request: HttpRequest):
    applicant = User.objects.filter(id=request.user.id).first()
    if applicant.is_authenticated:
        if applicant.user_type_id == 2:
+           previous_accepted_application=AcceptedApplication.objects.filter(edu_volunteer_id=applicant.id, is_active=False).first()
+           if previous_accepted_application is not None:
+               previous_accepted_application.delete()
+               previous_application=Application.objects.filter(id=previous_accepted_application.application_id).first()
+               previous_application.is_accepted=False
+               previous_application.save()
            application = Application.objects.filter(id=application_id).first()
            if application is not None:
                application.is_accepted=True
@@ -263,7 +269,6 @@ def accept_application(request: HttpRequest):
            return JsonResponse({'status': 'Not_eligible'})
    else:
        return JsonResponse({'status': 'Not_Auth'})
-
 
 
 

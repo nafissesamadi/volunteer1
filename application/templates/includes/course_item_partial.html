@@ -18,7 +18,7 @@
             {% if course.major %}
             <h4 class="fh5co-article-title"><a href="" style="color:gray">({{course.major}})</a></h4>
             {% endif %}
-    <a href="{% url 'complete_application_page'  %}" onclick="addCourseToApplication({{ course.id }})" class="btn btn-fefault cart">
+    <a href="{% url 'complete_application_page' %}" onclick="addCourseToApplication({{ course.id }})" class="btn btn-fefault cart">
 											انتخاب
     </a>
 <!--    <a href="" onclick="acceptCourse({{ course.id }})" class="btn btn-fefault cart">-->

@@ -2,7 +2,7 @@ from django import forms
 from django.core import validators
 
 from account.models import User, UserType, Province,City, Profile, PublicPlace
-from .models import Application, AvailableTime, WeekDay
+from .models import Application, AvailableTime, WeekDay, AcceptedApplication
 from django.core.exceptions import ValidationError
 
 
@@ -66,4 +66,32 @@ class CompleteApplicationModelForm(forms.ModelForm):
             'preferred_style': {
                 'required': 'Please Enter Your preferred style'
             }
+        }
+
+
+
+
+class CompleteAcceptedApplicationModelForm(forms.ModelForm):
+    class Meta:
+        model = AcceptedApplication
+
+        fields = ['from_date', 'to_date']
+        # fields='__all__'
+        # exclude=['response']
+
+        widgets = {
+            'from_date': forms.DateInput(attrs={
+                'class': 'form-control',
+
+            }),
+
+            'to_date': forms.DateInput(attrs={
+                'class': 'form-control'
+            }),
+
+        }
+
+        labels = {
+            'from_date': 'از تاریخ',
+            'to_date': 'تا تاریخ',
         }
