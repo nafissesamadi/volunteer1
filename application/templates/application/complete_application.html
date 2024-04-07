@@ -7,7 +7,7 @@
 		<div class="col-sm-9">
 					<div class="container-fluid">
     					<div class="row fh5co-post-entry">
-							<table class="table table-condensed" style="border: 1px solid black; text-align: center">
+							<table class="table table-condensed" style="border-bottom: 1px ; text-align: center">
                     			<tbody>
                         			<tr>
                             			<td>
@@ -15,13 +15,20 @@
 								<a href="" style="color: red" onclick="removeCourse({{application.demanded_course.id}})"> حذف </a>
 								<a href="{% url 'courses_list' %}" style="color: green"> اضافه </a>
                             			</td>
-							 			<td class="cart_price">
+							 			<td>
 								 			</br>
-								  			</br>
+                                            {% if application.demanded_course %}
                                 			<p style="text-align: center; color:green">{{ application.demanded_course }}</p>
+                                              {% else %}
+                                            <p style="color: green"> لطفا یک درس انتخاب کنید  </p>
+											{% endif %}
                             			</td>
 										<td class="cart_product">
+                                            {% if application.demanded_course %}
                                 			<a href=""><img src="{{ application.demanded_course.image.url }}" width="70" alt=""></a>
+                                            {% else %}
+											<a href=""><img src="/static/images/white.png" width="70"></a>
+											{% endif %}
 										</td>
 										<td>
                                 			</br>
@@ -30,18 +37,17 @@
 									</tr>
 								</tbody>
 							</table>
-							<table class="table table-condensed" style="border: 1px solid black; text-align: center">
+							<table class="table table-condensed" style="border-bottom: 1px solid lightgray ; text-align: center">
                     			<tbody>
                         			<tr>
                             			<td>
 											<p></p>
 								<a href="" style="color: red" onclick="removeVenue({{application.venue.id}})"> حذف </a>
-								<a href="{% url 'courses_list' %}" style="color: green"> ویرایش </a>
+								<a href="{% url 'courses_list' %}" style="color: green"> اضافه </a>
                             			</td>
-							 			<td class="">
+							 			<td>
 								 			</br>
-								  			</br>
-											{% if application.venue %}
+                                			{% if application.venue %}
                                 			<p style="text-align: center; color:green">{{ application.venue }}</p>
 											{% else %}
 											<p style="color: green">اولویت من کلاس مجازی است </p>
@@ -52,7 +58,7 @@
 										</td>
 										<td>
                                 			</br>
-											<label style="color: green"> انتخاب مکان آموزش  </label>
+											<label style="color: green"> مکان انتخابی  </label>
 										</td>
 									</tr>
 								</tbody>

@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import render_to_string
 from django.urls import reverse
 from account.models import User
-from .models import Application, Course, EducationalLevel, Major, Grade, AvailableTime, PublicPlace
+from .models import Application, Course, EducationalLevel, Major, Grade, AvailableTime, PublicPlace, AcceptedApplication
 from django.views.generic.base import TemplateView, View
 from django.views.generic import ListView, DetailView
 from application.forms import CompleteApplicationModelForm
@@ -243,6 +243,27 @@ def remove_course(request: HttpRequest):
         current_application.delete()
     else:
         return JsonResponse({'status': 'Not_Auth'})
+
+
+def accept_application(request: HttpRequest):
+   application_id=request.GET.get('application_id')
+   applicant = User.objects.filter(id=request.user.id).first()
+   if applicant.is_authenticated:
+       if applicant.user_type_id == 2:
+           application = Application.objects.filter(id=application_id).first()
+           if application is not None:
+               application.is_accepted=True
+               application.save()
+               accepted_application= AcceptedApplication.objects.create(application_id=application.id,edu_volunteer_id=applicant.id)
+               accepted_application.save()
+               return JsonResponse({'status': 'success'})
+           else:
+               return JsonResponse({'status': 'Not_found'})
+       else:
+           return JsonResponse({'status': 'Not_eligible'})
+   else:
+       return JsonResponse({'status': 'Not_Auth'})
+
 
 
 

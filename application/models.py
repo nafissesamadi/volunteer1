@@ -228,11 +228,9 @@ class Application(models.Model):
 
 class AcceptedApplication(models.Model):
     application = models.OneToOneField(Application, on_delete=models.CASCADE)
-    edu_volunteer = models.ForeignKey(EducationalVolunteer, on_delete=models.CASCADE, blank=True, null=True)
-    class_venue = models.ForeignKey(PublicPlace, on_delete=models.CASCADE, blank=True, null=True)
-    holding_time = models.ManyToManyField(AvailableTime)
-    from_date = models.DateField()
-    to_date = models.DateField()
+    edu_volunteer = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
+    from_date = models.DateField(blank=True, null=True)
+    to_date = models.DateField(blank=True, null=True)
 
     def __str__(self):
         return f"{self.application}({self.edu_volunteer})"

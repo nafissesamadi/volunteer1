@@ -5,6 +5,8 @@
 //     });
 // }
 
+
+
 function addCourseToApplication(courseId) {
     $.get('/application/add-course-to-application?course_id=' + courseId).then(res => {
               Swal.fire({
@@ -23,11 +25,13 @@ function addCourseToApplication(courseId) {
 }
 
 
+
 function removeCourse(courseId) {
     $.get('/application/remove-course?course_id=' + courseId).then(res => {
         console.log(res);
     });
 }
+
 
 function removeVenue(venueId) {
     $.get('/application/remove-venue?venue_id=' + venueId).then(res => {
@@ -35,6 +39,11 @@ function removeVenue(venueId) {
     });
 }
 
+function acceptApplication(applicationId) {
+    $.get('/application/accept-application?application_id=' + applicationId).then(res => {
+        console.log(res);
+         });
+}
 
 
 
