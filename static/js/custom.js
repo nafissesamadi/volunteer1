@@ -41,8 +41,19 @@ function removeVenue(venueId) {
 
 function acceptApplication(applicationId) {
     $.get('/application/accept-application?application_id=' + applicationId).then(res => {
-        console.log(res);
-         });
+        Swal.fire({
+            title: 'اعلان',
+            text: res.text,
+            icon: res.icon,
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: res.confirm_button_text
+        }).then((result) => {
+            if (result.isConfirmed && res.status === 'not_auth') {
+                window.location.href = '/login';
+            }
+        })
+    });
 }
 
 

@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'contact',
     'profile_panel',
     'django_render_partial',
+    'sweetify',
 ]
 
 MIDDLEWARE = [

@@ -7,6 +7,25 @@
 		<div class="col-sm-9">
 			<div class="container-fluid">
 				<div class="row fh5co-post-entry">
+					<div style="background-color: floralwhite; ">
+						<form id="main-contact-form" class="contact-form row" action="{% url 'complete_accepted_application_page' %}" method="post">
+    						{% csrf_token %}
+							<div class="col-md-6 form-group">
+     						<div style="text-align: right"> {{ accepted_application_form.from_date.label_tag }}</div>
+          					{{ accepted_application_form.from_date }}
+       						 {{ accepted_application_form.from_date.errors }}
+    						</div>
+
+    						<div class="col-md-6 form-group">
+     						<div style="text-align: right">  {{ accepted_application_form.to_date.label_tag }} </div>
+        					{{ accepted_application_form.to_date }}
+        					{{ accepted_application_form.to_date.errors }}
+    						</div>
+							<div class="form-group col-md-12">
+        					<button type="submit" class="btn btn-primary pull-right">ارسال</button>
+							</div>
+						</form>
+					</div>
 					<table class="table table-condensed" style="border-bottom: 1px ; text-align: center">
 						<tbody>
 						<tr>
@@ -179,10 +198,8 @@
 							</td>
 						</tr>
 						{% endif %}
-						<button class="btn btn-fefault cart" style="background-color: green; color: white"> ثبت نهایی </button>
 						</tbody>
 					</table>
-
 				</div><!--features_items-->
 			</div>
 		</div>

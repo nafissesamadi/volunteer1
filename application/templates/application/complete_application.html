@@ -5,9 +5,9 @@
 <div class="container">
 	<div class="row">
 		<div class="col-sm-9">
-					<div class="container-fluid">
-    					<div class="row fh5co-post-entry">
-							<table class="table table-condensed" style="border-bottom: 1px ; text-align: center">
+			<div class="container-fluid">
+				<div class="row fh5co-post-entry">
+					<table class="table table-condensed" style="border-bottom: 1px ; text-align: center">
                     			<tbody>
                         			<tr>
                             			<td>
@@ -37,7 +37,7 @@
 									</tr>
 								</tbody>
 							</table>
-							<table class="table table-condensed" style="border-bottom: 1px solid lightgray ; text-align: center">
+					<table class="table table-condensed" style="border-bottom: 1px solid lightgray ; text-align: center">
                     			<tbody>
                         			<tr>
                             			<td>
@@ -63,18 +63,18 @@
 									</tr>
 								</tbody>
 							</table>
-							<div style="background-color: floralwhite; ">
-							<form id="main-contact-form" class="contact-form row" action="{% url 'complete_application_page' %}" method="post">
+					<div style="background-color: floralwhite; ">
+						<form id="main-contact-form" class="contact-form row" action="{% url 'complete_application_page' %}" method="post">
     						{% csrf_token %}
 							{% include 'includes/application_form.html' with application=application %}
-								<div class="form-group col-md-12">
+							<div class="form-group col-md-12">
         					<button type="submit" class="btn btn-primary pull-right">ارسال</button>
-    							</div>
-							</form>
 							</div>
-    					</div><!--features_items-->
+						</form>
 					</div>
-				</div>
+				</div><!--features_items-->
+			</div>
+		</div>
 
 		<div class="col-sm-3">
 			<div class="left-sidebar">

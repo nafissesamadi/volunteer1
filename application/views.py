@@ -30,10 +30,10 @@ class ApplicationListView(ListView):
     context_object_name = 'applications'
     ordering = ['registered_date']
     paginate_by = 9
-    # def get_queryset(self):
-    #     base_query=super(ApplicationListView,self).get_queryset()
-    #     data=base_query.filter(is_active=True)
-    #     return data
+    def get_queryset(self):
+        base_query=super(ApplicationListView,self).get_queryset()
+        data=base_query.filter(is_active=True, is_accepted=False)
+        return data
 
 
 # endregion
@@ -64,7 +64,14 @@ class ApplicationDetailView(DetailView):
         request = self.request
         favorite_application_id = request.session.get("application_favorites")
         context['is_favorite'] = favorite_application_id == str(loaded_application.id)
+        current_user = self.request.user
+        context['current_user'] = current_user
         return context
+
+
+
+
+
 
 
 # endregion
@@ -262,17 +269,75 @@ def accept_application(request: HttpRequest):
                application.save()
                accepted_application= AcceptedApplication.objects.create(application_id=application.id,edu_volunteer_id=applicant.id)
                accepted_application.save()
-               return JsonResponse({'status': 'success'})
+               return JsonResponse({
+                    'status': 'success',
+                    'text': 'تقاضای مورد نظر با موفقیت اضافه شد',
+                    'confirm_button_text': 'باشه ممنونم',
+                    'icon': 'success'})
            else:
-               return JsonResponse({'status': 'Not_found'})
+               return JsonResponse({
+                    'status': 'not_found',
+                    'text': 'تقاضای مورد نظر یافت نشد',
+                    'confirm_button_text': 'مرسییییی',
+                    'icon': 'error'})
        else:
-           return JsonResponse({'status': 'Not_eligible'})
+           return JsonResponse({
+                'status': 'not_eligible',
+                'text': 'فقط داوطلبان می توانند تفاضای درس بدهند',
+                'confirm_button_text': 'باشه ممنون',
+                'icon': 'error'
+           })
    else:
-       return JsonResponse({'status': 'Not_Auth'})
+       return JsonResponse({
+            'status': 'not_auth',
+            'text': 'برای انتخاب درس ابتدا می بایست وارد سایت شوید',
+            'confirm_button_text': 'ورود به سایت',
+            'icon': 'error'})
 
 
+class CompleteAcceptedApplication(View):
+    def get(self, request: HttpRequest):
+        current_user = User.objects.filter(id=request.user.id).first()
+        accepted_application=AcceptedApplication.objects.filter(edu_volunteer_id=current_user.id, is_active=False).first()
+        application = Application.objects.filter(id=accepted_application.application_id).first()
+        accepted_application_form = CompleteAcceptedApplicationModelForm(instance=accepted_application)
+        context = {
+            'accepted_application': accepted_application,
+            'accepted_application_form': accepted_application_form,
+            'current_user': current_user,
+            'application': application
+        }
+        return render(request, 'application/accept_application.html', context)
 
+    def post(self, request: HttpRequest):
+        current_user = User.objects.filter(id=request.user.id).first()
+        accepted_application=AcceptedApplication.objects.filter(edu_volunteer_id=current_user.id, is_active=False).first()
+        application = Application.objects.filter(id=accepted_application.application_id).first()
+        if accepted_application is not None:
+            accepted_application_form = CompleteAcceptedApplicationModelForm(request.POST,instance=accepted_application)
+            if accepted_application_form.is_valid():
+                accepted_application.is_active=True
+                accepted_application_form.save()
+                return redirect(reverse('application_list'))
+        context = {
+            'accepted_application': accepted_application,
+            'accepted_application_form': accepted_application_form,
+            'current_user': current_user,
+            'application': application
+        }
+        return render(request, 'application/accept_application.html', context)
 
+class UserApplicationListView(ListView):
+    template_name = 'application/user_application_list.html'
+    model = Application
+    context_object_name = 'applications'
+    ordering = ['registered_date']
+    paginate_by = 9
+    def get_queryset(self):
+        base_query=super(UserApplicationListView,self).get_queryset()
+        current_user = self.request.user
+        application=base_query.filter(applicant_id=current_user.id)
+        return application
 
 
 

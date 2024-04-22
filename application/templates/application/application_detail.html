@@ -179,7 +179,11 @@
 							</td>
 						</tr>
 						{% endif %}
-						<button onclick="acceptApplication({{ application.id }})" class="btn btn-fefault cart" style="background-color: green; color: white">داوطلب می شوم </button>
+						{% if current_user.user_type_id == 2 %}
+						<a href="{% url 'complete_accepted_application_page' %}" onclick="acceptApplication({{ application.id }})" class="btn btn-fefault cart" style="background-color: green; color: white">داوطلب می شوم </a>
+						{% elif current_user.user_type_id == 3 or current_user.user_type_id == 4  %}
+						<a href="{% url 'complete_accepted_application_page' %}" class="btn btn-fefault cart" style="background-color: green; color: white"> درخواست ملحق شدن </a>
+						{% endif %}
 						{% if is_favorite %}
 						<i class="icon-star" title="علاقه مندم" style="color: green"></i>
 						{% else %}
