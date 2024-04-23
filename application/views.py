@@ -138,7 +138,7 @@ def add_course_to_application(request: HttpRequest):
         if applicant.user_type_id == 3 or applicant.user_type_id == 4:
             demanded_course = Course.objects.filter(id=course_id).first()
             if demanded_course is not None:
-                previous_application = Application.objects.filter(applicant_id=applicant.id, is_active=False).first()
+                previous_application = Application.objects.filter(applicant_id=applicant.id, is_active=False, is_accepted=False).first()
                 if previous_application is not None:
                     previous_application.delete()
                     submitted_application=Application.objects.filter(applicant_id=applicant.id, is_active=True,
@@ -202,7 +202,7 @@ def add_course_to_application(request: HttpRequest):
 class CompleteApplication(View):
     def get(self, request: HttpRequest):
         current_user = User.objects.filter(id=request.user.id).first()
-        current_application=Application.objects.filter(applicant=current_user, is_active=False).first()
+        current_application=Application.objects.filter(applicant=current_user, is_active=False, is_accepted=False).first()
         application_form = CompleteApplicationModelForm(instance=current_application)
         context = {
             'application': current_application,
@@ -338,6 +338,22 @@ class UserApplicationListView(ListView):
         current_user = self.request.user
         application=base_query.filter(applicant_id=current_user.id)
         return application
+
+class VolunteerclassListView(ListView):
+    template_name = 'application/volunteer_class_list.html'
+    model = Application
+    context_object_name = 'applications'
+    ordering = ['registered_date']
+    paginate_by = 9
+
+    def get_queryset(self):
+        base_query=super(VolunteerclassListView,self).get_queryset()
+        current_user = self.request.user
+        application=base_query.filter(acceptedapplication__edu_volunteer_id=current_user.id)
+        # application=Application.objects.filter(acceptedapplication__edu_volunteer=current_user).all()
+        return application
+
+
 
 
 

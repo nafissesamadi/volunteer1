@@ -6,6 +6,7 @@ urlpatterns = [
     path('<int:pk>', views.ApplicationDetailView.as_view(), name='application_detail'),
     # path('<int:application_id>',views.application_detail, name='application_detail'),
     path('user-application-list',views.UserApplicationListView.as_view(), name='user_application_list_page'),
+    path('volunteer-class-list',views.VolunteerclassListView.as_view(), name='volunteer_class_list_page'),
     path('application-favorite',views.AddMyFavoriteApplication.as_view(), name='application_favorite'),
     path('courses',views.CoursesListView.as_view(), name='courses_list'),
     path('cat/<str:category>', views.CoursesListView.as_view(), name='courses_by_category_list'),

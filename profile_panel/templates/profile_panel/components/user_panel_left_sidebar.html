@@ -25,13 +25,20 @@
     </div>
     <div class="panel panel-default">
         <div class="panel-heading" style="color: green; background-color: lightgoldenrodyellow">
+            {% if current_user.user_type_id == 2 %}
+            <p class="panel-title"><a href="{% url 'volunteer_class_list_page' %}" class="active" ><b> لیست کلاس ها </b></a></p>
+            {% elif current_user.user_type_id == 3 or current_user.user_type_id == 4 %}
             <p class="panel-title"><a href="{% url 'user_application_list_page' %}" class="active" ><b> لیست درخواست ها </b></a></p>
-
+            {% endif %}
         </div>
     </div>
     <div class="panel panel-default">
         <div class="panel-heading" style="color: green; background-color: lightgoldenrodyellow">
-            <p class="panel-title"><a href="{% url 'complete_application_page'  %}"><b>درخواست جدید </b></a></p>
+            {% if current_user.user_type_id == 2 %}
+            <p class="panel-title"><a href="{% url 'application_list' %}"><b> داوطلب کلاس جدید </b></a></p>
+             {% elif current_user.user_type_id == 3 or current_user.user_type_id == 4 %}
+            <p class="panel-title"><a href="{% url 'complete_application_page'  %}"><b>تکمیل یا ثبت درخواست جدید </b></a></p>
+            {% endif %}
         </div>
     </div>
 </div>
