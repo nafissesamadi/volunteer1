@@ -1,0 +1,86 @@
+{% extends 'shared/_layout.html' %}
+{% load render_partial %}
+
+{% block content %}
+<div class="container">
+	<div class="row">
+		<div class="col-sm-9">
+			<div class="container-fluid">
+				<div class="row fh5co-post-entry">
+					<table class="table table-condensed" style="border-bottom: 1px ; text-align: center">
+                    			<tbody>
+                        			<tr>
+                            			<td>
+											<p></p>
+								<a href="" style="color: red" onclick="removeCourse({{application.demanded_course.id}})"> حذف </a>
+								<a href="{% url 'courses_list' %}" style="color: green"> اضافه </a>
+                            			</td>
+							 			<td>
+								 			</br>
+                                            {% if application.demanded_course %}
+                                			<p style="text-align: center; color:green">{{ application.demanded_course }}</p>
+                                              {% else %}
+                                            <p style="color: green"> لطفا یک درس انتخاب کنید  </p>
+											{% endif %}
+                            			</td>
+										<td class="cart_product">
+                                            {% if application.demanded_course %}
+                                			<a href=""><img src="{{ application.demanded_course.image.url }}" width="70" alt=""></a>
+                                            {% else %}
+											<a href=""><img src="/static/images/white.png" width="70"></a>
+											{% endif %}
+										</td>
+										<td>
+                                			</br>
+											<label style="color: green"> درس انتخابی  </label>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+					<table class="table table-condensed" style="border-bottom: 1px solid lightgray ; text-align: center">
+                    			<tbody>
+                        			<tr>
+                            			<td>
+											<p></p>
+								<a href="" style="color: red" onclick="removeVenue({{application.venue.id}})"> حذف </a>
+								<a href="" style="color: green"> اضافه </a>
+                            			</td>
+							 			<td>
+								 			</br>
+                                			{% if application.venue %}
+                                			<p style="text-align: center; color:green">{{ application.venue }}</p>
+											{% else %}
+											<p style="color: green">اولویت من کلاس مجازی است </p>
+											{% endif %}
+                            			</td>
+										<td class="cart_product">
+                                			<a href=""><img src="/static/images/white.png" width="70"></a>
+										</td>
+										<td>
+                                			</br>
+											<label style="color: green"> مکان انتخابی  </label>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+					<div style="background-color: floralwhite; ">
+						<form id="main-contact-form" class="contact-form row" action="{% url 'edit_active_application_page' %}" method="post">
+    						{% csrf_token %}
+							{% include 'includes/application_form.html' with application=application %}
+							<div class="form-group col-md-12">
+        					<button type="submit" class="btn btn-primary pull-right">ارسال</button>
+							</div>
+						</form>
+					</div>
+				</div><!--features_items-->
+			</div>
+		</div>
+
+		<div class="col-sm-3">
+			<div class="left-sidebar">
+				{% render_partial 'profile_panel.views.user_panel_left_sidebar' %}
+			</div><!--/left panel item-->
+		</div>
+	</div>
+</div>
+{% endblock %}

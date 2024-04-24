@@ -23,28 +23,29 @@
 						<tr>
 							<td>
 
-								{% if application.is_active == False and application.is_accepted == False  %}
+								{% if application.acceptedapplication.is_finished == True  %}
+								<a href=""> جزییات </a>
+								{% elif application.is_active == False and application.is_accepted == False  %}
 <!--								<a href="" style="color: red" onclick="removeCourse({{application.demanded_course.id}})"> حذف </a>-->
-								<a href="{% url 'complete_application_page' %}" style="color: green"> تکمیل </a>
+								<a href="{% url 'complete_application_page' %}"> تکمیل </a>
 								{% elif application.is_active == True and application.is_accepted == False  %}
-								<a href="" style="color: green"> ویرایش </a>
+								<a href=""> ویرایش / </a>
+								<a href="" onclick="removeActiveApplication({{application.id}})"> حذف </a>
 								{% elif application.is_active == True and application.acceptedapplication.is_active == True %}
-								<a href="" style="color: green"> پنل کلاس </a>
+								<a href=""> پنل کلاس </a>
 								{% elif application.is_active == True and application.is_accepted == True and application.acceptedapplication.is_active == False  %}
-								<a href="" style="color: green"> حذف از لیست داولطب </a>
-								{% elif application.is_active == False and application.is_accepted == True and application.acceptedapplication.is_active == False  %}
-								<a href="" style="color: green"> جزییات </a>
+								<a href="" onclick="removeAppFromVolunteer({{application.id}})"> حذف از لیست داولطب </a>
 								{% endif %}
 							</td>
 							<td>
-								{% if application.is_active == True and application.acceptedapplication.is_active == True %}
+								{% if application.acceptedapplication.is_finished == True %}
+								<p>  غیر فعال / پذیرفته شده (به اتمام رسیده) </p>
+								{% elif application.is_active == True and application.acceptedapplication.is_active == True %}
 								<p>  فعال / پذیرفته شده (در حال اجرا) </p>
 								{% elif application.is_active == False and application.is_accepted == False  %}
 								<p>  غیر فعال / پذیرفته نشده (تکمیل نشده) </p>
 								{% elif application.is_active == True and application.is_accepted == False  %}
 								<p>  فعال / پذیرفته نشده (در صف انتظار) </p>
-								{% elif application.is_active == False and application.is_accepted == True and application.acceptedapplication.is_active == False %}
-								<p>  غیر فعال / پذیرفته شده (به اتمام رسیده) </p>
 								{% elif application.is_active == True and application.is_accepted == True and application.acceptedapplication.is_active == False  %}
 								<p>   فعال / پذیرفته شده (در انتظار تایید داوطلب) </p>
 								{% endif %}

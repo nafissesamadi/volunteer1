@@ -242,6 +242,30 @@ def remove_venue(request: HttpRequest):
         return JsonResponse({'status': 'Not_Auth'})
 
 
+def remove_active_application(request: HttpRequest):
+    application_id=request.GET.get('application_id')
+    applicant = User.objects.filter(id=request.user.id).first()
+    if applicant.is_authenticated:
+        current_application = Application.objects.filter(applicant_id=applicant.id, id=application_id).first()
+        current_application.delete()
+    else:
+        return JsonResponse({'status': 'Not_Auth'})
+
+def remove_app_from_volunteer(request: HttpRequest):
+    application_id=request.GET.get('application_id')
+    applicant = User.objects.filter(id=request.user.id).first()
+    if applicant.is_authenticated:
+        current_application = Application.objects.filter(applicant_id=applicant.id, id=application_id).first()
+        accepted_application =AcceptedApplication.objects.filter(application_id=application_id)
+        current_application.is_accepted = False
+        current_application.save()
+        accepted_application.delete()
+
+    else:
+        return JsonResponse({'status': 'Not_Auth'})
+
+
+
 def remove_course(request: HttpRequest):
     course_id = request.GET.get('course_id')
     applicant = User.objects.filter(id=request.user.id).first()

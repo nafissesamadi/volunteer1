@@ -22,18 +22,25 @@
 					{% for application in applications %}
 						<tr>
 							<td>
-								<a href="" style="color: red"> حذف </a>
-								{% if application.acceptedapplication.is_active == False  %}
+
+								{% if application.acceptedapplication.is_finished == True  %}
+								<a href="" style="color: green"> جزییات </a>
+								{% elif application.is_active == True and application.is_accepted == True and application.acceptedapplication.is_active == False  %}
 								<a href="{% url 'complete_accepted_application_page' %}" style="color: green"> تکمیل </a>
-								{% elif application.acceptedapplication.is_active == True  %}
-								<a href="" style="color: green"> ویرایش </a>
+								{% elif application.is_active == True and application.is_accepted == True and application.acceptedapplication.is_active == True  %}
+								<a href="" style="color: green"> پنل کلاس/ </a>
+								<a href="" style="color: red"> ویرایش/ </a>
+								<a href="" style="color: green"> لغو کلاس </a>
+<!--								<a href="" style="color: red"> اتمام کلاس </a>-->
 								{% endif %}
 							</td>
 							<td>
-								{% if application.acceptedapplication.is_active == True %}
-								<p> (در حال اجرا) </p>
-								{% elif application.acceptedapplication.is_active == False  %}
-								<p> (تکمیل نشده) </p>
+								{% if application.acceptedapplication.is_finished == True  %}
+								<p> به اتمام رسیده </p>
+								{% elif application.is_active == True and application.is_accepted == True and application.acceptedapplication.is_active == True  %}
+								<p> در حال اجرا </p>
+								{% elif application.is_active == True and application.is_accepted == True and application.acceptedapplication.is_active == False  %}
+								<p> تکمیل نشده </p>
 								{% endif %}
 							</td>
 

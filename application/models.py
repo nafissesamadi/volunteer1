@@ -232,6 +232,7 @@ class AcceptedApplication(models.Model):
     from_date = models.DateField(blank=True, null=True)
     to_date = models.DateField(blank=True, null=True)
     is_active = models.BooleanField(default=False)
+    is_finished = models.BooleanField(default=False)
 
 
     def __str__(self):

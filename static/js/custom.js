@@ -39,6 +39,8 @@ function removeVenue(venueId) {
     });
 }
 
+
+
 function acceptApplication(applicationId) {
     $.get('/application/accept-application?application_id=' + applicationId).then(res => {
         Swal.fire({
@@ -56,5 +58,15 @@ function acceptApplication(applicationId) {
     });
 }
 
+function removeActiveApplication(applicationId) {
+    $.get('/application/remove-application?application_id=' + applicationId).then(res => {
+        console.log(res);
+    });
+}
 
+function removeAppFromVolunteer(applicationId) {
+    $.get('/application/remove-app-from-volunteer?application_id=' + applicationId).then(res => {
+        console.log(res);
+    });
+}
 

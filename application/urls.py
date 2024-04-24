@@ -18,4 +18,6 @@ urlpatterns = [
     path('complete-accepted-application', views.CompleteAcceptedApplication.as_view(), name='complete_accepted_application_page'),
     path('remove-course', views.remove_course, name='remove_course'),
     path('remove-venue', views.remove_venue, name='remove_venue'),
+    path('remove-application', views.remove_active_application, name='remove_active_application_page'),
+    path('remove-app-from-volunteer', views.remove_app_from_volunteer, name='remove_app_from_volunteer'),
 ]
