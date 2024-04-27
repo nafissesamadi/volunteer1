@@ -378,6 +378,39 @@ class VolunteerclassListView(ListView):
         return application
 
 
+class EditActiveApplication(View):
+    def get(self, request: HttpRequest, application_id):
+        current_user = User.objects.filter(id=request.user.id).first()
+        # application_id=request.GET.get('application_id')
+        current_application = get_object_or_404(Application, applicant=current_user, is_active=True,
+                                                is_accepted=False, id=application_id)
+        application_form = CompleteApplicationModelForm(instance=current_application)
+        context = {
+            'application': current_application,
+            'application_form': application_form,
+            'current_user': current_user
+        }
+        return render(request, 'application/edit_active_application.html', context)
+
+    def post(self, request: HttpRequest, application_id):
+        current_user = User.objects.filter(id=request.user.id).first()
+        # application_id = request.GET.get('application_id')
+        current_application = get_object_or_404(Application, applicant=current_user, is_active=True,
+                                                         is_accepted=False, id=application_id)
+        # current_application.venue_id = school.id
+        if current_application is not None:
+            application_form = CompleteApplicationModelForm(request.POST, instance=current_application)
+            if application_form.is_valid():
+                current_application.is_active=True
+                application_form.save()
+                return redirect(reverse('application_list'))
+        context = {
+            'application': current_application,
+            'application_form': application_form,
+            'current_user': current_user
+        }
+        return render(request, 'application/edit_active_application.html', context)
+
 
 
 

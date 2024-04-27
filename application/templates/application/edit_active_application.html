@@ -64,7 +64,7 @@
 								</tbody>
 							</table>
 					<div style="background-color: floralwhite; ">
-						<form id="main-contact-form" class="contact-form row" action="{% url 'edit_active_application_page' %}" method="post">
+						<form id="main-contact-form" class="contact-form row" action="" method="post">
     						{% csrf_token %}
 							{% include 'includes/application_form.html' with application=application %}
 							<div class="form-group col-md-12">

@@ -29,7 +29,7 @@
 <!--								<a href="" style="color: red" onclick="removeCourse({{application.demanded_course.id}})"> حذف </a>-->
 								<a href="{% url 'complete_application_page' %}"> تکمیل </a>
 								{% elif application.is_active == True and application.is_accepted == False  %}
-								<a href=""> ویرایش / </a>
+								<a href="{% url 'edit_active_application' application_id=application.id %}"> ویرایش / </a>
 								<a href="" onclick="removeActiveApplication({{application.id}})"> حذف </a>
 								{% elif application.is_active == True and application.acceptedapplication.is_active == True %}
 								<a href=""> پنل کلاس </a>

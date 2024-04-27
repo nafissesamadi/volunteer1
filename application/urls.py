@@ -20,4 +20,6 @@ urlpatterns = [
     path('remove-venue', views.remove_venue, name='remove_venue'),
     path('remove-application', views.remove_active_application, name='remove_active_application_page'),
     path('remove-app-from-volunteer', views.remove_app_from_volunteer, name='remove_app_from_volunteer'),
+    path('edit-active-application/<int:application_id>', views.EditActiveApplication.as_view(), name='edit_active_application'),
+
 ]
