@@ -12,15 +12,15 @@ class CompleteApplicationModelForm(forms.ModelForm):
     class Meta:
         model = Application
 
-        fields = ['preferred_style', 'short_description', 'num_of_student', 'free_day_1', 'free_time_1', 'venue']
+        fields = ['preferred_style', 'short_description', 'num_of_student', 'free_day_1', 'free_time_1']
         # fields='__all__'
         # exclude=['response']
 
 
-        venue = forms.ModelChoiceField(
-            widget=forms.Select,
-            queryset=PublicPlace.objects.all(),
-        )
+        # venue = forms.ModelChoiceField(
+        #     widget=forms.Select,
+        #     queryset=PublicPlace.objects.all(),
+        # )
         free_day_1 = forms.ModelChoiceField(
             widget=forms.Select,
             queryset=WeekDay.objects.all(),
@@ -44,9 +44,9 @@ class CompleteApplicationModelForm(forms.ModelForm):
                 'class': 'form-control'
             }),
 
-            'venue': forms.Select(attrs={
-                'class': 'form-control'
-            }),
+            # 'venue': forms.Select(attrs={
+            #     'class': 'form-control'
+            # }),
             'num_of_student': forms.NumberInput(attrs={
                 'class': 'form-control'
             }),
@@ -57,7 +57,7 @@ class CompleteApplicationModelForm(forms.ModelForm):
             'preferred_style': ':شیوه برگزاری',
             'free_day_1': 'روز مورد نظر',
             'free_time_1': 'زمان مورد نظر',
-            'venue': 'مکان مورد نظر',
+            # 'venue': 'مکان مورد نظر',
             'num_of_student': 'نفرات کلاس',
             'short_description': 'توضیحات',
         }

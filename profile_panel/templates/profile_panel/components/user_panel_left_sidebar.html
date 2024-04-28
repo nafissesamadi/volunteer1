@@ -37,7 +37,7 @@
             {% if current_user.user_type_id == 2 %}
             <p class="panel-title"><a href="{% url 'application_list' %}"><b> داوطلب کلاس جدید </b></a></p>
              {% elif current_user.user_type_id == 3 or current_user.user_type_id == 4 %}
-            <p class="panel-title"><a href="{% url 'complete_application_page'  %}"><b>تکمیل یا ثبت درخواست جدید </b></a></p>
+            <p class="panel-title"><a href="{% url 'courses_list'  %}"><b> ثبت درخواست جدید </b></a></p>
             {% endif %}
         </div>
     </div>

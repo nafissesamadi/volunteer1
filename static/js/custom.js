@@ -64,9 +64,22 @@ function removeActiveApplication(applicationId) {
     });
 }
 
+
+
 function removeAppFromVolunteer(applicationId) {
     $.get('/application/remove-app-from-volunteer?application_id=' + applicationId).then(res => {
         console.log(res);
     });
 }
 
+function removeInactiveApplication(applicationId) {
+    $.get('/application/remove-inactive-application?application_id=' + applicationId).then(res => {
+        console.log(res);
+    });
+}
+
+function removeVenueInEditMode(applicationId) {
+    $.get('/application/remove-venue-of-application?application_id=' + applicationId).then(res => {
+        console.log(res);
+    });
+}

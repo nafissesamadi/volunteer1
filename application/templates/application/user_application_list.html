@@ -27,7 +27,8 @@
 								<a href=""> جزییات </a>
 								{% elif application.is_active == False and application.is_accepted == False  %}
 <!--								<a href="" style="color: red" onclick="removeCourse({{application.demanded_course.id}})"> حذف </a>-->
-								<a href="{% url 'complete_application_page' %}"> تکمیل </a>
+								<a href="{% url 'complete_application_page' %}"> تکمیل / </a>
+								<a href="" onclick="removeInactiveApplication({{application.id}})"> حذف </a>
 								{% elif application.is_active == True and application.is_accepted == False  %}
 								<a href="{% url 'edit_active_application' application_id=application.id %}"> ویرایش / </a>
 								<a href="" onclick="removeActiveApplication({{application.id}})"> حذف </a>

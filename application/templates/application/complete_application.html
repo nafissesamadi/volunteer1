@@ -13,7 +13,11 @@
                             			<td>
 											<p></p>
 								<a href="" style="color: red" onclick="removeCourse({{application.demanded_course.id}})"> حذف </a>
-								<a href="{% url 'courses_list' %}" style="color: green"> اضافه </a>
+								{% if application.demanded_course %}
+								<a href="{% url 'courses_list' %}" style="color: green"> ویرایش </a>
+											{% else %}
+											<a href="{% url 'courses_list' %}" style="color: green"> اضافه </a>
+											{% endif %}
                             			</td>
 							 			<td>
 								 			</br>
@@ -43,7 +47,11 @@
                             			<td>
 											<p></p>
 								<a href="" style="color: red" onclick="removeVenue({{application.venue.id}})"> حذف </a>
-								<a href="" style="color: green"> اضافه </a>
+											{% if application.venue %}
+											<a href="" style="color: green"> ویرایش </a>
+											{% else %}
+											<a href="" style="color: green"> اضافه </a>
+											{% endif %}
                             			</td>
 							 			<td>
 								 			</br>
