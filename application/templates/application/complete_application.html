@@ -48,9 +48,9 @@
 											<p></p>
 								<a href="" style="color: red" onclick="removeVenue({{application.venue.id}})"> حذف </a>
 											{% if application.venue %}
-											<a href="" style="color: green"> ویرایش </a>
+											<a href="{% url 'publicplaces_list' %}" style="color: green"> ویرایش </a>
 											{% else %}
-											<a href="" style="color: green"> اضافه </a>
+											<a href="{% url 'publicplaces_list' %}" style="color: green"> اضافه </a>
 											{% endif %}
                             			</td>
 							 			<td>

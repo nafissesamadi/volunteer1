@@ -8,6 +8,7 @@ from smart_selects.db_fields import ChainedForeignKey
 # region location_related classes
 class Province(models.Model):
     name = models.CharField(max_length=500)
+    url_title = models.CharField(max_length=100, blank=True, null=True)
     is_active = models.BooleanField(default=False)
     slug = models.SlugField(max_length=500, default="", null=True, blank=True)
 
@@ -17,7 +18,8 @@ class Province(models.Model):
 
 class City(models.Model):
     name = models.CharField(max_length=500)
-    province = models.ForeignKey(Province, related_name="state", on_delete=models.CASCADE)
+    url_title = models.CharField(max_length=100, blank=True, null=True)
+    province = models.ForeignKey(Province, on_delete=models.CASCADE)
     is_active = models.BooleanField(default=False)
     slug = models.SlugField(max_length=500, blank=True, null=True)
     parent_city = models.ForeignKey(
@@ -30,11 +32,10 @@ class City(models.Model):
 
     def __str__(self):
         return self.name
-
-
 # endregion
-# region user-related models
 
+
+# region user-related models
 
 GENDER_TYPES = (
     ("F", "Female"),
@@ -110,19 +111,27 @@ class Volunteer(models.Model):
 
 # endregion
 
-# region abstract place model
+# region Public place model
+
+class PublicPlaceType(models.Model):
+    title = models.CharField(max_length=30, unique=True)
+    url_title = models.CharField(max_length=100, blank=True, null=True)
+
+    def __str__(self):
+        return self.title
 
 class PublicPlace(models.Model):
     name = models.CharField(max_length=200)
+    type = models.ForeignKey(PublicPlaceType, on_delete=models.CASCADE, blank=True, null=True)
     director = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
     province = models.ForeignKey(Province, on_delete=models.CASCADE, blank=True, null=True)
     city = models.ForeignKey(City, on_delete=models.CASCADE, blank=True, null=True)
+    district= models.CharField(max_length=100, blank=True, null=True)
     address = models.CharField(max_length=300, blank=True, null=True)
 
 
     def __str__(self):
-        return f"{self.name}  ({self.city}/{self.province})"
-    
+        return f"{self.name}  ({self.province}/{self.city}/{self.district})"
 
 
 # endregion

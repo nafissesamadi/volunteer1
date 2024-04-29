@@ -3,6 +3,7 @@ from . import views
 
 urlpatterns = [
     path('',views.ApplicationListView.as_view(), name='application_list'),
+    path('ongoing-application',views.OngoingApplicationListView.as_view(), name='ongoing_application_list'),
     path('<int:pk>', views.ApplicationDetailView.as_view(), name='application_detail'),
     # path('<int:application_id>',views.application_detail, name='application_detail'),
     path('user-application-list',views.UserApplicationListView.as_view(), name='user_application_list_page'),
@@ -11,8 +12,11 @@ urlpatterns = [
     path('courses',views.CoursesListView.as_view(), name='courses_list'),
     path('cat/<str:category>', views.CoursesListView.as_view(), name='courses_by_category_list'),
     path('cat/<str:category>/<str:major>', views.CoursesListView.as_view(), name='courses_by_category_major'),
+    path('venues',views.PublicPlacesListView.as_view(), name='publicplaces_list'),
+    path('venuetype/<str:venuetype>', views.PublicPlacesListView.as_view(), name='venues_by_type'),
     path('accept-application', views.accept_application, name='accept_application'),
     path('add-course-to-application', views.add_course_to_application, name='add_course_to_application'),
+    path('add-venue', views.add_venue_to_application, name='add_venue_to_application'),
     # path('add-course-to-application', views.AddCourseToApplication.as_view(), name='complete_application_page'),
     path('complete-application', views.CompleteApplication.as_view(), name='complete_application_page'),
     path('complete-accepted-application', views.CompleteAcceptedApplication.as_view(), name='complete_accepted_application_page'),

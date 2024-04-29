@@ -1,0 +1,51 @@
+
+{% extends 'shared/_layout.html' %}
+{% load render_partial %}
+
+{% block content %}
+<div class="container">
+			<div class="row">
+				<div class="col-sm-9">
+					<div class="container-fluid">
+    					<div class="row fh5co-post-entry">
+        					{% for venue in object_list %}
+          						{% include 'includes/publicplace_item_partial.html' with venue=venue %}
+        					{% endfor %}
+        				<div class="clearfix"></div>
+        				<ul class="pagination">
+                            {% if page_obj.has_previous %}
+                                <li><a href="?page={{ page_obj.previous_page_number }}">قبلی</a></li>
+                            {% endif %}
+                            {% for pageNumber in paginator.page_range %}
+                                <li class="{% if page_obj.number == pageNumber %} active {% endif %}">
+                                    <a href="?page={{ pageNumber }}">{{ pageNumber }}</a>
+                                </li>
+                            {% endfor %}
+                            {% if page_obj.has_next %}
+                                <li><a href="?page={{ page_obj.next_page_number }}">بعدی</a></li>
+                            {% endif %}
+
+          </ul>
+
+    					</div><!--features_items-->
+					</div>
+				</div>
+
+				<div class="col-sm-3">
+					<div class="left-sidebar">
+						{% render_partial 'application.views.venues_by_type' %}
+
+						<div class="price-range"><!--price-range-->
+							<h2>فیلتـر </h2>
+							<div class="well">
+								 <div class="slider slider-horizontal" style="width: 139px;"><div class="slider-track"><div class="slider-selection" style="left: 0.025%; width: 0.0199999%;"></div><div class="slider-handle round left-round" style="left: 0.025%;"></div><div class="slider-handle round" style="left: 0.045%;"></div></div><div class="tooltip top" style="top: -30px; left: -33.4513px;"><div class="tooltip-arrow"></div><div class="tooltip-inner">250 : 450</div></div><input type="text" class="span2" value="" data-slider-min="0" data-slider-max="1000000" data-slider-step="5" data-slider-value="[250,450]" id="sl2" style=""></div><br>
+								 <b></b> <b class="pull-left"></b>
+							</div>
+						</div><!--/price-range-->
+
+					</div>
+				</div>
+
+			</div>
+</div>
+{% endblock %}

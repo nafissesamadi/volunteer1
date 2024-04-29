@@ -1,0 +1,15 @@
+<h3 style="color:green"> دسته بندی بر اساس نوع</h3>
+<div class="panel-group" id="accordian"><!--category-productsr-->
+    {% for venue in venue %}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                        <a href="#{{ venue.url_title }}">
+                            <span class="badge pull-right"><i class="fa fa-plus"></i></span>
+                           <a href="{% url 'venues_by_type' venuetype=venue.url_title %}">  {{ venue.title }} </a>
+                        </a>
+                </h4>
+            </div>
+        </div>
+    {% endfor %}
+</div>

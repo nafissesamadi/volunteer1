@@ -7,18 +7,18 @@
 		<div class="col-sm-9">
 			<div class="container-fluid">
 				<div class="row fh5co-post-entry">
-					<table class="table table-condensed" style="border-bottom: 1px ; text-align: center">
+					<table class="table table-condensed" style="border-bottom: 1px ; text-align: right; background-color: lightgoldenrodyellow">
                     			<tbody>
                         			<tr>
                             			<td>
 											<p></p>
 
-											<a href="" style="color: red"> حذف / </a>
-											{% if application.demanded_course %}
-											<a href="" style="color: green"> ویرایش </a>
-											{% else %}
-											<a href="" style="color: green"> اضافه </a>
-											{% endif %}
+<!--											<a href="" style="color: red"> حذف / </a>-->
+<!--											{% if application.demanded_course %}-->
+<!--											<a href="" style="color: green"> ویرایش </a>-->
+<!--											{% else %}-->
+<!--											<a href="" style="color: green"> اضافه </a>-->
+<!--											{% endif %}-->
                             			</td>
 							 			<td>
 								 			</br>
@@ -37,47 +37,51 @@
 										</td>
 										<td>
                                 			</br>
-											<label style="color: green"> درس انتخابی  </label>
+<!--											<label style="color: green"> درس انتخابی  </label>-->
 										</td>
 									</tr>
 								</tbody>
-							</table>
-					<table class="table table-condensed" style="border-bottom: 1px solid lightgray ; text-align: center">
+					</table>
+					<table class="table table-condensed" style="border-bottom: 1px solid lightgray ; text-align: right">
                     			<tbody>
                         			<tr>
                             			<td>
 											<p></p>
-											<a href="" style="color: red" onclick="removeVenueInEditMode({{application.id}})"> حذف </a>
 											{% if application.venue %}
+											<a href="" style="color: red" onclick="removeVenueInEditMode({{application.id}})"> حذف </a>
 											<a href="" style="color: green">/ ویرایش </a>
 											{% else %}
-											<a href="" style="color: green">/ اضافه </a>
+											<a href="" style="color: green"> اضافه </a>
 											{% endif %}
                             			</td>
 							 			<td>
 								 			</br>
                                 			{% if application.venue %}
-                                			<p style="text-align: center; color:green">{{ application.venue }}</p>
+                                			<p style="text-align: center">{{ application.venue }}</p>
 											{% else %}
-											<p style="color: green">اولویت من کلاس مجازی است </p>
+											<p style="color: gray">اولویت من کلاس مجازی است </p>
 											{% endif %}
                             			</td>
-										<td class="cart_product">
+										<td>
                                 			<a href=""><img src="/static/images/white.png" width="70"></a>
 										</td>
 										<td>
+                                			<a href=""><img src="/static/images/white.png" width="70"></a>
+										</td>
+
+										<td>
                                 			</br>
-											<label style="color: green"> مکان انتخابی  </label>
+											<label style="text-align: center"> مکان انتخابی  </label>
 										</td>
 									</tr>
 								</tbody>
 							</table>
-					<div style="background-color: floralwhite; ">
+					<div style=" ">
 						<form id="main-contact-form" class="contact-form row" action="" method="post">
     						{% csrf_token %}
 							{% include 'includes/application_form.html' with application=application %}
 							<div class="form-group col-md-12">
-        					<button type="submit" class="btn btn-primary pull-right">ارسال</button>
+        					<button type="submit" class="btn btn-primary pull-right"> ویرایش  </button>
 							</div>
 						</form>
 					</div>

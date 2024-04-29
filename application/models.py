@@ -112,16 +112,7 @@ class Skill(models.Model):
 
 # region public places models
 
-
-class SchoolType(models.Model):
-    title = models.CharField(max_length=30, unique=True)
-
-    def __str__(self):
-        return self.title
-
-
 class SchoolProfile(models.Model):
-    school_type = models.ForeignKey(SchoolType, on_delete=models.CASCADE, blank=True, null=True)
     school_level = models.ForeignKey(EducationalLevel, on_delete=models.CASCADE, blank=True, null=True)
     educational_district = models.IntegerField(blank=True, null=True)
     short_description = models.TextField(blank=True, null=True)
@@ -130,21 +121,12 @@ class SchoolProfile(models.Model):
         return self.school_level
 
 
-class InstituteType(models.Model):
-    title = models.CharField(max_length=30, unique=True)
-
-    def __str__(self):
-        return self.title
-
-
 class InstituteProfile(models.Model):
-    venue_type = models.ForeignKey(InstituteType, on_delete=models.CASCADE, null=True, blank=True)
     available_time = models.ManyToManyField(AvailableTime)
     short_description = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return self.venue_type
-
 
 # endregion
 
