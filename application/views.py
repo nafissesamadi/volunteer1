@@ -251,6 +251,10 @@ class CompleteApplication(View):
         if current_application is not None:
             application_form = CompleteApplicationModelForm(request.POST, instance=current_application)
             if application_form.is_valid():
+                if current_application.venue is not None:
+                    current_application.preferred_style = 'FTF'
+                else:
+                    current_application.preferred_style = 'V'
                 current_application.is_active = True
                 application_form.save()
                 return redirect(reverse('application_list'))
@@ -299,6 +303,19 @@ def remove_app_from_volunteer(request: HttpRequest):
     applicant = User.objects.filter(id=request.user.id).first()
     if applicant.is_authenticated:
         current_application = Application.objects.filter(applicant_id=applicant.id, id=application_id).first()
+        accepted_application = AcceptedApplication.objects.filter(application_id=application_id)
+        current_application.is_accepted = False
+        current_application.save()
+        accepted_application.delete()
+
+    else:
+        return JsonResponse({'status': 'Not_Auth'})
+
+def remove_accepted_application_by_volunteer(request: HttpRequest):
+    application_id = request.GET.get('application_id')
+    applicant = User.objects.filter(id=request.user.id).first()
+    if applicant.is_authenticated:
+        current_application = Application.objects.filter(acceptedapplication__edu_volunteer_id=applicant.id, id=application_id).first()
         accepted_application = AcceptedApplication.objects.filter(application_id=application_id)
         current_application.is_accepted = False
         current_application.save()
@@ -463,6 +480,10 @@ class EditActiveApplication(View):
         if current_application is not None:
             application_form = CompleteApplicationModelForm(request.POST, instance=current_application)
             if application_form.is_valid():
+                if current_application.venue is not None:
+                    current_application.preferred_style = 'FTF'
+                else:
+                    current_application.preferred_style = 'V'
                 current_application.is_active = True
                 application_form.save()
                 return redirect(reverse('application_list'))

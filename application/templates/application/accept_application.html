@@ -7,7 +7,7 @@
 		<div class="col-sm-9">
 			<div class="container-fluid">
 				<div class="row fh5co-post-entry">
-					<div style="background-color: floralwhite; ">
+					<div style="background-color: lightgoldenrodyellow; ">
 						<form id="main-contact-form" class="contact-form row" action="{% url 'complete_accepted_application_page' %}" method="post">
     						{% csrf_token %}
 							<div class="col-md-6 form-group">
@@ -94,7 +94,11 @@
 							</td>
 							<td>
 								</br>
-								<p style="text-align: center; color:green">{{ application.preferred_style }}</p>
+								{% if application.preferred_style == "V"  %}
+								<p style="text-align: center; color:green">غیر حضوری</p>
+								{% elif application.preferred_style == "FTF"  %}
+								<p style="text-align: center; color:green"> حضوری</p>
+								{% endif %}
 							</td>
 							<td class="cart_product">
 								<a href=""><img src="/static/images/white.png" width="70"></a>

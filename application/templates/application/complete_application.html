@@ -46,9 +46,10 @@
                         			<tr>
                             			<td>
 											<p></p>
-								<a href="" style="color: red" onclick="removeVenue({{application.venue.id}})"> حذف </a>
+
 											{% if application.venue %}
 											<a href="{% url 'publicplaces_list' %}" style="color: green"> ویرایش </a>
+											<a href="" style="color: red" onclick="removeVenue({{application.venue.id}})"> حذف </a>
 											{% else %}
 											<a href="{% url 'publicplaces_list' %}" style="color: green"> اضافه </a>
 											{% endif %}
@@ -66,7 +67,7 @@
 										</td>
 										<td>
                                 			</br>
-											<label style="color: green"> مکان انتخابی  </label>
+											<label style="color: green"> مکان برگزاری  </label>
 										</td>
 									</tr>
 								</tbody>

@@ -26,7 +26,8 @@
 								{% if application.acceptedapplication.is_finished == True  %}
 								<a href="" style="color: green"> جزییات </a>
 								{% elif application.is_active == True and application.is_accepted == True and application.acceptedapplication.is_active == False  %}
-								<a href="{% url 'complete_accepted_application_page' %}" style="color: green"> تکمیل </a>
+								<a href="{% url 'complete_accepted_application_page' %}"> تکمیل /</a>
+								<a href="" onclick="removeAcceptedAppByVolunteer({{application.id}})"> حذف </a>
 								{% elif application.is_active == True and application.is_accepted == True and application.acceptedapplication.is_active == True  %}
 								<a href="" style="color: green"> پنل کلاس/ </a>
 								<a href="" style="color: red"> ویرایش/ </a>

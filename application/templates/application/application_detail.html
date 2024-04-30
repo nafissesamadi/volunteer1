@@ -28,6 +28,25 @@
 								<label style="color: green"> درس انتخابی  </label>
 							</td>
 						</tr>
+						{% if application.acceptedapplication.edu_volunteer %}
+						<tr>
+							<td>
+								<p></p>
+
+							</td>
+							<td>
+								</br>
+								<p style="text-align: center; color:green">{{ application.acceptedapplication.edu_volunteer.first_name }} {{application.acceptedapplication.edu_volunteer.last_name}}( {{application.acceptedapplication.edu_volunteer.user_type}} ) </p>
+							</td>
+							<td class="cart_product">
+								<a href=""><img src="/static/images/white.png" width="70"></a>
+							</td>
+							<td>
+								</br>
+								<label style="color: green"> مدرس  </label>
+							</td>
+						</tr>
+						{% endif %}
 						{% if application.applicant %}
 						<tr>
 							<td>
@@ -75,7 +94,11 @@
 							</td>
 							<td>
 								</br>
-								<p style="text-align: center; color:green">{{ application.preferred_style }}</p>
+								{% if application.preferred_style == "V"  %}
+								<p style="text-align: center; color:green">غیر حضوری</p>
+								{% elif application.preferred_style == "FTF"  %}
+								<p style="text-align: center; color:green"> حضوری</p>
+								{% endif %}
 							</td>
 							<td class="cart_product">
 								<a href=""><img src="/static/images/white.png" width="70"></a>
@@ -179,7 +202,7 @@
 							</td>
 						</tr>
 						{% endif %}
-						{% if current_user.user_type_id == 2 %}
+						{% if current_user.user_type_id == 2 and application.is_accepted == False %}
 						<a href="{% url 'complete_accepted_application_page' %}" onclick="acceptApplication({{ application.id }})" class="btn btn-fefault cart" style="background-color: green; color: white">داوطلب می شوم </a>
 						{% endif %}
 						{% if is_favorite %}

@@ -84,7 +84,13 @@ function removeActiveApplication(applicationId) {
 
 
 function removeAppFromVolunteer(applicationId) {
-    $.get('/application/remove-app-from-volunteer?application_id=' + applicationId).then(res => {
+    $.get('/application/remove-app-from-volunteer-list?application_id=' + applicationId).then(res => {
+        console.log(res);
+    });
+}
+
+function removeAcceptedAppByVolunteer(applicationId) {
+    $.get('/application/remove-accepted-application?application_id=' + applicationId).then(res => {
         console.log(res);
     });
 }
