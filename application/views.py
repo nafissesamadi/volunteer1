@@ -176,8 +176,7 @@ def add_course_to_application(request: HttpRequest):
                                                                        demanded_course_id=demanded_course.id).first()
                     if submitted_application is None:
                         application = Application.objects.create(applicant_id=applicant.id,
-                                                                 demanded_course_id=demanded_course.id,
-                                                                 venue_id=school.id)
+                                                                 demanded_course_id=demanded_course.id)
 
                         application.save()
                     else:
@@ -192,8 +191,11 @@ def add_course_to_application(request: HttpRequest):
                                                                        demanded_course_id=demanded_course.id).first()
                     if submitted_application is None:
                         application = Application.objects.create(applicant_id=applicant.id,
-                                                                 demanded_course_id=demanded_course.id,
-                                                                 venue_id=school.id)
+                                                                 demanded_course_id=demanded_course.id)
+                        if school is not None:
+                            application.venue_id=school.id
+                        else:
+                            application.venue = None
                         application.save()
                     else:
                         return JsonResponse({

@@ -2,13 +2,11 @@
 {% load render_partial %}
 
 {% block content %}
-
 <div class="container">
 	<div class="row">
 		<div class="col-sm-9">
-					<div class="container-fluid" >
-						<h3 style="text-align: right; color: green">اطلاعات شخصی </h3>
-    					<div class="main-block">
+					<div class="container-fluid">
+    					<div class="row fh5co-post-entry">
 							<form id="main-contact-form" class="contact-form row" action="{% url 'user_profile_page' %}" method="post">
     						{% csrf_token %}
 							{% include 'includes/user_panel_form.html' with current_user=current_user %}
