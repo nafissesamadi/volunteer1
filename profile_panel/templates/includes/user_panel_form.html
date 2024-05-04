@@ -11,9 +11,10 @@
             {{ edit_profile.gender.errors }}
     </div>
     <div class="col-md-6 form-group">
+         {{ edit_profile.national_code.errors }}
         <div style="text-align: right"> {{ edit_profile.national_code.label_tag }} </div>
         {{ edit_profile.national_code }}
-        {{ edit_profile.national_code.errors }}
+
     </div>
 
     <div class="col-md-6 form-group">
@@ -28,6 +29,7 @@
         {{ edit_user.first_name.errors }}
     </div>
 
+
 <!--    <div class="col-md-6 form-group">-->
 <!--     <div style="text-align: right"> {{ edit_user.username.label_tag }}</div>-->
 <!--          {{ edit_user.username }}-->
@@ -37,15 +39,32 @@
 
 
     <div class="col-md-6 form-group">
+         {{ edit_profile.city.errors }}
         <div style="text-align: right"> {{ edit_profile.city.label_tag }} </div>
         {{ edit_profile.city }}
-        {{ edit_profile.city.errors }}
     </div>
 
      <div class="col-md-6 form-group">
+          {{ edit_profile.province.errors }}
         <div style="text-align: right"> {{ edit_profile.province.label_tag }} </div>
         {{ edit_profile.province }}
-        {{ edit_profile.province.errors }}
+
+    </div>
+
+
+
+    <div class="col-md-6 form-group">
+        {{ edit_profile.nationality.errors }}
+         <div style="text-align: right"> {{ edit_profile.nationality.label_tag }} </div>
+        {{ edit_profile.nationality }}
+
+    </div>
+
+    <div class="col-md-6 form-group">
+        {{ edit_profile.birth_date.errors }}
+        <div style="text-align: right"> {{ edit_profile.birth_date.label_tag }} </div>
+        {{ edit_profile.birth_date }}
+
     </div>
 
 

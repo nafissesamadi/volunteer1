@@ -31,6 +31,13 @@ class CompleteUserProfile(View):
         if edit_user_form.is_valid():
             edit_user_form.save()
         if edit_profile_form.is_valid():
+            if current_profile.national_code is None:
+                edit_profile_form.add_error('national_code', 'کد ملی اجباری است')
+            if current_profile.province is None:
+                edit_profile_form.add_error('province', 'انتخاب استان اجباری است')
+            if current_profile.city is None:
+                edit_profile_form.add_error('city', 'انتخاب شهر اجباری است')
+        else:
             edit_profile_form.save()
             return redirect('/profile')
         context = {

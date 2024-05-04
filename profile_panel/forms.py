@@ -50,7 +50,7 @@ class EditProfileModelForm(forms.ModelForm):
     class Meta:
         model = Profile
 
-        fields = ['national_code', 'gender','province', 'city']
+        fields = ['national_code', 'gender','province', 'city', 'birth_date','nationality' ]
         # fields='__all__'
         # exclude=['response']
 
@@ -59,9 +59,17 @@ class EditProfileModelForm(forms.ModelForm):
             queryset=Province.objects.all(),
         )
 
+
         city = forms.ModelChoiceField(
             widget=forms.Select,
             queryset=City.objects.all(),
+        )
+
+        national_code = forms.CharField(
+                widget=forms.CharField(required=True),
+                validators=[
+                    validators.MaxLengthValidator(10),
+                ]
         )
         widgets = {
             'national_code': forms.TextInput(attrs={
@@ -76,6 +84,12 @@ class EditProfileModelForm(forms.ModelForm):
             'city': forms.Select(attrs={
                 'class': 'form-control'
             }),
+            'nationality': forms.Select(attrs={
+                'class': 'form-control'
+            }),
+            'birth_date': forms.DateInput(attrs={
+                'class': 'form-control',
+            }),
 
         }
 
@@ -83,13 +97,17 @@ class EditProfileModelForm(forms.ModelForm):
             'national_code': 'کد ملی',
             'gender': 'جنسیت',
             'province': 'استان',
-            'city': 'شهر'
+            'city': 'شهر',
+            'birth_date': 'تاریخ تولد',
+            'nationality': 'ملیت',
         }
 
-        error_messages = {
-            'national_code': {
-                'required': 'Please Enter Your national code'
-            }
-        }
+        # error_messages = {
+        #     'national_code': {
+        #         'required': 'کد ملی اجباری می باشد. لطفا وارد کنید'
+        #     }
+        # }
+
+
 
 

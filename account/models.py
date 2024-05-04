@@ -38,8 +38,8 @@ class City(models.Model):
 # region user-related models
 
 GENDER_TYPES = (
-    ("F", "Female"),
-    ("M", "Male"),
+    ("F", "بانو"),
+    ("M", "آقا"),
 )
 
 MARTIAL_STATUS = (
@@ -81,14 +81,21 @@ class User(AbstractUser):
         return f"{self.username} ({self.user_type})"
 
 
+NATIONALITY = (
+    ("IR", "ایرانی"),
+    ("F", "اتباع"),
+)
+
 class Profile(models.Model):
     objects = None
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     national_code = models.CharField(max_length=10, verbose_name='Code Melli', unique=True, blank=True, null=True)
-    gender = models.CharField(choices=GENDER_TYPES, max_length=10, blank=True, null=True)
+    gender = models.CharField(choices=GENDER_TYPES, max_length=10, default="F")
     last_password_reset_on = models.DateTimeField(auto_now_add=True)
     province = models.ForeignKey(Province, on_delete=models.CASCADE, blank=True, null=True)
     city = models.ForeignKey(City,null=True, blank=True, on_delete=models.CASCADE)
+    birth_date = models.DateField(blank=True, null=True)
+    nationality = models.CharField(choices=NATIONALITY, max_length=300, default="IR")
 
     # address=models.TextField(blank=True, null=True)
     def __str__(self):

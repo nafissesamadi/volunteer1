@@ -151,16 +151,11 @@ class SkilledVolunteer(Volunteer):
 
     def __str__(self):
         return f"{self.offered_skill}"
-NATIONALITY = (
-    ("IR", "ایرانی"),
-    ("F", "اتباع"),
-)
+
 
 class Applicant(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="applicant_of")
     school = models.ForeignKey(PublicPlace, on_delete=models.CASCADE, null=True, blank=True)
-    birth_date = models.DateTimeField(blank=True, null=True)
-    nationality = models.CharField(choices=NATIONALITY, max_length=300)
     grade = models.ForeignKey(Grade, on_delete=models.CASCADE, blank=True, null=True)
     major = models.ForeignKey(Major, on_delete=models.CASCADE, blank=True, null=True)
     gpa = models.DecimalField(max_digits=4, decimal_places=2, blank=True, null=True)

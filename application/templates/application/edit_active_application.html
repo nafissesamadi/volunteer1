@@ -24,8 +24,6 @@
 								 			</br>
                                             {% if application.demanded_course %}
                                 			<p style="text-align: center; color:green">{{ application.demanded_course }}</p>
-                                              {% else %}
-                                            <p style="color: green"> لطفا یک درس انتخاب کنید  </p>
 											{% endif %}
                             			</td>
 										<td class="cart_product">
@@ -42,6 +40,7 @@
 									</tr>
 								</tbody>
 					</table>
+					<div class="main-block">
 					<table class="table table-condensed" style="border-bottom: 1px solid lightgray ; text-align: right">
                     			<tbody>
                         			<tr>
@@ -76,7 +75,7 @@
 									</tr>
 								</tbody>
 							</table>
-					<div style=" ">
+					<div>
 						<form id="main-contact-form" class="contact-form row" action="" method="post">
     						{% csrf_token %}
 							{% include 'includes/application_form.html' with application=application %}
@@ -85,6 +84,7 @@
 							</div>
 						</form>
 					</div>
+						</div>
 				</div><!--features_items-->
 			</div>
 		</div>
