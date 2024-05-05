@@ -128,11 +128,11 @@ class PublicPlaceType(models.Model):
         return self.title
 
 class PublicPlace(models.Model):
-    name = models.CharField(max_length=200)
-    type = models.ForeignKey(PublicPlaceType, on_delete=models.CASCADE, blank=True, null=True)
-    director = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
-    province = models.ForeignKey(Province, on_delete=models.CASCADE, blank=True, null=True)
-    city = models.ForeignKey(City, on_delete=models.CASCADE, blank=True, null=True)
+    name = models.CharField(max_length=200, blank=True, null=True)
+    type = models.ForeignKey(PublicPlaceType, on_delete=models.CASCADE,blank=True, null=True)
+    director = models.OneToOneField(User, on_delete=models.CASCADE)
+    province = models.ForeignKey(Province, on_delete=models.CASCADE)
+    city = models.ForeignKey(City, on_delete=models.CASCADE)
     district= models.CharField(max_length=100, blank=True, null=True)
     address = models.CharField(max_length=300, blank=True, null=True)
 

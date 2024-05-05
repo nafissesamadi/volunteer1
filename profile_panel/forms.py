@@ -1,7 +1,7 @@
 from django import forms
 from django.core import validators
 
-from account.models import User, UserType, Province,City, Profile
+from account.models import User, UserType, Province, City, Profile, PublicPlace, PublicPlaceType
 from django.core.exceptions import ValidationError
 
 
@@ -58,8 +58,6 @@ class EditProfileModelForm(forms.ModelForm):
             widget=forms.Select,
             queryset=Province.objects.all(),
         )
-
-
         city = forms.ModelChoiceField(
             widget=forms.Select,
             queryset=City.objects.all(),
@@ -107,6 +105,52 @@ class EditProfileModelForm(forms.ModelForm):
         #         'required': 'کد ملی اجباری می باشد. لطفا وارد کنید'
         #     }
         # }
+
+
+class SchoolProfileModelForm(forms.ModelForm):
+    class Meta:
+        model = PublicPlace
+
+        fields = ['name', 'type','district', 'address']
+
+        type = forms.ModelChoiceField(
+            widget=forms.Select,
+            queryset=PublicPlaceType.objects.all(),
+        )
+        name = forms.CharField(required=True)
+
+        widgets = {
+            'name': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'نام مدرسه'
+            }),
+            'district': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'خیابان اصلی'
+            }),
+            'address': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'خیابان فرعی / کوچه / پلاک '
+            }),
+            'type': forms.Select(attrs={
+                'class': 'form-control',
+                'placeholder': 'نوع آموزشگاه'
+            }),
+        }
+
+        labels = {
+            'name': 'نام مدرسه',
+            'district': 'آدرس',
+            'address': 'آدرس',
+            'type': 'نوع',
+
+        }
+
+        error_messages = {
+            'name': {
+                'required': ' لطفا نام مدرسه وارد کنید'
+            }
+        }
 
 
 

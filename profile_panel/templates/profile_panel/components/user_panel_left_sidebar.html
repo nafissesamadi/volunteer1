@@ -18,6 +18,27 @@
             <p class="panel-title"><a href="{% url 'user_profile_page' %}" class="active" ><b> پروفایل عمومی </b></a></p>
         </div>
     </div>
+     {% if current_user.user_type_id == 4 %}
+    <div class="panel panel-default">
+        <div class="panel-heading" style="color: green; background-color: lightgoldenrodyellow">
+            <p class="panel-title"><a href="{% url 'school_profile_page' %}" class="active" ><b> پروفایل مدرسه </b></a></p>
+        </div>
+    </div>
+    {% endif %}
+    {% if current_user.user_type_id == 3 %}
+    <div class="panel panel-default">
+        <div class="panel-heading" style="color: green; background-color: lightgoldenrodyellow">
+            <p class="panel-title"><a href="" class="active" ><b> پروفایل تحصیلی </b></a></p>
+        </div>
+    </div>
+    {% endif %}
+    {% if current_user.user_type_id == 5 %}
+    <div class="panel panel-default">
+        <div class="panel-heading" style="color: green; background-color: lightgoldenrodyellow">
+            <p class="panel-title"><a href="" class="active" ><b> پروفایل  آموزشگاه </b></a></p>
+        </div>
+    </div>
+    {% endif %}
     <div class="panel panel-default">
         <div class="panel-heading" style="color: green; background-color: lightgoldenrodyellow">
             <p class="panel-title"><a href="#"><b>تغییر رمز عبور</b></a></p>

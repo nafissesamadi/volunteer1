@@ -1,0 +1,29 @@
+
+
+
+
+
+
+<div class="col-md-6 form-group  {% if school_profile.name.errors %} text-danger  {% endif %}">
+   {{ school_profile.name.errors }}
+    <div style="text-align: right"> {{ school_profile.name.label_tag }}</div>
+    {{ school_profile.name }}
+     </div>
+
+<div class="col-md-6 form-group {% if school_profile.type.errors %} text-danger  {% endif %}">
+    {{ school_profile.type.errors }}
+    <div style="text-align: right"> {{ school_profile.type.label_tag }}</div>
+    {{ school_profile.type }}
+     </div>
+
+<div class="col-md-6 form-group {% if school_profile.address.errors %} text-danger  {% endif %}">
+    <div style="text-align: right"> {{ school_profile.address.label_tag }}</div>
+    {{ school_profile.address }}
+    {{ school_profile.address.errors }} </div>
+
+<div class="col-md-6 form-group {% if school_profile.district.errors %} text-danger  {% endif %}">
+    <div style="text-align: right"> <div style="text-align: right"> ({{school.province}} / {{school.city}}) {{ school_profile.district.label_tag }}</div></div>
+    {{ school_profile.district }}
+    {{ school_profile.district.errors }} </div>
+
+
