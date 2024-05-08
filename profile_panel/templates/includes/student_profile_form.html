@@ -1,0 +1,54 @@
+
+
+
+
+
+
+
+<div class="col-md-6 form-group {% if student_form.gpa.errors %} text-danger  {% endif %}">
+    <div style="text-align: right"> <div style="text-align: right">  {{ student_form.gpa.label_tag }}</div></div>
+    {{ student_form.gpa}}
+    {{ student_form.gpa.errors }}
+</div>
+
+<div class="col-md-6 form-group  {% if student_form.school.errors %} text-danger  {% endif %}">
+   {{ student_form.school.errors }}
+    <div style="text-align: right"> {{ student_form.school.label_tag }}</div>
+    {{ student_form.school }}
+</div>
+
+<div class="col-md-6 form-group {% if student_form.grade.errors %} text-danger  {% endif %}">
+    {{ student_form.grade.errors }}
+    <div style="text-align: right"> {{ student_form.grade.label_tag }}</div>
+    {{ student_form.grade }}
+</div>
+
+
+<div class="col-md-6 form-group {% if student_form.major.errors %} text-danger  {% endif %}">
+    <div style="text-align: right"> {{ student_form.major.label_tag }}</div>
+    {{ student_form.major }}
+    {{ student_form.major.errors }}
+</div>
+
+
+
+
+<div class="col-md-12 form-group {% if student_form.special_condition.errors %} text-danger  {% endif %}">
+    <div style="text-align: right"> <div style="text-align: right">  {{ student_form.special_condition.label_tag }}</div></div>
+    {{ student_form.special_condition }}
+    {{ student_form.special_condition.errors }}
+</div>
+
+
+
+<div class="col-md-6 form-group {% if student_form.is_worker.errors %} text-danger  {% endif %}">
+    <div style="text-align: right"> <div style="text-align: right">  {{ student_form.is_worker.label_tag }}</div></div>
+    {{ student_form.is_worker }}
+    {{ student_form.is_worker.errors }}
+</div>
+
+<div class="col-md-6 form-group {% if student_form.is_student.errors %} text-danger  {% endif %}">
+    <div style="text-align: right"> <div style="text-align: right">  {{ student_form.is_student.label_tag }}</div></div>
+    {{ student_form.is_student }}
+    {{ student_form.is_student.errors }}
+</div>

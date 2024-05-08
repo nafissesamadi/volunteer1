@@ -4,7 +4,8 @@ from django.http import HttpRequest
 from django.shortcuts import render, redirect
 from django.views import View
 from account.models import User, Profile, PublicPlace
-from .forms import EditUserModelForm, EditProfileModelForm, SchoolProfileModelForm
+from application.models import SchoolProfile, InstituteProfile, Applicant
+from .forms import EditUserModelForm, EditProfileModelForm, PublicPlaceModelForm, SchoolProfileModelForm,InstituteProfileModelForm, StudentProfileModelForm
 from django.views.generic import CreateView
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
@@ -53,40 +54,140 @@ class CompleteUserProfile(View):
 class CompleteSchoolProfile(View):
     def get(self, request: HttpRequest):
         current_user = User.objects.filter(id=request.user.id).first()
-        profile=Profile.objects.filter(user_id=current_user.id).first()
-        school, created=PublicPlace.objects.get_or_create(director_id=current_user.id,
-                                                          province_id=profile.province_id, city_id=profile.city_id)
-        school_profile_form = SchoolProfileModelForm(instance=school)
+        profile = Profile.objects.filter(user_id=current_user.id).first()
+        school = PublicPlace.objects.filter(director_id=current_user.id).first()
+        if school is None:
+            school = PublicPlace.objects.create(director=current_user,
+                                                province_id=profile.province_id,
+                                                city_id=profile.city_id)
+        school_profile, created = SchoolProfile.objects.get_or_create(school=school)
+        school_form = PublicPlaceModelForm(instance=school)
+        school_profile_form = SchoolProfileModelForm(instance=school_profile)
         context = {
-            'school_profile': school_profile_form,
+            'school_form': school_form,
+            'school_profile_form': school_profile_form,
             'current_user': current_user,
-            'school': school
+            'school': school,
+            'school_pprofile' : school_profile
         }
         return render(request, 'profile_panel/school_profile.html', context)
 
     def post(self, request: HttpRequest):
         current_user = User.objects.filter(id=request.user.id).first()
         profile = Profile.objects.filter(user_id=current_user.id).first()
-        school, created = PublicPlace.objects.get_or_create(director_id=current_user.id,
-                                                            province_id=profile.province_id, city_id=profile.city_id)
-        school_profile_form = SchoolProfileModelForm(request.POST, instance=school)
+        school=PublicPlace.objects.filter(director_id=current_user.id).first()
+        if school is None:
+            school = PublicPlace.objects.create(director=current_user,
+                                                                province_id=profile.province_id,
+                                                                city_id=profile.city_id)
+        school_profile, created = SchoolProfile.objects.get_or_create(school=school)
+        school_form = PublicPlaceModelForm(request.POST, instance=school)
+        school_profile_form = SchoolProfileModelForm(request.POST, instance=school_profile)
+        if school_form.is_valid():
+            school_form.save()
         if school_profile_form.is_valid():
             school_profile_form.save()
-            if school.name is None:
-                school_profile_form.add_error('name', 'لطفا نام مدرسه را وارد کنید')
-            if school.type is None:
-                school_profile_form.add_error('type', 'لطفا نوع مدرسه را مشخص کنید')
-            if school_profile_form.is_valid():
-                school_profile_form.save()
-                return redirect('/profile')
+        if school.name is None:
+            school_form.add_error('name', 'لطفا نام مدرسه را وارد کنید')
+        if school.district is None:
+            school_form.add_error('district', 'لطفا منطقه یا خیابان اصلی را وارد کنید')
+        if school.type is None:
+            school_form.add_error('type', 'لطفا نوع آموزشگاه را مشخص کنید')
+        if school_form.is_valid():
+            school_form.save()
+            return redirect('/profile')
         context = {
-            'school_profile': school_profile_form,
+            'school_form': school_form,
+            'school_profile_form': school_profile_form,
+            'current_user': current_user,
             'school': school,
-            'current_user': current_user
+            'school_profile' : school_profile
         }
         return render(request, 'profile_panel/school_profile.html', context)
 
 
+class CompleteInstituteProfile(View):
+    def get(self, request: HttpRequest):
+        current_user = User.objects.filter(id=request.user.id).first()
+        profile = Profile.objects.filter(user_id=current_user.id).first()
+        institute = PublicPlace.objects.filter(director_id=current_user.id).first()
+        if institute is None:
+            institute = PublicPlace.objects.create(director=current_user,
+                                                province_id=profile.province_id,
+                                                city_id=profile.city_id)
+        institute_profile, created = InstituteProfile.objects.get_or_create(institute=institute)
+        institute_form = PublicPlaceModelForm(instance=institute)
+        institute_profile_form = InstituteProfileModelForm(instance=institute_profile)
+        context = {
+            'institute_form': institute_form,
+            'institute_profile_form': institute_profile_form,
+            'current_user': current_user,
+            'institute': institute,
+            'institute_profile' : institute_profile
+        }
+        return render(request, 'profile_panel/institute_profile.html', context)
+
+    def post(self, request: HttpRequest):
+        current_user = User.objects.filter(id=request.user.id).first()
+        profile = Profile.objects.filter(user_id=current_user.id).first()
+        institute=PublicPlace.objects.filter(director_id=current_user.id).first()
+        if institute is None:
+            institute = PublicPlace.objects.create(director=current_user,
+                                                                province_id=profile.province_id,
+                                                                city_id=profile.city_id)
+        institute_profile, created = InstituteProfile.objects.get_or_create(institute=institute)
+        institute_form = PublicPlaceModelForm(request.POST, instance=institute)
+        institute_profile_form = InstituteProfileModelForm(request.POST, instance=institute_profile)
+        if institute_form.is_valid():
+            institute_form.save()
+        if institute_profile_form.is_valid():
+            institute_profile_form.save()
+        if institute.name is None:
+            institute_form.add_error('name', 'لطفا نام مکان آموزشی را وارد کنید')
+        if institute.district is None:
+            institute_form.add_error('district', 'لطفا منطقه یا خیابان اصلی را وارد کنید')
+        if institute.type is None:
+            institute_form.add_error('type', 'لطفا نوع آموزشگاه را مشخص کنید')
+        if institute_form.is_valid():
+            institute_form.save()
+            return redirect('/profile')
+        context = {
+            'institute_form': institute_form,
+            'institute_profile_form': institute_profile_form,
+            'current_user': current_user,
+            'institute': institute,
+            'institute_profile' : institute_profile
+        }
+        return render(request, 'profile_panel/institute_profile.html', context)
+
+
+class StudentProfilrModelForm(object):
+    pass
+
+
+class CompleteStudentProfile(View):
+    def get(self, request: HttpRequest):
+        current_user = User.objects.filter(id=request.user.id).first()
+        student, created = Applicant.objects.get_or_create(user=current_user)
+        student_form = StudentProfileModelForm(instance=student, request=request)
+        context = {
+            'student_form': student_form,
+            'current_user': current_user,
+        }
+        return render(request, 'profile_panel/student_profile.html', context)
+
+    def post(self, request: HttpRequest):
+        current_user = User.objects.filter(id=request.user.id).first()
+        student, created = Applicant.objects.get_or_create(user=current_user)
+        student_form = StudentProfileModelForm(request.POST, instance=student, request=request)
+        if student_form.is_valid():
+            student_form.save()
+            return redirect('/profile')
+        context = {
+            'student_form': student_form,
+            'current_user': current_user,
+        }
+        return render(request, 'profile_panel/student_profile.html', context)
 
 
 

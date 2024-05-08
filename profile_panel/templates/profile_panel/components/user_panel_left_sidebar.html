@@ -28,14 +28,14 @@
     {% if current_user.user_type_id == 3 %}
     <div class="panel panel-default">
         <div class="panel-heading" style="color: green; background-color: lightgoldenrodyellow">
-            <p class="panel-title"><a href="" class="active" ><b> پروفایل تحصیلی </b></a></p>
+            <p class="panel-title"><a href="{% url 'student_profile_page' %}" class="active" ><b> پروفایل تحصیلی </b></a></p>
         </div>
     </div>
     {% endif %}
     {% if current_user.user_type_id == 5 %}
     <div class="panel panel-default">
         <div class="panel-heading" style="color: green; background-color: lightgoldenrodyellow">
-            <p class="panel-title"><a href="" class="active" ><b> پروفایل  آموزشگاه </b></a></p>
+            <p class="panel-title"><a href="{% url 'institute_profile_page' %}" class="active" ><b> پروفایل  آموزشگاه </b></a></p>
         </div>
     </div>
     {% endif %}

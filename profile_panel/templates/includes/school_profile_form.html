@@ -4,26 +4,50 @@
 
 
 
-<div class="col-md-6 form-group  {% if school_profile.name.errors %} text-danger  {% endif %}">
-   {{ school_profile.name.errors }}
-    <div style="text-align: right"> {{ school_profile.name.label_tag }}</div>
-    {{ school_profile.name }}
-     </div>
+<div class="col-md-6 form-group  {% if school_form.name.errors %} text-danger  {% endif %}">
+   {{ school_form.name.errors }}
+    <div style="text-align: right"> {{ school_form.name.label_tag }}</div>
+    {{ school_form.name }}
+</div>
 
-<div class="col-md-6 form-group {% if school_profile.type.errors %} text-danger  {% endif %}">
-    {{ school_profile.type.errors }}
-    <div style="text-align: right"> {{ school_profile.type.label_tag }}</div>
-    {{ school_profile.type }}
-     </div>
 
-<div class="col-md-6 form-group {% if school_profile.address.errors %} text-danger  {% endif %}">
-    <div style="text-align: right"> {{ school_profile.address.label_tag }}</div>
-    {{ school_profile.address }}
-    {{ school_profile.address.errors }} </div>
+<div class="col-md-6 form-group {% if school_form.type.errors %} text-danger  {% endif %}">
+    {{ school_form.type.errors }}
+    <div style="text-align: right"> {{ school_form.type.label_tag }}</div>
+    {{ school_form.type }}
+</div>
 
-<div class="col-md-6 form-group {% if school_profile.district.errors %} text-danger  {% endif %}">
-    <div style="text-align: right"> <div style="text-align: right"> ({{school.province}} / {{school.city}}) {{ school_profile.district.label_tag }}</div></div>
-    {{ school_profile.district }}
-    {{ school_profile.district.errors }} </div>
+
+<div class="col-md-6 form-group {% if school_form.address.errors %} text-danger  {% endif %}">
+    <div style="text-align: right"> {{ school_form.address.label_tag }}</div>
+    {{ school_form.address }}
+    {{ school_form.address.errors }}
+</div>
+
+
+<div class="col-md-6 form-group {% if school_form.district.errors %} text-danger  {% endif %}">
+    <div style="text-align: right"> <div style="text-align: right"> ({{school.province}} / {{school.city}}) {{ school_form.district.label_tag }}</div></div>
+    {{ school_form.district }}
+    {{ school_form.district.errors }}
+</div>
+
+<div class="col-md-6 form-group {% if school_profile_form.educational_district.errors %} text-danger  {% endif %}">
+    <div style="text-align: right"> <div style="text-align: right">  {{ school_profile_form.educational_district.label_tag }}</div></div>
+    {{ school_profile_form.educational_district }}
+    {{ school_profile_form.educational_district.errors }}
+</div>
+
+<div class="col-md-6 form-group {% if school_profile_form.school_level.errors %} text-danger  {% endif %}">
+    <div style="text-align: right"> <div style="text-align: right">  {{ school_profile_form.school_level.label_tag }}</div></div>
+    {{ school_profile_form.school_level }}
+    {{ school_profile_form.school_level.errors }}
+</div>
+
+<div class="col-md-12 form-group {% if school_profile_form.short_description.errors %} text-danger  {% endif %}">
+    <div style="text-align: right"> <div style="text-align: right">  {{ school_profile_form.short_description.label_tag }}</div></div>
+    {{ school_profile_form.short_description }}
+    {{ school_profile_form.short_description.errors }}
+</div>
+
 
 

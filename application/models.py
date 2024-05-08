@@ -113,20 +113,23 @@ class Skill(models.Model):
 # region public places models
 
 class SchoolProfile(models.Model):
+    school=models.OneToOneField(PublicPlace, on_delete=models.CASCADE)
     school_level = models.ForeignKey(EducationalLevel, on_delete=models.CASCADE, blank=True, null=True)
-    educational_district = models.IntegerField(blank=True, null=True)
+    educational_district = models.CharField(max_length=2, blank=True, null=True)
     short_description = models.TextField(blank=True, null=True)
 
     def __str__(self):
-        return self.school_level
+        return self.school
 
 
 class InstituteProfile(models.Model):
+    institute = models.OneToOneField(PublicPlace, on_delete=models.CASCADE)
     available_time = models.ManyToManyField(AvailableTime)
+    available_day=models.ManyToManyField(WeekDay)
     short_description = models.TextField(blank=True, null=True)
 
-    def __str__(self):
-        return self.venue_type
+    # def __str__(self):
+    #     return self.institute
 
 # endregion
 
@@ -158,9 +161,10 @@ class Applicant(models.Model):
     school = models.ForeignKey(PublicPlace, on_delete=models.CASCADE, null=True, blank=True)
     grade = models.ForeignKey(Grade, on_delete=models.CASCADE, blank=True, null=True)
     major = models.ForeignKey(Major, on_delete=models.CASCADE, blank=True, null=True)
-    gpa = models.DecimalField(max_digits=4, decimal_places=2, blank=True, null=True)
+    gpa = models.DecimalField(max_digits=4, decimal_places=2, blank=True, null=True,validators=[MinValueValidator(1), MaxValueValidator(20)])
     is_worker=models.BooleanField(default=False)
-    special_condition = models.CharField(max_length=10, blank=True, null=True)
+    is_student=models.BooleanField(default=True)
+    special_condition = models.CharField(max_length=200, blank=True, null=True)
     rating = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)], default=1)
     slug = models.SlugField(default="", null=False, db_index=True)
 

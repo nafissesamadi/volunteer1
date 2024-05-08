@@ -15,8 +15,6 @@ class CompleteApplicationModelForm(forms.ModelForm):
         fields = ['preferred_style', 'short_description', 'num_of_student', 'free_day_1', 'free_time_1']
         # fields='__all__'
         # exclude=['response']
-
-
         # venue = forms.ModelChoiceField(
         #     widget=forms.Select,
         #     queryset=PublicPlace.objects.all(),

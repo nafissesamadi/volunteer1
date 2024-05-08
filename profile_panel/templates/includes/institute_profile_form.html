@@ -1,0 +1,53 @@
+
+
+
+
+
+
+<div class="col-md-6 form-group  {% if institute_form.name.errors %} text-danger  {% endif %}">
+   {{ institute_form.name.errors }}
+    <div style="text-align: right"> {{ institute_form.name.label_tag }}</div>
+    {{ institute_form.name }}
+</div>
+
+
+<div class="col-md-6 form-group {% if institute_form.type.errors %} text-danger  {% endif %}">
+    {{ institute_form.type.errors }}
+    <div style="text-align: right"> {{ institute_form.type.label_tag }}</div>
+    {{ institute_form.type }}
+</div>
+
+
+<div class="col-md-6 form-group {% if institute_form.address.errors %} text-danger  {% endif %}">
+    <div style="text-align: right"> {{ institute_form.address.label_tag }}</div>
+    {{ institute_form.address }}
+    {{ institute_form.address.errors }}
+</div>
+
+
+<div class="col-md-6 form-group {% if institute_form.district.errors %} text-danger  {% endif %}">
+    <div style="text-align: right"> <div style="text-align: right"> ({{institute.province}} / {{institute.city}}) {{ institute_form.district.label_tag }}</div></div>
+    {{ institute_form.district }}
+    {{ institute_form.district.errors }}
+</div>
+
+<div class="col-md-6 form-group {% if institute_profile_form.available_time.errors %} text-danger  {% endif %}">
+    <div style="text-align: right"> <div style="text-align: right">  {{ institute_profile_form.available_time.label_tag }}</div></div>
+    {{ institute_profile_form.available_time }}
+    {{ institute_profile_form.available_time.errors }}
+</div>
+
+<div class="col-md-6 form-group {% if institute_profile_form.available_day.errors %} text-danger  {% endif %}">
+    <div style="text-align: right"> <div style="text-align: right">  {{ institute_profile_form.available_day.label_tag }}</div></div>
+    {{ institute_profile_form.available_day }}
+    {{ institute_profile_form.available_day.errors }}
+</div>
+
+<div class="col-md-12 form-group {% if institute_profile_form.short_description.errors %} text-danger  {% endif %}">
+    <div style="text-align: right"> <div style="text-align: right">  {{ institute_profile_form.short_description.label_tag }}</div></div>
+    {{ institute_profile_form.short_description }}
+    {{ institute_profile_form.short_description.errors }}
+</div>
+
+
+
