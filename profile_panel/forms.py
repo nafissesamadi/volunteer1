@@ -3,10 +3,11 @@ from django.core import validators
 from django.core.validators import MinValueValidator, MaxValueValidator
 
 
-from account.models import User, UserType, Province, City, Profile, PublicPlace, PublicPlaceType
+from account.models import User, UserType, Province, City, Profile, PublicPlace, PublicPlaceType, Volunteer, Job
 from django.core.exceptions import ValidationError
 
-from application.models import SchoolProfile, EducationalLevel, InstituteProfile, AvailableTime, WeekDay, Applicant, Grade, Major
+from application.models import SchoolProfile, EducationalLevel, InstituteProfile, AvailableTime, WeekDay, Applicant, \
+    Grade, Major, EducationalVolunteer, Course, CourseName
 
 
 class EditUserModelForm(forms.ModelForm):
@@ -18,8 +19,8 @@ class EditUserModelForm(forms.ModelForm):
         # exclude=['response']
 
         # user_type = forms.ModelChoiceField(
-        #     widget=forms.Select,
         #     queryset=UserType.objects.all(),
+        #     widget=forms.Select,
         # )
         widgets = {
             # 'email': forms.TextInput(attrs={
@@ -242,8 +243,6 @@ class StudentProfileModelForm(forms.ModelForm):
     class Meta:
         model = Applicant
 
-
-
         fields = ['school', 'grade', 'major', 'gpa', 'is_worker','is_student', 'special_condition']
 
         # school = forms.ModelChoiceField(
@@ -306,8 +305,6 @@ class StudentProfileModelForm(forms.ModelForm):
 
         }
 
-
-
     def __init__(self, *args, **kwargs):
         self.request = kwargs.pop("request")
         super(StudentProfileModelForm, self).__init__(*args, **kwargs)
@@ -319,5 +316,78 @@ class StudentProfileModelForm(forms.ModelForm):
 
 
 
+class EducationalVolunteerProfileModelForm(forms.ModelForm):
+    class Meta:
+        model =EducationalVolunteer
+
+        fields=['education_degree','job','work_experience','bio','offered_course','preferred_grade','preferred_major','preferred_edu_level','teach_entrance_exam']
+
+
+        job = forms.ModelChoiceField(
+            widget=forms.Select,
+            queryset=Job.objects.all(),
+        )
+        offered_course = forms.ModelMultipleChoiceField(
+            widget=forms.Select,
+            queryset=CourseName.objects.all(),
+        )
+        preferred_edu_level = forms.ModelChoiceField(
+            widget=forms.Select,
+            queryset=EducationalLevel.objects.all(),
+        )
+        preferred_major = forms.ModelChoiceField(
+            widget=forms.Select,
+            queryset=Major.objects.all(),
+        )
+
+        work_experience = forms.IntegerField()
+
+        widgets = {
+
+            'bio': forms.Textarea(attrs={
+                'class': 'form-control',
+                'placeholder': 'بیوگرفافی  داوطلب',
+                'rows': 5,
+            }),
+            'work_experience': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'سابقه کار (تعداد سال) '
+            }),
+            'job': forms.Select(attrs={
+                'class': 'form-control',
+                'placeholder': 'عنوان شغل'
+            }),
+            'education_degree': forms.Select(attrs={
+                'class': 'form-control'
+            }),
+            'offered_course': forms.SelectMultiple(attrs={
+                'class': 'form-control'
+            }),
+            'preferred_edu_level': forms.Select(attrs={
+                'class': 'form-control'
+            }),
+            'preferred_grade': forms.Select(attrs={
+                'class': 'form-control'
+            }),
+            'preferred_major': forms.Select(attrs={
+                'class': 'form-control'
+            }),
+            'teach_entrance_exam': forms.CheckboxInput(attrs={
+                'placeholder': 'توانایی تدریس کنکور را دارم'
+            })
+        }
+
+        labels = {
+            'education_degree': 'آخرین مدرک تحصیلی',
+            'marital_status': 'متاهل / مجرد',
+            'job': 'عنوان شغلی',
+            'work_experience': 'سابقه کار (تعداد سال)',
+            'offered_course': 'انتخاب دروس دارای توانایی تدریس',
+            'preferred_edu_level': 'اولویت مقطع تحصیلی جهت تدریس',
+            'preferred_major': 'اولویت رشته تحصیلی جهت تدریس',
+            'preferred_grade': 'اولویت پایه تحصیلی جهت تدریس',
+            'teach_entrance_exam': 'توانایی تدریس کنکور را دارم',
+            'bio': 'بیوگرافی داوطلب',
+        }
 
 

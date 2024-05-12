@@ -32,6 +32,13 @@
         </div>
     </div>
     {% endif %}
+    {% if current_user.user_type_id == 2 %}
+    <div class="panel panel-default">
+        <div class="panel-heading" style="color: green; background-color: lightgoldenrodyellow">
+            <p class="panel-title"><a href="{% url 'volunteer_profile_page' %}" class="active" ><b> پروفایل نخصصی داوطلب </b></a></p>
+        </div>
+    </div>
+    {% endif %}
     {% if current_user.user_type_id == 5 %}
     <div class="panel panel-default">
         <div class="panel-heading" style="color: green; background-color: lightgoldenrodyellow">

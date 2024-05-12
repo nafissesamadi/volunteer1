@@ -4,8 +4,8 @@ from django.http import HttpRequest
 from django.shortcuts import render, redirect
 from django.views import View
 from account.models import User, Profile, PublicPlace
-from application.models import SchoolProfile, InstituteProfile, Applicant
-from .forms import EditUserModelForm, EditProfileModelForm, PublicPlaceModelForm, SchoolProfileModelForm,InstituteProfileModelForm, StudentProfileModelForm
+from application.models import SchoolProfile, InstituteProfile, Applicant, EducationalVolunteer
+from .forms import EditUserModelForm, EditProfileModelForm, PublicPlaceModelForm, SchoolProfileModelForm,InstituteProfileModelForm, StudentProfileModelForm, EducationalVolunteerProfileModelForm
 from django.views.generic import CreateView
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
@@ -191,6 +191,29 @@ class CompleteStudentProfile(View):
 
 
 
+class CompleteVolunteerProfile(View):
+    def get(self, request: HttpRequest):
+        current_user = User.objects.filter(id=request.user.id).first()
+        educational_volunteer, created = EducationalVolunteer.objects.get_or_create(user=current_user)
+        educational_volunteer_form = EducationalVolunteerProfileModelForm(instance=educational_volunteer)
+        context = {
+            'volunteer_form': educational_volunteer_form,
+            'current_user': current_user,
+        }
+        return render(request, 'profile_panel/volunteer_profile.html', context)
+
+    def post(self, request: HttpRequest):
+        current_user = User.objects.filter(id=request.user.id).first()
+        educational_volunteer, created = EducationalVolunteer.objects.get_or_create(user=current_user)
+        educational_volunteer_form = EducationalVolunteerProfileModelForm(request.POST, instance=educational_volunteer)
+        if educational_volunteer_form.is_valid():
+            educational_volunteer_form.save()
+            return redirect('/profile')
+        context = {
+            'volunteer_form': educational_volunteer_form,
+            'current_user': current_user,
+        }
+        return render(request, 'profile_panel/volunteer_profile.html', context)
 
 def user_panel_page(request:HttpRequest):
     current_user = User.objects.filter(id=request.user.id).first()

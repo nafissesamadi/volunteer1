@@ -3,7 +3,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from django.http import HttpRequest
 from django.shortcuts import render
 
-from account.models import PublicPlace, Profile, Volunteer, User
+from account.models import PublicPlace, Profile, User, Volunteer
 from django.urls import reverse
 from django.utils.text import slugify
 
@@ -135,13 +135,14 @@ class InstituteProfile(models.Model):
 
 # region volunteer & student
 class EducationalVolunteer(Volunteer):
-    offered_course = models.ManyToManyField(Course)
-    edu_level = models.ForeignKey(EducationalLevel, on_delete=models.CASCADE, blank=True, null=True,
+    offered_course = models.ManyToManyField(CourseName, blank=True, null=True)
+    preferred_edu_level = models.ForeignKey(EducationalLevel, on_delete=models.CASCADE, blank=True, null=True,
                                   verbose_name='Preferred Level')
-    grade = models.ForeignKey(Grade, on_delete=models.CASCADE, blank=True, null=True, verbose_name='Preferred Grade')
-    major = models.ForeignKey(Major, on_delete=models.CASCADE, blank=True, null=True, verbose_name='Preferred Major')
+    preferred_grade = models.ForeignKey(Grade, on_delete=models.CASCADE, blank=True, null=True, verbose_name='Preferred Grade')
+    preferred_major = models.ForeignKey(Major, on_delete=models.CASCADE, blank=True, null=True, verbose_name='Preferred Major')
+    teach_entrance_exam=models.BooleanField(blank=True,null=True)
     rating = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)], default=1)
-    slug = models.SlugField(default="", null=True, blank=True, db_index=True)
+    slug = models.SlugField(default="", null=False, db_index=True)
 
     def __str__(self):
         return f"{self.user})"

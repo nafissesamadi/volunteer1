@@ -105,15 +105,13 @@ class Profile(models.Model):
 
 class Volunteer(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    education = models.CharField(choices=EDUCATION_DEGREE, max_length=10, null=True, blank=True)
-    marital_status = models.CharField(choices=MARTIAL_STATUS, max_length=50, blank=True, null=True)
-    birth_date = models.DateTimeField(blank=True, null=True)
-    job_role = models.ForeignKey(Job, on_delete=models.CASCADE, null=True, blank=True)
+    education_degree = models.CharField(choices=EDUCATION_DEGREE, max_length=10, null=True, blank=True)
+    job = models.ForeignKey(Job, on_delete=models.CASCADE, null=True, blank=True)
     work_experience = models.IntegerField(null=True, blank=True)
     bio = models.CharField(max_length=2000, default="", null=True, blank=True)
 
-    class Meta:
-        abstract = True
+    def __str__(self):
+        return f"{self.user}"
 
 
 # endregion

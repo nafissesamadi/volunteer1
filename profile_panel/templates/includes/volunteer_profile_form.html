@@ -1,0 +1,60 @@
+
+
+<div class="col-md-6 form-group {% if volunteer_form.job.errors %} text-danger  {% endif %}">
+    <div style="text-align: right"> {{ volunteer_form.job.label_tag }}</div>
+    {{ volunteer_form.job }}
+    {{ volunteer_form.job.errors }}
+</div>
+
+<div class="col-md-6 form-group  {% if volunteer_form.education_degree.errors %} text-danger  {% endif %}">
+   {{ volunteer_form.education_degree.errors }}
+    <div style="text-align: right"> {{ volunteer_form.education_degree.label_tag }}</div>
+    {{ volunteer_form.education_degree}}
+</div>
+
+
+
+
+<div class="col-md-6 form-group {% if volunteer_form.preferred_edu_level.errors %} text-danger  {% endif %}">
+    <div style="text-align: right"> <div style="text-align: right">  {{ volunteer_form.preferred_edu_level.label_tag }}</div></div>
+    {{ volunteer_form.preferred_edu_level }}
+    {{ volunteer_form.preferred_edu_level.errors }}
+</div>
+
+<div class="col-md-6 form-group {% if volunteer_form.work_experience.errors %} text-danger  {% endif %}">
+    <div style="text-align: right"> <div style="text-align: right">  {{ volunteer_form.work_experience.label_tag }}</div></div>
+    {{ volunteer_form.work_experience }}
+    {{ volunteer_form.work_experience.errors }}
+</div>
+
+
+<div class="col-md-6 form-group {% if volunteer_form.preferred_grade.errors %} text-danger  {% endif %}">
+    <div style="text-align: right"> <div style="text-align: right">  {{ volunteer_form.preferred_grade.label_tag }}</div></div>
+    {{ volunteer_form.preferred_grade }}
+    {{ volunteer_form.preferred_grade.errors }}
+</div>
+
+
+<div class="col-md-6 form-group {% if volunteer_form.preferred_major.errors %} text-danger  {% endif %}">
+    <div style="text-align: right"> <div style="text-align: right">  {{ volunteer_form.preferred_major.label_tag }}</div></div>
+    {{ volunteer_form.preferred_major }}
+    {{ volunteer_form.preferred_major.errors }}
+</div>
+
+<div class="col-md-6 form-group {% if volunteer_form.offered_course.errors %} text-danger  {% endif %}">
+    <div style="text-align: right"> <div style="text-align: right">  {{ volunteer_form.offered_course.label_tag }}</div></div>
+    {{ volunteer_form.offered_course }}
+    {{ volunteer_form.offered_course.errors }}
+</div>
+
+<div class="col-md-6 form-group {% if volunteer_form.teach_entrance_exam.errors %} text-danger  {% endif %}">
+    <div style="text-align: right"> <div style="text-align: right">  {{ volunteer_form.teach_entrance_exam.label_tag }}</div></div>
+    {{ volunteer_form.teach_entrance_exam }}
+    {{ volunteer_form.teach_entrance_exam.errors }}
+</div>
+
+<div class="col-md-12 form-group {% if volunteer_form.bio.errors %} text-danger  {% endif %}">
+    <div style="text-align: right"> <div style="text-align: right">  {{ volunteer_form.bio.label_tag }}</div></div>
+    {{ volunteer_form.bio }}
+    {{ volunteer_form.bio.errors }}
+</div>

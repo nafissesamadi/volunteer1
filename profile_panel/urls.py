@@ -7,5 +7,6 @@ urlpatterns=[
     path('profile', views.CompleteUserProfile.as_view(), name="user_profile_page"),
     path('school-profile', views.CompleteSchoolProfile.as_view(), name="school_profile_page"),
     path('institute-profile', views.CompleteInstituteProfile.as_view(), name="institute_profile_page"),
-    path('student-profile', views.CompleteStudentProfile.as_view(), name="student_profile_page")
+    path('student-profile', views.CompleteStudentProfile.as_view(), name="student_profile_page"),
+    path('volunteer-profile', views.CompleteVolunteerProfile.as_view(), name="volunteer_profile_page")
 ]
