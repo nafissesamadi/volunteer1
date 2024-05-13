@@ -1,0 +1,62 @@
+   <div class="col-md-6 form-group">
+            <div style="text-align: right"> {{ form.gender.label_tag }} </div>
+            {{ form.gender }}
+            {{ form.gender.errors }}
+    </div>
+    <div class="col-md-6 form-group">
+         {{ form.national_code.errors }}
+        <div style="text-align: right"> {{ form.national_code.label_tag }} </div>
+        {{ form.national_code }}
+
+    </div>
+
+    <div class="col-md-6 form-group">
+        <div style="text-align: right">  {{ edit_user.last_name.label_tag }} </div>
+        {{ edit_user.last_name }}
+        {{ edit_user.last_name.errors }}
+    </div>
+
+    <div class="col-md-6 form-group">
+     <div style="text-align: right">  {{ edit_user.first_name.label_tag }} </div>
+        {{ edit_user.first_name }}
+        {{ edit_user.first_name.errors }}
+    </div>
+
+
+<!--    <div class="col-md-6 form-group">-->
+<!--     <div style="text-align: right"> {{ edit_user.username.label_tag }}</div>-->
+<!--          {{ edit_user.username }}-->
+<!--        {{ edit_user.username.errors }}-->
+<!--    </div>-->
+
+
+
+    <div class="col-md-6 form-group">
+         {{ form.city.errors }}
+        <div style="text-align: right"> {{ form.city.label_tag }} </div>
+        {{ form.city }}
+    </div>
+
+     <div class="col-md-6 form-group">
+          {{ form.province.errors }}
+        <div style="text-align: right"> {{ form.province.label_tag }} </div>
+        {{ form.province }}
+
+    </div>
+
+
+
+    <div class="col-md-6 form-group">
+        {{ form.nationality.errors }}
+         <div style="text-align: right"> {{ form.nationality.label_tag }} </div>
+        {{ form.nationality }}
+
+    </div>
+
+    <div class="col-md-6 form-group">
+        {{ form.birth_date.errors }}
+        <div style="text-align: right"> {{ form.birth_date.label_tag }} </div>
+        {{ form.birth_date }}
+
+    </div>
+

@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'profile_panel',
     'django_render_partial',
     'sweetify',
+    'smart_selects',
 ]
 
 MIDDLEWARE = [

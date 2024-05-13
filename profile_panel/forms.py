@@ -391,3 +391,46 @@ class EducationalVolunteerProfileModelForm(forms.ModelForm):
         }
 
 
+class ProfileModelForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+
+        fields = ['province', 'city', 'national_code', 'nationality', 'gender', 'birth_date']
+        # fields='__all__'
+        # exclude=['response']
+        national_code = forms.CharField(
+            widget=forms.CharField(required=True),
+            validators=[
+                validators.MaxLengthValidator(10),
+            ]
+        )
+        widgets = {
+            'national_code': forms.TextInput(attrs={
+                'class': 'form-control'
+            }),
+            'gender': forms.Select(attrs={
+                'class': 'form-control'
+            }),
+            # 'province': forms.Select(attrs={
+            #     'class': 'form-control'
+            # }),
+            # 'city': forms.Select(attrs={
+            #     'class': 'form-control'
+            # }),
+            'nationality': forms.Select(attrs={
+                'class': 'form-control'
+            }),
+            'birth_date': forms.DateInput(attrs={
+                'class': 'form-control',
+            }),
+
+        }
+
+        labels = {
+            'national_code': 'کد ملی',
+            'gender': 'جنسیت',
+            'province': 'استان',
+            'city': 'شهر',
+            'birth_date': 'تاریخ تولد',
+            'nationality': 'ملیت',
+        }

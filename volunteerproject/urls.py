@@ -18,8 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
-
-
+from setuptools.config._validate_pyproject.formats import url
 
 urlpatterns = [
     path('register/', include('account.urls')),
@@ -28,8 +27,9 @@ urlpatterns = [
     path('contact-us/', include('contact.urls')),
     path('profile/', include('profile_panel.urls')),
     path('admin/', admin.site.urls),
-
+    path('chaining/', include("smart_selects.urls")),
 ]
 urlpatterns = urlpatterns + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
 
 

@@ -11,8 +11,9 @@
 						<p></p>
     					<div class="main-block">
 							<form id="main-contact-form" class="contact-form row" action="{% url 'user_profile_page' %}" method="post">
-    						{% csrf_token %}
-							{% include 'includes/user_panel_form.html' with current_user=current_user %}
+    						 {% csrf_token %}
+                            {{ form.media.js }}
+							{% include 'includes/user_profile_form.html' with current_user=current_user %}
 								<div class="form-group col-md-12">
         					<button type="submit" class="btn btn-primary pull-right">ارسال</button>
     							</div>
