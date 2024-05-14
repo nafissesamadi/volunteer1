@@ -72,7 +72,7 @@
 									</tr>
 								</tbody>
 							</table>
-					<div style="background-color: floralwhite; ">
+					<div class="main-block">
 						<form id="main-contact-form" class="contact-form row" action="{% url 'complete_application_page' %}" method="post">
     						{% csrf_token %}
 							{% include 'includes/application_form.html' with application=application %}

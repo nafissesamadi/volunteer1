@@ -5,51 +5,13 @@ from django.shortcuts import render, redirect
 from django.views import View
 from account.models import User, Profile, PublicPlace
 from application.models import SchoolProfile, InstituteProfile, Applicant, EducationalVolunteer
-from .forms import EditUserModelForm, EditProfileModelForm, PublicPlaceModelForm, SchoolProfileModelForm, \
+from .forms import EditUserModelForm, PublicPlaceModelForm, SchoolProfileModelForm, \
     InstituteProfileModelForm, StudentProfileModelForm, EducationalVolunteerProfileModelForm, ProfileModelForm
 from django.views.generic import CreateView
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 
 
-# class CompleteUserProfile(View):
-#     def get(self, request: HttpRequest):
-#         current_user = User.objects.filter(id=request.user.id).first()
-#         current_profile=Profile.objects.filter(user=current_user).first()
-#         edit_user_form = EditUserModelForm(instance=current_user)
-#         edit_profile_form = EditProfileModelForm(instance=current_profile)
-#         context = {
-#             'edit_user': edit_user_form,
-#             'edit_profile': edit_profile_form,
-#             'current_user': current_user
-#         }
-#         return render(request, 'profile_panel/user_profile.html', context)
-#
-#     def post(self, request: HttpRequest):
-#         current_user = User.objects.filter(id=request.user.id).first()
-#         current_profile = Profile.objects.filter(user=current_user).first()
-#         edit_user_form = EditUserModelForm(request.POST, instance=current_user)
-#         edit_profile_form = EditProfileModelForm(request.POST, instance=current_profile)
-#         if edit_user_form.is_valid():
-#             edit_user_form.save()
-#         if edit_profile_form.is_valid():
-#             edit_profile_form.save()
-#         if current_profile.national_code is None:
-#             edit_profile_form.add_error('national_code', 'کد ملی اجباری است')
-#         if current_profile.province is None:
-#             edit_profile_form.add_error('province', 'انتخاب استان اجباری است')
-#         if current_profile.city is None:
-#             edit_profile_form.add_error('city', 'انتخاب شهر اجباری است')
-#         if edit_profile_form.is_valid():
-#             edit_profile_form.save()
-#             return redirect('/profile')
-#         context = {
-#             'edit_user': edit_user_form,
-#             'edit_profile': edit_profile_form,
-#             'current_user': current_user,
-#             'current_profile': current_profile
-#         }
-#         return render(request, 'profile_panel/user_profile.html', context)
 
 
 class CompleteSchoolProfile(View):
@@ -251,6 +213,14 @@ class CompleteUserProfile(View):
         edit_profile_form = ProfileModelForm(request.POST, instance=current_profile)
         if edit_user_form.is_valid():
             edit_user_form.save()
+        if edit_profile_form.is_valid():
+            edit_profile_form.save()
+        if current_profile.national_code is None:
+            edit_profile_form.add_error('national_code', 'کد ملی اجباری است')
+        if current_profile.province is None:
+            edit_profile_form.add_error('province', 'انتخاب استان اجباری است')
+        if current_profile.city is None:
+            edit_profile_form.add_error('city', 'انتخاب شهر اجباری است')
         if edit_profile_form.is_valid():
             edit_profile_form.save()
             return redirect('/profile')

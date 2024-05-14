@@ -118,8 +118,8 @@ class SchoolProfile(models.Model):
     educational_district = models.CharField(max_length=2, blank=True, null=True)
     short_description = models.TextField(blank=True, null=True)
 
-    def __str__(self):
-        return self.school
+    # def __str__(self):
+    #     return self.school
 
 
 class InstituteProfile(models.Model):

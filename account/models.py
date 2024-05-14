@@ -100,7 +100,7 @@ class Profile(models.Model):
     birth_date = models.DateField(blank=True, null=True)
     nationality = models.CharField(choices=NATIONALITY, max_length=300, default="IR")
 
-    # address=models.TextField(blank=True, null=True)
+
     def __str__(self):
         return f"{self.user}"
 
@@ -129,9 +129,9 @@ class PublicPlaceType(models.Model):
         return self.title
 
 class PublicPlace(models.Model):
+    director = models.OneToOneField(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=200, blank=True, null=True)
     type = models.ForeignKey(PublicPlaceType, on_delete=models.CASCADE,blank=True, null=True)
-    director = models.OneToOneField(User, on_delete=models.CASCADE)
     province = models.ForeignKey(Province, on_delete=models.CASCADE)
     city = ChainedForeignKey(
         City, on_delete=models.CASCADE,
