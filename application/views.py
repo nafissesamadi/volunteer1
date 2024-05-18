@@ -128,26 +128,30 @@ def course_categories_major(request: HttpRequest):
 # endregion
 
 # region Venue_List
-class PublicPlacesListView(ListView):
+class PublicPlaceDetailView(DetailView):
+    template_name = 'application/publicplace_detail.html'
     model = PublicPlace
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["schools"]=PublicPlace.objects.filter(type__title__contains="مدرسه")
+        return context
+
+
+class PublicPlaceListView(ListView):
+    template_name = 'application/publicplace_list.html'
+    model = PublicPlace
+    context_object_name = 'publicplaces'
+    # ordering = ['code']
     paginate_by = 10
-    # ordering = ['-code']
-    template_name = 'application/publicplace_page.html'
+
 
     def get_queryset(self):
-        base_query = super(PublicPlacesListView, self).get_queryset()
+        base_query = super(PublicPlaceListView, self).get_queryset()
         current_user = self.request.user
         profile = Profile.objects.filter(user_id=current_user.id).first()
         data = base_query.filter(province_id=profile.province_id, city_id=profile.city_id)
         return data
-
-    # def get_queryset(self):
-    #     query = super(PublicPlacesListView, self).get_queryset()
-    #     category_name = self.kwargs.get('venuetype')
-    #     if category_name is not None:
-    #         query = query.filter(type__url_title__iexact=category_name)
-    #     return query
-
 
 def venues_by_type(request: HttpRequest):
     venue = PublicPlaceType.objects.all()
@@ -177,7 +181,10 @@ def add_course_to_application(request: HttpRequest):
                     if submitted_application is None:
                         application = Application.objects.create(applicant_id=applicant.id,
                                                                  demanded_course_id=demanded_course.id)
-
+                        if school is not None:
+                            application.venue_id=school.id
+                        else:
+                            application.venue = None
                         application.save()
                     else:
                         return JsonResponse({

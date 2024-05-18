@@ -1,0 +1,187 @@
+{% extends 'shared/_layout.html' %}
+{% load render_partial %}
+
+{% block content %}
+<div class="container">
+	<div class="row">
+		<div class="col-sm-9">
+			<div class="container-fluid">
+				<div class="main-block">
+					<table class="table table-condensed" style="border-bottom: 1px ; text-align: center">
+						<tbody>
+						{% if publicplace.name %}
+						<tr>
+							<td>
+								<p></p>
+
+							</td>
+							<td>
+								</br>
+								<p style="text-align: center">{{ publicplace.name }} </p>
+							</td>
+
+							<td>
+								</br>
+								<label style="color: green"> نام آموزشگاه  </label>
+							</td>
+						</tr>
+						{% endif %}
+						{% if publicplace.director %}
+						<tr>
+							<td>
+								<p></p>
+
+							</td>
+							<td>
+								</br>
+								<p style="text-align: center">{{ publicplace.director.first_name }}  {{publicplace.director.last_name}}( {{publicplace.director.user_type}} )</p>
+							</td>
+							<td>
+								</br>
+								<label style="color: green"> مدیر آموزشگاه  </label>
+							</td>
+						</tr>
+						{% endif %}
+
+
+						{% if publicplace.type %}
+							{% if publicplace in schools %}
+						<tr>
+							<td>
+								<p></p>
+
+							</td>
+							<td>
+								</br>
+								<p style="text-align: center"> {{publicplace.type}} / {{publicplace.schoolprofile.school_level}}
+							</td>
+
+							<td>
+								</br><label style="color: green"> نوع اموزشگاه </label>
+							</td>
+						</tr>
+						{% else %}
+						<tr>
+							<td>
+								<p></p>
+
+							</td>
+							<td>
+								</br>
+								<p style="text-align: center"> {{publicplace.type}}
+							</td>
+
+							<td>
+								</br><label style="color: green"> نوع آموزشگاه </label>
+							</td>
+						</tr>
+						{% endif %}
+						{% endif %}
+						{% if publicplace.province %}
+						<tr>
+							<td>
+								<p></p>
+
+							</td>
+							<td>
+								</br>
+								<p style="text-align: center">{{ publicplace.province }} / {{publicplace.city}} {{publicplace.district}}/ {{publicplace.address}}</p>
+							</td>
+
+							<td>
+								</br>
+								<label style="color: green"> آدرس </label>
+							</td>
+						</tr>
+						{% endif %}
+						{% if publicplace in schools %}
+						<tr>
+							<td>
+								<p></p>
+
+							</td>
+							<td>
+								</br>
+								<p style="text-align: center">{{ publicplace.schoolprofile.short_description }}</p>
+							</td>
+
+							<td>
+								</br>
+								<label style="color: green"> بیوگرافی </label>
+							</td>
+						</tr>
+						{% else %}
+						<tr>
+							<td>
+								<p></p>
+
+							</td>
+							<td>
+								</br>
+								<p style="text-align: center">{{ publicplace.instituteprofile.short_description }}</p>
+							</td>
+
+							<td>
+								</br>
+								<label style="color: green"> بیوگرافی </label>
+							</td>
+						</tr>
+
+						{% endif %}
+						{% if publicplace not in schools %}
+						{% if publicplace.instituteprofile.available_day %}
+						<tr>
+							<td>
+								<p></p>
+
+							</td>
+							<td>
+								</br>
+								{% for available_day in publicplace.instituteprofile.available_day.all %}
+								<a style="text-align: center; color: black"> / {{ available_day }}</a>
+								{% endfor %}
+							</td>
+
+							<td>
+								</br>
+								<label style="color: green"> روز موجود  </label>
+							</td>
+						</tr>
+						{% endif %}
+						{% if publicplace.instituteprofile.available_time %}
+						<tr>
+							<td>
+								<p></p>
+
+							</td>
+							<td>
+								</br>
+								{% for available_time in publicplace.instituteprofile.available_time.all %}
+								<a style="text-align: center; color:black">/ {{ available_time }}</a>
+								{% endfor %}
+							</td>
+
+							<td>
+								</br>
+								<label style="color: green"> زمان موجود </label>
+							</td>
+						</tr>
+						{% endif %}
+						{% endif %}
+						<a href="{% url 'complete_application_page' %}" onclick="addVenueToApplication({{ publicplace.id }})" class="btn btn-fefault cart" style="background-color: green; color: white">  انتخاب </a>
+
+    </a>
+						</tbody>
+					</table>
+
+				</div><!--features_items-->
+			</div>
+		</div>
+		<div class="col-sm-3">
+			<div class="left-sidebar">
+				{% render_partial 'profile_panel.views.user_panel_left_sidebar' %}
+			</div><!--/left panel item-->
+		</div>
+	</div>
+</div>
+{% endblock %}

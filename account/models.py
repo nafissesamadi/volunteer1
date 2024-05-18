@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from smart_selects.db_fields import ChainedForeignKey
+from django.urls import reverse
 
 
 
@@ -147,5 +148,6 @@ class PublicPlace(models.Model):
     def __str__(self):
         return f"{self.name}  ({self.province}/{self.city}/{self.district})"
 
-
+    def get_absolute_url(self):
+        return reverse('publicplace_detail', args=[self.id])
 # endregion

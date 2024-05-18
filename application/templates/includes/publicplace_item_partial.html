@@ -1,19 +1,23 @@
+
+
 <article class="col-lg-4 col-md-3 col-sm-3 col-xs-6 col-xxs-12 animate-box">
-            {% if venue.name %}
-
-               <a href="{{ application.get_absolute_url }}">
-            {% else %}
-
-               <a href="{{ application.get_absolute_url }}">
-                {% endif %}
-            {% if venue %}
-            <span class="fh5co-meta"><a href="" style="color:black">{{venue.name}}</a></span>
+            {% if publicplace.name %}
+     <a href="{{ publicplace.get_absolute_url }}">
+         <h1 class="fh5co-meta" style="color: black"><b> {{publicplace.name}}</b> </h1></a>
             {% endif %}
-<!--            <h3 class="fh5co-article-title"><a href="" style="color:red">{{venue.director}}</a></h3>-->
-            <h5 class="fh5co-article-title"><a href="" style="color:green"><b>{{venue.type}}</b></a></h5>
-    <h4 class="fh5co-article-title"><a href="" style="color:red">{{venue.province}}({{venue.city}})</a></h4>
-            <h4 class="fh5co-article-title"><a href="" style="color:gray">({{venue.district}})</a></h4>
-    <a href="{% url 'complete_application_page' %}" onclick="addVenueToApplication({{ venue.id }})" class="btn btn-fefault cart">
-											انتخاب
-    </a>
+
+         {% if publicplace.type %}
+     <a href="{{ publicplace.get_absolute_url }}">
+         <h1 class="fh5co-meta" style="color: green"><b> {{publicplace.type}}</b> </h1></a>
+            {% endif %}
+
+         {% if publicplace.district %}
+     <a href="{{ publicplace.get_absolute_url }}">
+         <h1 class="fh5co-meta" style="color: red"><b> {{publicplace.district}}</b> </h1></a>
+            {% endif %}
+
+
+
+
+
 </article>
