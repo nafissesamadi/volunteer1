@@ -32,9 +32,10 @@ class ApplicationListView(ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        base_query = super(ApplicationListView, self).get_queryset()
-        data = base_query.filter(is_active=True, is_accepted=False)
+        query = super(ApplicationListView, self).get_queryset()
+        data = query.filter(is_active=True, is_accepted=False)
         return data
+
 
 
 # endregion
@@ -132,9 +133,14 @@ class PublicPlaceDetailView(DetailView):
     template_name = 'application/publicplace_detail.html'
     model = PublicPlace
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+    def get_context_data(self, *,object_list=None, **kwargs):
+        context = super(PublicPlaceDetailView,self).get_context_data()
         context["schools"]=PublicPlace.objects.filter(type__title__contains="مدرسه")
+        context['app'] = self.kwargs.get('app')
+        current_user = self.request.user
+        inactive_app =Application.objects.filter(applicant_id=current_user.id, is_active=False).first()
+        if inactive_app is not None:
+            context['inactive_app_num']=inactive_app.id
         return context
 
 
@@ -145,6 +151,10 @@ class PublicPlaceListView(ListView):
     # ordering = ['code']
     paginate_by = 10
 
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(PublicPlaceListView, self).get_context_data()
+        context['app'] = self.kwargs.get('app')
+        return context
 
     def get_queryset(self):
         base_query = super(PublicPlaceListView, self).get_queryset()
@@ -152,6 +162,8 @@ class PublicPlaceListView(ListView):
         profile = Profile.objects.filter(user_id=current_user.id).first()
         data = base_query.filter(province_id=profile.province_id, city_id=profile.city_id)
         return data
+
+
 
 def venues_by_type(request: HttpRequest):
     venue = PublicPlaceType.objects.all()
@@ -172,51 +184,33 @@ def add_course_to_application(request: HttpRequest):
         if applicant.user_type_id == 3 or applicant.user_type_id == 4:
             demanded_course = Course.objects.filter(id=course_id).first()
             if demanded_course is not None:
-                previous_application = Application.objects.filter(applicant_id=applicant.id, is_active=False,
-                                                                  is_accepted=False).first()
-                if previous_application is not None:
-                    previous_application.delete()
-                    submitted_application = Application.objects.filter(applicant_id=applicant.id, is_active=True,
+                duplicate_application = Application.objects.filter(applicant_id=applicant.id, is_active=True,
                                                                        demanded_course_id=demanded_course.id).first()
-                    if submitted_application is None:
-                        application = Application.objects.create(applicant_id=applicant.id,
-                                                                 demanded_course_id=demanded_course.id)
-                        if school is not None:
-                            application.venue_id=school.id
-                        else:
-                            application.venue = None
-                        application.save()
+                if duplicate_application is None:
+                    previous_application = Application.objects.filter(applicant_id=applicant.id, is_active=False,
+                                                                      is_accepted=False).first()
+                    if previous_application is not None:
+                        previous_application.delete()
+                    application = Application.objects.create(applicant_id=applicant.id,
+                                                             demanded_course_id=demanded_course.id)
+                    if school is not None:
+                        application.venue_id = school.id
                     else:
-                        return JsonResponse({
-                            'status': 'duplicate_course',
-                            'text': 'شما قبلا این درس را درخواست داده اید',
-                            'confirm_button_text': 'مرسی از شما',
-                            'icon': 'warning'
-                        })
+                        application.venue = None
+                    application.save()
+                    return JsonResponse({
+                        'status': 'success',
+                        'text': 'درس مورد نظر با موفقیت به فرم تقاضا اضافه شد',
+                        'confirm_button_text': 'باشه ممنونم',
+                        'icon': 'success'
+                    })
                 else:
-                    submitted_application = Application.objects.filter(applicant_id=applicant.id, is_active=True,
-                                                                       demanded_course_id=demanded_course.id).first()
-                    if submitted_application is None:
-                        application = Application.objects.create(applicant_id=applicant.id,
-                                                                 demanded_course_id=demanded_course.id)
-                        if school is not None:
-                            application.venue_id=school.id
-                        else:
-                            application.venue = None
-                        application.save()
-                    else:
-                        return JsonResponse({
-                            'status': 'Duplicate_course',
-                            'text': 'شما قبلا این درس را انتخاب کرده اید ',
-                            'confirm_button_text': 'باشه ممنون',
-                            'icon': 'error'
-                        })
-                return JsonResponse({
-                    'status': 'success',
-                    'text': 'درس مورد نظر با موفقیت به فرم تقاضا اضافه شد',
-                    'confirm_button_text': 'باشه ممنونم',
-                    'icon': 'success'
-                })
+                    return JsonResponse({
+                        'status': 'duplicate_course',
+                        'text': 'شما قبلا این درس را درخواست داده اید',
+                        'confirm_button_text': 'مرسی از شما',
+                        'icon': 'warning'
+                    })
             else:
                 return JsonResponse({
                     'status': 'not_found',
@@ -470,8 +464,7 @@ class EditActiveApplication(View):
     def get(self, request: HttpRequest, application_id):
         current_user = User.objects.filter(id=request.user.id).first()
         # application_id=request.GET.get('application_id')
-        current_application = get_object_or_404(Application, applicant=current_user, is_active=True,
-                                                is_accepted=False, id=application_id)
+        current_application = get_object_or_404(Application, applicant=current_user, id=application_id)
         application_form = CompleteApplicationModelForm(instance=current_application)
         context = {
             'application': current_application,
@@ -483,8 +476,7 @@ class EditActiveApplication(View):
     def post(self, request: HttpRequest, application_id):
         current_user = User.objects.filter(id=request.user.id).first()
         # application_id = request.GET.get('application_id')
-        current_application = get_object_or_404(Application, applicant=current_user, is_active=True,
-                                                is_accepted=False, id=application_id)
+        current_application = get_object_or_404(Application, applicant=current_user, id=application_id)
         # current_application.venue_id = school.id
         if current_application is not None:
             application_form = CompleteApplicationModelForm(request.POST, instance=current_application)
@@ -506,34 +498,27 @@ class EditActiveApplication(View):
 
 def add_venue_to_application(request: HttpRequest):
     venue_id = request.GET.get('venue_id')
+    app_number=request.GET.get('application_id')
     applicant = User.objects.filter(id=request.user.id).first()
     if applicant.is_authenticated:
         if applicant.user_type_id == 3 or applicant.user_type_id == 4:
             venue = PublicPlace.objects.filter(id=venue_id).first()
             if venue is not None:
-                application = Application.objects.filter(applicant_id=applicant.id, is_active=False,
-                                                         is_accepted=False).first()
+                application = Application.objects.filter(id=app_number).first()
                 application.venue_id = venue_id
                 application.save()
             else:
                 return JsonResponse({
-                    'status': 'not_found',
-                    'text': 'مکان مورد نظر یافت نشد',
-                    'confirm_button_text': 'مرسییییی',
-                    'icon': 'error'
+                    'status': 'not_found'
                 })
         return JsonResponse({
-            'status': 'not_eligible',
-            'text': 'فقط دانش آموزان و مدیران می توانند تفاضای درس بدهند',
-            'confirm_button_text': 'باشه ممنون',
-            'icon': 'error'
+            'status': 'not_eligible'
         })
     return JsonResponse({
-        'status': 'not_auth',
-        'text': 'برای انتخاب درس ابتدا می بایست وارد سایت شوید',
-        'confirm_button_text': 'ورود به سایت',
-        'icon': 'error'
+        'status': 'not_auth'
     })
+
+
 
 
 class OngoingApplicationListView(ListView):

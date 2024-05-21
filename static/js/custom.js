@@ -17,29 +17,15 @@ function addCourseToApplication(courseId) {
             confirmButtonColor: '#3085d6',
             confirmButtonText: res.confirm_button_text
         }).then((result) => {
-            if (result.isConfirmed && res.status === 'not_auth') {
+            if (result.isConfirmed && res.status === 'duplicate_course') {
                 window.location.href = '/login';
             }
+
         })
     });
 }
 
-function addVenueToApplication(venueId) {
-    $.get('/application/add-venue?venue_id=' + venueId).then(res => {
-       Swal.fire({
-            title: 'اعلان',
-            text: res.text,
-            icon: res.icon,
-            showCancelButton: false,
-            confirmButtonColor: '#3085d6',
-            confirmButtonText: res.confirm_button_text
-        }).then((result) => {
-            if (result.isConfirmed && res.status === 'not_auth') {
-                window.location.href = '/login';
-            }
-        })
-    });
-}
+
 
 
 
@@ -74,6 +60,18 @@ function acceptApplication(applicationId) {
         })
     });
 }
+
+
+
+function addVenueToApplication(venueId) {
+        const appNumber = $('#application-number').val();
+        $.get('/application/add-venue?venue_id=' + venueId + '&application_id=' + appNumber).then(res => {
+       console.log(res);
+    });
+}
+
+
+
 
 function removeActiveApplication(applicationId) {
     $.get('/application/remove-application?application_id=' + applicationId).then(res => {

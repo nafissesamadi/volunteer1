@@ -168,9 +168,13 @@
 						</tr>
 						{% endif %}
 						{% endif %}
+						{% if inactive_app_num == app %}
+						<input type="number" value="{{app}}" id="application-number">
 						<a href="{% url 'complete_application_page' %}" onclick="addVenueToApplication({{ publicplace.id }})" class="btn btn-fefault cart" style="background-color: green; color: white">  انتخاب </a>
-
-    </a>
+						{% else %}
+						<input type="number" value="{{app}}" id="application-number">
+						<a href="{% url 'edit_active_application' application_id=app %}" onclick="addVenueToApplication({{ publicplace.id }})" class="btn btn-fefault cart" style="background-color: green; color: white">  انتخاب </a>
+							{% endif %}
 						</tbody>
 					</table>
 

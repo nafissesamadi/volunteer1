@@ -166,6 +166,7 @@ class Applicant(models.Model):
     is_worker=models.BooleanField(default=False)
     is_student=models.BooleanField(default=True)
     special_condition = models.CharField(max_length=200, blank=True, null=True)
+    is_editing=models.BooleanField(default=False)
     rating = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)], default=1)
     slug = models.SlugField(default="", null=False, db_index=True)
 

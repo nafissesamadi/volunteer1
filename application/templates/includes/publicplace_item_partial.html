@@ -2,17 +2,17 @@
 
 <article class="col-lg-4 col-md-3 col-sm-3 col-xs-6 col-xxs-12 animate-box">
             {% if publicplace.name %}
-     <a href="{{ publicplace.get_absolute_url }}">
+     <a href="{% url 'publicplace_detail_with_app' pk=publicplace.id app=app %}">
          <h1 class="fh5co-meta" style="color: black"><b> {{publicplace.name}}</b> </h1></a>
             {% endif %}
 
          {% if publicplace.type %}
-     <a href="{{ publicplace.get_absolute_url }}">
+     <a href="{% url 'publicplace_detail_with_app' pk=publicplace.id app=app %}">
          <h1 class="fh5co-meta" style="color: green"><b> {{publicplace.type}}</b> </h1></a>
             {% endif %}
 
          {% if publicplace.district %}
-     <a href="{{ publicplace.get_absolute_url }}">
+     <a href="{% url 'publicplace_detail_with_app' pk=publicplace.id app=app %}">
          <h1 class="fh5co-meta" style="color: red"><b> {{publicplace.district}}</b> </h1></a>
             {% endif %}
 

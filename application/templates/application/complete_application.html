@@ -12,7 +12,7 @@
                         			<tr>
                             			<td>
 											<p></p>
-								<a href="" style="color: red" onclick="removeCourse({{application.demanded_course.id}})"> حذف </a>
+
 								{% if application.demanded_course %}
 								<a href="{% url 'courses_list' %}" style="color: green"> ویرایش </a>
 											{% else %}
@@ -48,10 +48,10 @@
 											<p></p>
 
 											{% if application.venue %}
-											<a href="{% url 'publicplaces_list' %}" style="color: green"> ویرایش </a>
-											<a href="" style="color: red" onclick="removeVenue({{application.venue.id}})"> حذف </a>
+											<a href="" style="color: red" onclick="removeVenueInEditMode({{application.id}})"> حذف </a>
+											<a href="{% url 'publicplaces_list' app=application.id %}"  style="color: green">/ ویرایش </a>
 											{% else %}
-											<a href="{% url 'publicplaces_list' %}" style="color: green"> اضافه </a>
+											<a href="{% url 'publicplaces_list' app=application.id %}"  style="color: green"> اضافه </a>
 											{% endif %}
                             			</td>
 							 			<td>

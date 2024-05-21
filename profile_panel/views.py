@@ -13,7 +13,6 @@ from django.views.generic.edit import FormView
 
 
 
-
 class CompleteSchoolProfile(View):
     def get(self, request: HttpRequest):
         current_user = User.objects.filter(id=request.user.id).first()

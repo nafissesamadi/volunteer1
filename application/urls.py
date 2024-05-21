@@ -12,13 +12,14 @@ urlpatterns = [
     path('courses',views.CoursesListView.as_view(), name='courses_list'),
     path('cat/<str:category>', views.CoursesListView.as_view(), name='courses_by_category_list'),
     path('cat/<str:category>/<str:major>', views.CoursesListView.as_view(), name='courses_by_category_major'),
-    path('venues',views.PublicPlaceListView.as_view(), name='publicplaces_list'),
-    path('venues/<int:pk>', views.PublicPlaceDetailView.as_view(), name='publicplace_detail'),
+    path('venues/app/<int:app>',views.PublicPlaceListView.as_view(), name='publicplaces_list'),
+    path('venues',views.PublicPlaceListView.as_view(), name='publicplace_list'),
+    # path('venues/<int:pk>', views.PublicPlaceDetailView.as_view(), name='publicplace_detail'),
+    path('venues/app/<int:app>/<int:pk>', views.PublicPlaceDetailView.as_view(), name='publicplace_detail_with_app'),
     path('venuetype/<str:venuetype>', views.PublicPlaceListView.as_view(), name='venues_by_type'),
     path('accept-application', views.accept_application, name='accept_application'),
     path('add-course-to-application', views.add_course_to_application, name='add_course_to_application'),
     path('add-venue', views.add_venue_to_application, name='add_venue_to_application'),
-    # path('add-course-to-application', views.AddCourseToApplication.as_view(), name='complete_application_page'),
     path('complete-application', views.CompleteApplication.as_view(), name='complete_application_page'),
     path('complete-accepted-application', views.CompleteAcceptedApplication.as_view(), name='complete_accepted_application_page'),
     path('remove-course', views.remove_course, name='remove_course'),
@@ -29,7 +30,5 @@ urlpatterns = [
     path('remove-venue-of-application', views.remove_venue_in_edit_mode, name='remove_venue_in_edit_mode'),
     path('remove-accepted-application', views.remove_accepted_application_by_volunteer, name='remove_accepted_application'),
     path('edit-active-application/<int:application_id>', views.EditActiveApplication.as_view(), name='edit_active_application'),
-
-
 
 ]
